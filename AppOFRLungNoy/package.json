@@ -19,10 +19,12 @@
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
     "@ng-bootstrap/ng-bootstrap": "10.0.0",
+    "@sweetalert2/ngx-sweetalert2": "^10.0.0",
     "bootstrap": "^4.6.0",
     "chart.js": "2.9.3",
     "ngx-clipboard": "^14.0.1",
     "rxjs": "~6.6.0",
+    "sweetalert2": "^11.1.2",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
   },
