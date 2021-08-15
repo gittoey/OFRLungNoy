@@ -1,10 +1,10 @@
 export interface Login { 
-    User : string;
-    Pass : string;
+  Username : string;
+    Password : string;
   }
   export interface Register { 
     Name :string;
-    User : string;
-    Pass1 : string;
-    Pass2 : string;
+    Username : string;
+    Password1 : string;
+    Password2 : string;
   }
