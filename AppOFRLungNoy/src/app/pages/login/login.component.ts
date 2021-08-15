@@ -119,13 +119,14 @@ export class LoginComponent implements OnInit, OnDestroy {
         return;
       }
 
+      this.alert.succ("สมัคสมาชิกด้วย '"+this.register.Username+"' สำเร็จ");
+      this.register = {Name:"",Username:"",Password1:"",Password2:""};
+
     }).catch((err) => {
       this.alert.err(err);
       return;
     });
-
-    this.alert.succ("สมัคสมาชิกด้วย '"+this.register.Username+"' สำเร็จ");
-    this.register = {Name:"",Username:"",Password1:"",Password2:""};
+    
   }
 
 }
