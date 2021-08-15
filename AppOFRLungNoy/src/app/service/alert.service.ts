@@ -15,7 +15,19 @@ export class AlertService {
       html: "<div style='display: table; text-align: left; margin: auto;'>"+msg.replace(/\n/g, '<br/>')+"</div>",
       icon: 'error',
       confirmButtonText: 'ตกลง',
-      allowEnterKey: false
+      allowEnterKey: true,
+      allowOutsideClick:false
+    })
+  }
+
+  succ(msg:string){
+    Swal.fire({
+      title: 'สำเร็จ',
+      html: "<div style='display: table; text-align: left; margin: auto;'>"+msg.replace(/\n/g, '<br/>')+"</div>",
+      icon: 'success',
+      confirmButtonText: 'ตกลง',
+      allowEnterKey: true,
+      allowOutsideClick:false
     })
   }
 }

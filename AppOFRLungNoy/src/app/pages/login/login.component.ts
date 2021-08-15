@@ -91,10 +91,41 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
       msg += "กรอก : ยืนยันรหัสผ่าน";
     }
+    if(this.register.Password1 != this.register.Password2){
+      if(msg != ""){
+        msg += "\n"
+      }
+      msg += "ยืนยันรหัสผ่านไม่ตรงกัน";
+    }
 
     if(msg != ""){
       this.alert.err(msg);
+      return;
     }
+
+    this.api.post("register.php",this.register).then((data:any) => {
+      console.log(data);
+      if(data.Return.Status == "Error"){
+        this.alert.err(data.Return.Message);
+        return;
+      }
+      if(data.Return.Status == "No"){
+        let Message = "";
+        if(data.Return.Type == "Username"){
+          Message = "มี "+this.register.Username+" อยู่ในระบบแล้ว";
+        }
+        
+        this.alert.err(Message);
+        return;
+      }
+
+    }).catch((err) => {
+      this.alert.err(err);
+      return;
+    });
+
+    this.alert.succ("สมัคสมาชิกด้วย '"+this.register.Username+"' สำเร็จ");
+    this.register = {Name:"",Username:"",Password1:"",Password2:""};
   }
 
 }
