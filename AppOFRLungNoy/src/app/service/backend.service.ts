@@ -27,7 +27,5 @@ export class BackendService {
 
   @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
 
-  public userlogin(username: string, password: string) {
-    this.getLoggedInName.emit(true);
-  }
+  
 }

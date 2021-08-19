@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Input,enableProdMode} from '@angular/core';
 import { Router } from '@angular/router';
 import { Login, Register } from 'src/app/model/auth.model';
+import { User } from 'src/app/model/db.model';
 import { AlertService } from 'src/app/service/alert.service';
 import { BackendService } from 'src/app/service/backend.service';
 
@@ -14,11 +15,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   @Input() login : Login={Username:"",Password:""};
   @Input() register : Register={Name:"",Username:"",Password1:"",Password2:""};
 
+  private user! : User;
+
   constructor(
     private alert:AlertService,
     private api:BackendService,
     private router:Router
-  ) {}
+  ) { }
 
   ngOnInit() {
   }
@@ -62,6 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         return;
       }
 
+      localStorage.setItem('UserID', data.Return.User.UserID.toString());
       this.router.navigate(['/dashboard']);
     }).catch((err) => {
       this.alert.err(err);

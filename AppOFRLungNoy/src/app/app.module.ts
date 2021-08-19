@@ -12,6 +12,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
+import { DurianMasterDataComponent } from './pages/durian-master-data/durian-master-data.component';
+import { VarietiesComponent } from './pages/durian-master-data/varieties/varieties.component';
+import { GradeComponent } from './pages/durian-master-data/grade/grade.component';
+import { PriceComponent } from './pages/durian-master-data/price/price.component';
+import { MeatComponent } from './pages/durian-master-data/meat/meat.component';
 
 @NgModule({
   imports: [
@@ -26,7 +31,12 @@ import { ComponentsModule } from './components/components.module';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    DurianMasterDataComponent,
+    VarietiesComponent,
+    GradeComponent,
+    PriceComponent,
+    MeatComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

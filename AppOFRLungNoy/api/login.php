@@ -13,7 +13,7 @@ if ($mysqli->connect_errno) {
     exit();
 }
 
-$sql = "SELECT `UserID`,`Username`,`Password` FROM `User` WHERE `Username` = '{$_POST["Username"]}'";
+$sql = "SELECT `UserID`,`Type`,`Username`,`Password`,`Name`,`Active`,`NewDate`,`UpdateDate` FROM `User` WHERE `Username` = '{$_POST["Username"]}'";
 $_POST["Return"]["SQL"] = $sql;
 $result = $mysqli->query($sql);
 $row = $result->fetch_assoc();
@@ -36,5 +36,11 @@ if($_POST["Password"] != $row["Password"]){
 
 $_POST["Return"]["Status"] = "Yes";
 $_POST["Return"]["Type"] = "Logged";
-$_POST["Return"]["UserID"] = $row["UserID"];
+$_POST["Return"]["User"]["UserID"] = $row["UserID"];
+$_POST["Return"]["User"]["Type"] = $row["Type"];
+$_POST["Return"]["User"]["Username"] = $row["Username"];
+$_POST["Return"]["User"]["Name"] = $row["Name"];
+$_POST["Return"]["User"]["Active"] = $row["Active"];
+$_POST["Return"]["User"]["NewDate"] = $row["NewDate"];
+$_POST["Return"]["User"]["UpdateDate"] = $row["UpdateDate"];
 echo json_encode($_POST);
