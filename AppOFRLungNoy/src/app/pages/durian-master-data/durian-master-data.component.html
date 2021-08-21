@@ -3,7 +3,8 @@
         <div class="header-body">
             <!-- Card stats -->
             <div class="row">
-                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('varieties','พันธุ์ทุเรียน')" style="cursor: pointer;">
+                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('varieties','พันธุ์ทุเรียน')"
+                    style="cursor: pointer;">
                     <div class="card card-stats mb-4 mb-xl-0">
                         <div class="card-body">
                             <div class="row">
@@ -20,7 +21,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('grade','เกรดทุเรียน')" style="cursor: pointer;">
+                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('grade','เกรดทุเรียน')"
+                    style="cursor: pointer;">
                     <div class="card card-stats mb-4 mb-xl-0">
                         <div class="card-body">
                             <div class="row">
@@ -37,7 +39,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('meat','เนื้อทุเรียน')" style="cursor: pointer;">
+                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('meat','เนื้อทุเรียน')"
+                    style="cursor: pointer;">
                     <div class="card card-stats mb-4 mb-xl-0">
                         <div class="card-body">
                             <div class="row">
@@ -54,7 +57,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('price','ราคาทุเรียน')" style="cursor: pointer;">
+                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('price','ราคาทุเรียน')"
+                    style="cursor: pointer;">
                     <div class="card card-stats mb-4 mb-xl-0">
                         <div class="card-body">
                             <div class="row">
@@ -71,7 +75,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('price','ราคาทุเรียน')" style="cursor: pointer;">
+                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('price','ราคาทุเรียน')"
+                    style="cursor: pointer;">
                     <div class="card card-stats mb-4 mb-xl-0">
                         <div class="card-body">
                             <div class="row">
@@ -88,7 +93,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('price','ราคาทุเรียน')" style="cursor: pointer;">
+                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('price','ราคาทุเรียน')"
+                    style="cursor: pointer;">
                     <div class="card card-stats mb-4 mb-xl-0">
                         <div class="card-body">
                             <div class="row">
@@ -105,7 +111,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('price','ราคาทุเรียน')" style="cursor: pointer;">
+                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('price','ราคาทุเรียน')"
+                    style="cursor: pointer;">
                     <div class="card card-stats mb-4 mb-xl-0">
                         <div class="card-body">
                             <div class="row">
@@ -122,7 +129,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('price','ราคาทุเรียน')" style="cursor: pointer;">
+                <div class="col-xl-3 col-lg-6 card-setting" (click)="mode('price','ราคาทุเรียน')"
+                    style="cursor: pointer;">
                     <div class="card card-stats mb-4 mb-xl-0">
                         <div class="card-body">
                             <div class="row">
@@ -156,13 +164,10 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <!-- Chart -->
-                    <div class="chart">
-                        <app-varieties *ngIf="modeCode == 'varieties'"></app-varieties>
-                        <app-grade *ngIf="modeCode == 'grade'"></app-grade>
-                        <app-meat *ngIf="modeCode == 'meat'"></app-meat>
-                        <app-price *ngIf="modeCode == 'price'"></app-price>
-                    </div>
+                    <app-varieties *ngIf="modeCode == 'varieties'"></app-varieties>
+                    <app-grade *ngIf="modeCode == 'grade'"></app-grade>
+                    <app-meat *ngIf="modeCode == 'meat'"></app-meat>
+                    <app-price *ngIf="modeCode == 'price'"></app-price>
                 </div>
             </div>
         </div>

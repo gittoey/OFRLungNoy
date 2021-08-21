@@ -1,9 +1,10 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Credentials: true');
-header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
 header("Content-Type: multipart/application/json; charset=UTF-8");
+header("Content-Type: multipart/form-data;boundary=SOME_BOUNDARY");
 
 function authorization($apiName){
     $token = "";
