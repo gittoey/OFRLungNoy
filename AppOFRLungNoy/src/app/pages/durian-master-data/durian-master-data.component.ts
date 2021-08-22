@@ -15,8 +15,8 @@ export class DurianMasterDataComponent implements OnInit {
     this.mode('varieties','พันธุ์ทุเรียน')
   }
 
-  mode(v: string, t : string): void {
-    this.modeCode = v;
+  mode(c: string, t : string): void {
+    this.modeCode = c;
     this.modeTitle = t;
   }
 }

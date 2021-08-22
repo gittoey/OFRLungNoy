@@ -43,7 +43,7 @@ $result->free_result();
 $mysqli->close();
 
 $_POST["Return"]["Status"] = "Yes";
-$_POST["Return"]["Type"] = "Logged";
+$_POST["Return"]["Type"] = "Geted";
 $_POST["Return"]["Varieties"] = $dataReturn;
 
 echo json_encode($_POST);

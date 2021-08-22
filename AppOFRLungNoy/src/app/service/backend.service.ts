@@ -40,14 +40,14 @@ export class BackendService {
     _formData.append(index, data);
   }
 
-  async uploadFile(apiName: string, _formData: FormData) {
+  async uploadFile(_formData: FormData) {
     const md5 = new Md5();
-    const bearer = md5.appendStr('TOEY<>' + apiName).end();
+    const bearer = md5.appendStr('TOEY<>' + 'upload_file.php').end();
     const headers = {
       Authorization: 'Bearer ' + bearer
     };
     return await this.http
-      .post(environment.apiHost + apiName, _formData, {
+      .post(environment.apiHost + 'upload_file.php', _formData, {
         headers: headers,
       })
       .toPromise();

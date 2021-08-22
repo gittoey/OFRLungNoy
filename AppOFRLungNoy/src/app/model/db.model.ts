@@ -11,9 +11,13 @@ export interface User {
 
 export interface Varieties {
   VarietiesID: number;
-  VarietiesName?: string;
-  VarietiesImg?: string;
-  VarietiesDecs?: string;
+  Name?: string;
+  Img?: string;
+  Meat?: string;
+  Smell?: string;
+  Flavor?: string;
+  DeliciousTerm ?: string;
+  Decs?: string;
   CreateBy?: number;
   UpdateBy: number;
   CreateDate?: Date;

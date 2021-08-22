@@ -12,9 +12,13 @@ import { environment } from 'src/environments/environment';
 export class VarietiesComponent implements OnInit {
   @Input() varieties: Varieties = {
     VarietiesID: 0,
-    VarietiesName: '',
-    VarietiesImg: '',
-    VarietiesDecs: '',
+    Name: '',
+    Img: '',
+    Meat: '',
+    Smell: '',
+    Flavor: '',
+    DeliciousTerm: '',
+    Decs: '',
     CreateBy: 0,
     UpdateBy: 0,
     CreateDate: new Date(),
@@ -23,7 +27,7 @@ export class VarietiesComponent implements OnInit {
   };
 
   public api = environment.apiHost;
-  public searchVarietiesName: string = '';
+  public searchName: string = '';
   public varietiesList: Array<Varieties> = [];
   public isEdit: boolean = false;
 
@@ -44,9 +48,9 @@ export class VarietiesComponent implements OnInit {
     this.from.append('Path', 'VarietiesImg/');
   }
 
-  async getVarieties(VarietiesName: string) {
+  async getVarieties(Name: string) {
     this.bs
-      .post('get_varieties.php', { VarietiesName: VarietiesName })
+      .post('get_varieties.php', { Name: Name })
       .then((d: any) => {
         console.log(d);
         if (d.Return.Varieties != 0) {
@@ -58,7 +62,7 @@ export class VarietiesComponent implements OnInit {
 
   async save() {
     let errText = '';
-    if (this.varieties.VarietiesName == '') {
+    if (this.varieties.Name == '') {
       errText = 'กรอก : ชื่อพันธุ์ทุเรียน';
     }
 
@@ -71,7 +75,35 @@ export class VarietiesComponent implements OnInit {
       }
     }
 
-    if (this.varieties.VarietiesDecs == '') {
+    if (this.varieties.Meat == '') {
+      if (errText != '') {
+        errText += '\n';
+      }
+      errText += 'กรอก : เนื้อ';
+    }
+
+    if (this.varieties.Smell == '') {
+      if (errText != '') {
+        errText += '\n';
+      }
+      errText += 'กรอก : กลิ่น';
+    }
+
+    if (this.varieties.Flavor == '') {
+      if (errText != '') {
+        errText += '\n';
+      }
+      errText += 'กรอก : รสชาติ';
+    }
+
+    if (this.varieties.DeliciousTerm == '') {
+      if (errText != '') {
+        errText += '\n';
+      }
+      errText += 'กรอก : ระยะอร่อย';
+    }
+
+    if (this.varieties.Decs == '') {
       if (errText != '') {
         errText += '\n';
       }
@@ -84,26 +116,30 @@ export class VarietiesComponent implements OnInit {
     }
 
     let PathFile: string = '';
-    await this.bs.uploadFile('upload_file.php', this.from).then((d: any) => {
+    await this.bs.uploadFile(this.from).then((d: any) => {
       PathFile = d.PathFileName;
     });
 
     if (this.from.get('File')) {
-      this.varieties.VarietiesImg = PathFile.toString();
+      this.varieties.Img = PathFile.toString();
     }
 
-    var Insert = {
+    var Conn = {
       Table: 'Varieties',
       Data: this.varieties,
     };
 
-    this.bs.cu(Insert).then((d: any) => {
+    this.bs.cu(Conn).then((d: any) => {
       if (d.Return.Status == 'Yes') {
         this.varieties = {
           VarietiesID: 0,
-          VarietiesName: '',
-          VarietiesImg: '',
-          VarietiesDecs: '',
+          Name: '',
+          Img: '',
+          Meat: '',
+          Smell: '',
+          Flavor: '',
+          DeliciousTerm: '',
+          Decs: '',
           CreateBy: 0,
           UpdateBy: 0,
           CreateDate: new Date(),
@@ -112,7 +148,14 @@ export class VarietiesComponent implements OnInit {
         };
         this.from.delete('File');
         this.InputVar.nativeElement.value = '';
-        this.alert.succ('เพิ่มพันธุ์ทุเรียน สำเร็จ');
+
+        var msg = "";
+        if(this.isEdit){
+          msg = "แก้ไขพันธุ์ทุเรียน สำเร็จ";
+        }else{
+          msg = "เพิ่มพันธุ์ทุเรียน สำเร็จ";
+        }
+        this.alert.succ(msg);
         this.getVarieties('');
         this.isEdit = false;
       } else {
@@ -122,7 +165,7 @@ export class VarietiesComponent implements OnInit {
   }
 
   search() {
-    this.getVarieties(this.searchVarietiesName);
+    this.getVarieties(this.searchName);
   }
 
   delete(varietiesID: number) {
@@ -130,9 +173,13 @@ export class VarietiesComponent implements OnInit {
       if (result.isConfirmed) {
         this.varieties = {
           VarietiesID: varietiesID,
-          VarietiesName: undefined,
-          VarietiesImg: undefined,
-          VarietiesDecs: undefined,
+          Name: undefined,
+          Img: undefined,
+          Meat: undefined,
+          Smell: undefined,
+          Flavor: undefined,
+          DeliciousTerm: undefined,
+          Decs: undefined,
           CreateBy: undefined,
           UpdateBy: 0,
           CreateDate: undefined,
@@ -165,9 +212,13 @@ export class VarietiesComponent implements OnInit {
       if (result.isConfirmed) {
         this.varieties = {
           VarietiesID: 0,
-          VarietiesName: '',
-          VarietiesImg: '',
-          VarietiesDecs: '',
+          Name: '',
+          Img: '',
+          Meat: '',
+          Smell: '',
+          Flavor: '',
+          DeliciousTerm: '',
+          Decs: '',
           CreateBy: 0,
           UpdateBy: 0,
           CreateDate: new Date(),

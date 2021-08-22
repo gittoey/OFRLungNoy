@@ -36,10 +36,10 @@ if ($_POST["Data"][$_POST["Table"] . "ID"] == 0) {
     $_POST["Return"]["Type"] = "Created";
 } else {
     if ($_POST["Data"]["Active"] == false) {
-        $sql = "UPDATE `ofr`.`{$_POST["Table"]}` SET `Active` = FALSE WHERE `" . $_POST["Table"] . "ID` = {$_POST["Data"][$_POST["Table"] . "ID"]}";
+        $sql = "UPDATE `ofr`.`{$_POST["Table"]}` SET `Active` = FALSE, `UpdateDate` = NOW() WHERE `" . $_POST["Table"] . "ID` = {$_POST["Data"][$_POST["Table"] . "ID"]}";
         $_POST["Return"]["Type"] = "Deleted";
     } else {
-        $db_if = array($_POST["Table"] . "ID", "CreateBy", "CreateDate", "Active");
+        $db_if = array($_POST["Table"] . "ID", "CreateBy", "CreateDate", "UpdateDate", "Active");
         $Set = "";
         $Loop = 0;
         foreach ($_POST["Data"] as $key => $value) {
@@ -51,7 +51,7 @@ if ($_POST["Data"][$_POST["Table"] . "ID"] == 0) {
                 $Loop++;
             }
         }
-        $sql = "UPDATE `ofr`.`{$_POST["Table"]}` SET {$Set} WHERE `" . $_POST["Table"] . "ID` = {$_POST["Data"][$_POST["Table"] . "ID"]}";
+        $sql = "UPDATE `ofr`.`{$_POST["Table"]}` SET {$Set}, `UpdateDate` = NOW() WHERE `" . $_POST["Table"] . "ID` = {$_POST["Data"][$_POST["Table"] . "ID"]}";
 
         $_POST["Return"]["Type"] = "Updated";
     }
