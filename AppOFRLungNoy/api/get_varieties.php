@@ -15,8 +15,8 @@ if ($mysqli->connect_errno) {
 
 $sql = "SELECT `varieties`.* FROM `varieties` WHERE `varieties`.`Active` = TRUE";
 
-if ($_POST["VarietiesName"] != "") {
-    $sql .= " AND `varieties`.`VarietiesName` LIKE '%{$_POST["VarietiesName"]}%'";
+if ($_POST["Name"] != "") {
+    $sql .= " AND `varieties`.`Name` LIKE '%{$_POST["Name"]}%'";
 }
 
 $_POST["Return"]["SQL"] = $sql;
