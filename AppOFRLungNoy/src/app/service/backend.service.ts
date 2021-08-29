@@ -56,4 +56,8 @@ export class BackendService {
   async cu(_Conn:any){
     return await this.post('cu_db.php', _Conn)
   }
+
+  async sc(ConfigCode:string | ""){
+    return await this.post('get_system_config.php', {ConfigCode:ConfigCode})
+  }
 }

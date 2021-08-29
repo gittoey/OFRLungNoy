@@ -24,3 +24,29 @@ export interface Varieties {
   UpdateDate: Date;
   Active: boolean;
 }
+
+export interface SystemConfig {
+  SystemConfigID: number;
+  ConfigCode?: string;
+  ConfigValue?: string;
+  ConfigDisplay?: string;
+  Description?: string;
+  CreateBy?: number;
+  UpdateBy: number;
+  CreateDate?: Date;
+  UpdateDate: Date;
+  Active: boolean;
+}
+
+export interface Price {
+  PriceID: number;
+  VarietiesID: number;
+  GradeCode?: string;
+  CostPrice?: number;
+  SellingPrice?: number;
+  CreateBy?: number;
+  UpdateBy: number;
+  CreateDate?: Date;
+  UpdateDate: Date;
+  Active: boolean;
+}

@@ -17,6 +17,8 @@ import { VarietiesComponent } from './pages/durian-master-data/varieties/varieti
 import { GradeComponent } from './pages/durian-master-data/grade/grade.component';
 import { PriceComponent } from './pages/durian-master-data/price/price.component';
 import { MeatComponent } from './pages/durian-master-data/meat/meat.component';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   imports: [
@@ -27,6 +29,8 @@ import { MeatComponent } from './pages/durian-master-data/meat/meat.component';
     NgbModule,
     RouterModule,
     AppRoutingModule,
+    MatSelectModule,
+    NgxSpinnerModule
   ],
   declarations: [
     AppComponent,

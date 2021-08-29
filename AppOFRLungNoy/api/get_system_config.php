@@ -13,10 +13,10 @@ if ($mysqli->connect_errno) {
     exit();
 }
 
-$sql = "SELECT `varieties`.* FROM `varieties` WHERE `varieties`.`Active` = TRUE";
+$sql = "SELECT systemconfig.* FROM systemconfig WHERE systemconfig.Active = 1";
 
-if ($_POST["Name"] != "") {
-    $sql .= " AND `varieties`.`Name` LIKE '%{$_POST["Name"]}%'";
+if ($_POST["ConfigCode"] != "") {
+    $sql .= " AND `systemconfig`.`ConfigCode` LIKE '{$_POST["ConfigCode"]}'";
 }
 
 $_POST["Return"]["SQL"] = $sql;
@@ -44,6 +44,6 @@ $mysqli->close();
 
 $_POST["Return"]["Status"] = "Yes";
 $_POST["Return"]["Type"] = "Geted";
-$_POST["Return"]["Varieties"] = $dataReturn;
+$_POST["Return"]["SystemConfig"] = $dataReturn;
 
 echo json_encode($_POST);

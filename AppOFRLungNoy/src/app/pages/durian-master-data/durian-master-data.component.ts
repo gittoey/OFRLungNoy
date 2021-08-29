@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-durian-master-data',
@@ -9,14 +10,31 @@ export class DurianMasterDataComponent implements OnInit {
   public modeCode!: string;
   public modeTitle!: string;
 
-  constructor() {}
+  constructor(private activatedRoute: ActivatedRoute, private router: Router) {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.modeCode = params['modeCode'];
+      this.modeTitle = params['modeTitle'];
+
+      if(this.modeCode == undefined){
+        this.mode('varieties','พันธุ์ทุเรียน')
+      }
+  });
+  }
 
   ngOnInit(): void {
-    this.mode('varieties','พันธุ์ทุเรียน')
+    
   }
 
   mode(c: string, t : string): void {
     this.modeCode = c;
     this.modeTitle = t;
+
+    this.router.navigate(
+      [], 
+      {
+        relativeTo: this.activatedRoute,
+        queryParams: {modeCode:c, modeTitle:t}, 
+        queryParamsHandling: 'merge'
+      });
   }
 }

@@ -3,6 +3,7 @@ import { Varieties } from 'src/app/model/db.model';
 import { BackendService } from 'src/app/service/backend.service';
 import { AlertService } from 'src/app/service/alert.service';
 import { environment } from 'src/environments/environment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-varieties',
@@ -37,9 +38,14 @@ export class VarietiesComponent implements OnInit {
   };
   public from: FormData = new FormData();
 
-  constructor(public bs: BackendService, public alert: AlertService) {}
+  constructor(
+    public bs: BackendService,
+    public alert: AlertService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   async ngOnInit(): Promise<void> {
+    this.spinner.show();
     await this.getVarieties('');
   }
 
@@ -49,18 +55,18 @@ export class VarietiesComponent implements OnInit {
   }
 
   async getVarieties(Name: string) {
-    this.bs
-      .post('get_varieties.php', { Name: Name })
-      .then((d: any) => {
-        console.log(d);
-        if (d.Return.Varieties != 0) {
-          this.varietiesList = d.Return.Varieties;
-        }
-        console.log(this.varietiesList);
-      });
+    this.bs.post('get_varieties.php', { Name: Name }).then((d: any) => {
+      this.spinner.hide();
+      if (d.Return.Varieties != 0) {
+        this.varietiesList = d.Return.Varieties;
+      } else {
+        this.varietiesList = [];
+      }
+    });
   }
 
   async save() {
+    this.spinner.show();
     let errText = '';
     if (this.varieties.Name == '') {
       errText = 'กรอก : ชื่อพันธุ์ทุเรียน';
@@ -130,6 +136,7 @@ export class VarietiesComponent implements OnInit {
     };
 
     this.bs.cu(Conn).then((d: any) => {
+      this.spinner.hide();
       if (d.Return.Status == 'Yes') {
         this.varieties = {
           VarietiesID: 0,
@@ -149,11 +156,11 @@ export class VarietiesComponent implements OnInit {
         this.from.delete('File');
         this.InputVar.nativeElement.value = '';
 
-        var msg = "";
-        if(this.isEdit){
-          msg = "แก้ไขพันธุ์ทุเรียน สำเร็จ";
-        }else{
-          msg = "เพิ่มพันธุ์ทุเรียน สำเร็จ";
+        var msg = '';
+        if (this.isEdit) {
+          msg = 'แก้ไขพันธุ์ทุเรียน สำเร็จ';
+        } else {
+          msg = 'เพิ่มพันธุ์ทุเรียน สำเร็จ';
         }
         this.alert.succ(msg);
         this.getVarieties('');
@@ -165,12 +172,14 @@ export class VarietiesComponent implements OnInit {
   }
 
   search() {
+    this.spinner.show();
     this.getVarieties(this.searchName);
   }
 
   delete(varietiesID: number) {
     this.alert.conf('ยืนยันการลบ ใช่หรือไม่').then((result) => {
       if (result.isConfirmed) {
+        this.spinner.show();
         this.varieties = {
           VarietiesID: varietiesID,
           Name: undefined,
@@ -193,7 +202,7 @@ export class VarietiesComponent implements OnInit {
         };
 
         this.bs.cu(Update).then((d: any) => {
-          console.log(d);
+          this.spinner.hide();
           this.alert.succ('ลบพันธุ์ทุเรียน สำเร็จ');
           this.getVarieties('');
         });

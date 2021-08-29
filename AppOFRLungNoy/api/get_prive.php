@@ -13,10 +13,14 @@ if ($mysqli->connect_errno) {
     exit();
 }
 
-$sql = "SELECT `varieties`.* FROM `varieties` WHERE `varieties`.`Active` = TRUE";
+$sql = "SELECT `Price`.* FROM `Price` WHERE `Price`.`Active` = 1";
 
-if ($_POST["Name"] != "") {
-    $sql .= " AND `varieties`.`Name` LIKE '%{$_POST["Name"]}%'";
+if ($_POST["VarietiesID"] != 0) {
+    $sql .= " AND `Price`.`VarietiesID` = '{$_POST["VarietiesID"]}'";
+}
+
+if ($_POST["GradeCode"] != '') {
+    $sql .= " AND `Price`.`GradeCode` = '{$_POST["GradeCode"]}'";
 }
 
 $_POST["Return"]["SQL"] = $sql;
@@ -44,6 +48,5 @@ $mysqli->close();
 
 $_POST["Return"]["Status"] = "Yes";
 $_POST["Return"]["Type"] = "Geted";
-$_POST["Return"]["Varieties"] = $dataReturn;
-
+$_POST["Return"]["Price"] = $dataReturn;
 echo json_encode($_POST);

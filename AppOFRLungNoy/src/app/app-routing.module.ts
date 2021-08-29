@@ -37,13 +37,10 @@ const routes: Routes =[
 
 @NgModule({
   imports: [
-    CommonModule,
-    BrowserModule,
     RouterModule.forRoot(routes,{
-      useHash: true
+      useHash: false
     })
   ],
-  exports: [
-  ],
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }
