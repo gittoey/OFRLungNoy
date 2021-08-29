@@ -2,7 +2,8 @@
     <h6 class="heading-small text-muted mb-4" *ngIf="!isEdit">ตั้งราคา</h6>
     <h6 class="heading-small text-muted mb-4" *ngIf="isEdit">แก้ไขราคา</h6>
     <div class="alert alert-warning" *ngIf="isEdit" role="alert">
-        แก้ไข -> กดบันทึก เพื่อ บันทึกการแก้ไข
+        <span class=" alert-icon"><i class="ni ni-settings"></i></span>
+        <strong>แก้ไข</strong> -> กดบันทึก เพื่อ บันทึกการแก้ไข
     </div>
     <div>
         <div class="row">

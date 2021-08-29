@@ -2,7 +2,8 @@
     <h6 class="heading-small text-muted mb-4" *ngIf="!isEdit">เพิ่ม</h6>
     <h6 class="heading-small text-muted mb-4" *ngIf="isEdit">แก้ไข</h6>
     <div class="alert alert-warning" *ngIf="isEdit" role="alert">
-        แก้ไข -> กดบันทึก เพื่อ บันทึกการแก้ไข
+        <span class=" alert-icon"><i class="ni ni-settings"></i></span>
+        <strong>แก้ไข</strong> -> กดบันทึก เพื่อ บันทึกการแก้ไข
     </div>
     <div>
         <div class="row">
@@ -133,7 +134,8 @@
                     </td>
                     <td>
                         <button class="btn btn-warning btn-sm" id="edit" (click)="edit(varieties)">แก้ไข</button>
-                        <button class="btn btn-danger btn-sm" id="delete" (click)="delete(varieties.VarietiesID)">ลบ</button>
+                        <button class="btn btn-danger btn-sm" id="delete"
+                            (click)="delete(varieties.VarietiesID)">ลบ</button>
                     </td>
                 </tr>
             </tbody>
