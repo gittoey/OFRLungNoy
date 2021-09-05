@@ -53,7 +53,6 @@ export class PriceComponent implements OnInit {
   async varietiesChange(): Promise<void> {
     this.spinner.show();
     await this.getPrice(this.price.VarietiesID, '');
-    this.spinner.hide();
   }
 
   async getSystemConfig(ConfigCode: string) {

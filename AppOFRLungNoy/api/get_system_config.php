@@ -13,10 +13,10 @@ if ($mysqli->connect_errno) {
     exit();
 }
 
-$sql = "SELECT systemconfig.* FROM systemconfig WHERE systemconfig.Active = 1";
+$sql = "SELECT `SystemConfig`.* FROM `SystemConfig` WHERE `SystemConfig`.Active = 1";
 
 if ($_POST["ConfigCode"] != "") {
-    $sql .= " AND `systemconfig`.`ConfigCode` LIKE '{$_POST["ConfigCode"]}'";
+    $sql .= " AND `SystemConfig`.`ConfigCode` LIKE '{$_POST["ConfigCode"]}'";
 }
 
 $_POST["Return"]["SQL"] = $sql;

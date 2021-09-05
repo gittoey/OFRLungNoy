@@ -13,10 +13,10 @@ if ($mysqli->connect_errno) {
     exit();
 }
 
-$sql = "SELECT `varieties`.* FROM `varieties` WHERE `varieties`.`Active` = TRUE";
+$sql = "SELECT `Varieties`.* FROM `Varieties` WHERE `Varieties`.`Active` = TRUE ORDER BY `Varieties`.`Name` ASC";
 
 if ($_POST["Name"] != "") {
-    $sql .= " AND `varieties`.`Name` LIKE '%{$_POST["Name"]}%'";
+    $sql .= " AND `Varieties`.`Name` LIKE '%{$_POST["Name"]}%'";
 }
 
 $_POST["Return"]["SQL"] = $sql;

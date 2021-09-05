@@ -17,11 +17,55 @@
         </ul>
         <div class=" card-body">
           <h3 class=" card-title mb-3">คำอธิบาย</h3>
-          <p class=" card-text mb-4"> {{varieties.Decs}}</p><button class=" btn btn-google-plus btn-icon" type="button"><span
-              class=" btn-inner--icon"><i class="ni ni-bag-17"></i></span><span class=" btn-inner--text">
-              ตะกร้าสินค้า + </span></button>
+          <p class=" card-text mb-4"> {{varieties.Decs}}</p>
+          <button class=" btn btn-google-plus btn-icon" type="button"
+            (click)="openVarietiesDetail(VarietiesDetail,varieties)">
+            <span class=" btn-inner--icon"><i class="ni ni-bag-17"></i></span><span class=" btn-inner--text">
+              ตะกร้าสินค้า + </span>
+          </button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+
+<!-- Modal -->
+<ng-template #VarietiesDetail let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{varieties.Name}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">เกรด</label>
+      <mat-select [(ngModel)]="gradeCode" (ngModelChange)="gradeOnChange()" name="ConfigValue" class="form-control form-control-alternative">
+        <mat-option *ngFor="let GradeOfVarieties of GradeOfVarietiesList; let i = index;" [value]="GradeOfVarieties.ConfigValue">
+          {{GradeOfVarieties.ConfigDisplay}}
+        </mat-option>
+      </mat-select>
+    </div>
+    <div class="mb-3">
+      <label for="price" class="form-label">ราคา</label>
+      <input type="number" class="form-control" [(ngModel)]="price" id="price" name="price" disabled style="text-align: end;">
+    </div>
+    <div class="mb-3">
+      <label for="amount" class="form-label">จำนวน</label>
+      <input type="number" class="form-control" [(ngModel)]="amount" id="amount" name="amount" (ngModelChange)="calculatePrice()" style="text-align: end;">
+    </div>
+    <div class="mb-3">
+      <label for="totalPrice" class="form-label">ราคารวม</label>
+      <input type="number" class="form-control" [(ngModel)]="totalPrice" id="totalPrice" name="totalPrice"  disabled style="text-align: end;">
+    </div>
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="save()">เพิ่มไปยังตะกร้าสินค้า</button>
+    <button type="button" class="btn btn-dark" (click)="modal.close('Close click')">ปิด</button>
+  </div>
+</ng-template>

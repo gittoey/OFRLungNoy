@@ -13,7 +13,12 @@ if ($mysqli->connect_errno) {
     exit();
 }
 
-$sql = "SELECT `Price`.* FROM `Price` WHERE `Price`.`Active` = 1";
+$sql = "
+SELECT `Price`.* 
+FROM `Price` 
+INNER JOIN `Varieties` ON `Price`.`VarietiesID` = `Varieties`.`VarietiesID` AND `Varieties`.`Active` = 1 
+WHERE `Price`.`Active` = 1 
+";
 
 if ($_POST["VarietiesID"] != 0) {
     $sql .= " AND `Price`.`VarietiesID` = '{$_POST["VarietiesID"]}'";
@@ -22,6 +27,8 @@ if ($_POST["VarietiesID"] != 0) {
 if ($_POST["GradeCode"] != '') {
     $sql .= " AND `Price`.`GradeCode` = '{$_POST["GradeCode"]}'";
 }
+
+$sql .= " ORDER BY `Varieties`.`Name` ASC,  `Price`.`GradeCode` ASC";
 
 $_POST["Return"]["SQL"] = $sql;
 $result = $mysqli->query($sql);

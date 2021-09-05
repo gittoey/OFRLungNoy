@@ -18,7 +18,8 @@ import { GradeComponent } from './pages/durian-master-data/grade/grade.component
 import { PriceComponent } from './pages/durian-master-data/price/price.component';
 import { MeatComponent } from './pages/durian-master-data/meat/meat.component';
 import { MatSelectModule } from '@angular/material/select';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { MatBadgeModule } from '@angular/material/badge';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     RouterModule,
     AppRoutingModule,
     MatSelectModule,
-    NgxSpinnerModule
+    MatBadgeModule,
+    NgxSpinnerModule,
   ],
   declarations: [
     AppComponent,
@@ -40,10 +42,9 @@ import { NgxSpinnerModule } from "ngx-spinner";
     VarietiesComponent,
     GradeComponent,
     PriceComponent,
-    MeatComponent
+    MeatComponent,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
-
+export class AppModule {}
