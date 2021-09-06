@@ -19,7 +19,8 @@ if( is_dir($uploadFolder) === false )
 
 $files = $_FILES['File']['name'];
 $filename = $files;
-$ext =  end(explode(".", $filename));
+$filenames =  explode(".", $filename);
+$ext =  end($filenames);
 $original = pathinfo($filename, PATHINFO_FILENAME);
 $fileurl = $original .  "-"  . date("YmdHis")  .  "."  . $ext;
 $_POST["PathFileName"] = $uploadFolder . $fileurl;
