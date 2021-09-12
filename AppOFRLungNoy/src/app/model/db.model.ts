@@ -16,7 +16,7 @@ export interface Varieties {
   Meat?: string;
   Smell?: string;
   Flavor?: string;
-  DeliciousTerm ?: string;
+  DeliciousTerm?: string;
   Decs?: string;
   CreateBy?: number;
   UpdateBy: number;
@@ -47,6 +47,48 @@ export interface Price {
   CreateBy?: number;
   UpdateBy: number;
   CreateDate?: Date;
+  UpdateDate: Date;
+  Active: boolean;
+}
+
+export interface Province {
+  ProvinceID: number;
+  Code: string;
+  NameInThai: string;
+  NameInEnglish: string;
+}
+
+export interface District {
+  DistrictID: number;
+  ProvinceID: number;
+  Code: string;
+  NameInThai: string;
+  NameInEnglish: string;
+}
+
+export interface SubDistrict {
+  SubDistrictID: number;
+  DistrictID: number;
+  Code: string;
+  NameInThai: string;
+  NameInEnglish: string;
+  Latitude: number;
+  Longitude: number;
+  ZipCode: number;
+}
+
+export interface Oder {
+  OderID: number;
+  UserID: number;
+  AddressText: string;
+  ProvinceID: number;
+  DistrictID: number;
+  SubdistrictID: number;
+  Remark: string;
+  StatusCode: string;
+  CreateBy: number;
+  UpdateBy: number;
+  CreateDate: Date;
   UpdateDate: Date;
   Active: boolean;
 }

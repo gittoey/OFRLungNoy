@@ -15,4 +15,12 @@ export class PopupService {
   open(content:TemplateRef<any>){
     this.ref = this.modalService.open(content);
   }
+
+  open_lg(content:TemplateRef<any>){
+    this.ref = this.modalService.open(content, { size: 'lg' });
+  }
+
+  open_xl(content:TemplateRef<any>){
+    this.ref = this.modalService.open(content, { size: 'xl' });
+  }
 }

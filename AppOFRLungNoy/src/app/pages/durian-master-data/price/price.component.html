@@ -37,14 +37,14 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label class="form-control-label" for="CostPrice">ราคาต้นทุน (บาท)</label>
-                            <input type="number" id="CostPrice" [(ngModel)]="price.CostPrice" name="CostPrice"
+                            <input type="number" id="CostPrice" [(ngModel)]="price.CostPrice" name="CostPrice" min="1"
                                 class="form-control form-control-alternative" placeholder="ต่อกิโลกรัม">
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-12">
                         <div class="form-group">
                             <label class="form-control-label" for="SellingPrice">ราคาขาย (บาท)</label>
-                            <input type="number" id="SellingPrice" [(ngModel)]="price.SellingPrice" name="SellingPrice"
+                            <input type="number" id="SellingPrice" [(ngModel)]="price.SellingPrice" name="SellingPrice" min="1"
                                 class="form-control form-control-alternative" placeholder="ต่อกิโลกรัม">
                         </div>
                     </div>
