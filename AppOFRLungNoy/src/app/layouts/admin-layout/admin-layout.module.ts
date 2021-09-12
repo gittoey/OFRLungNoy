@@ -20,7 +20,8 @@ import { MatSelectModule } from '@angular/material/select';
     HttpClientModule,
     NgbModule,
     ClipboardModule,
-    MatSelectModule
+    MatSelectModule,
+    ReactiveFormsModule
   ],
   declarations: [
     DashboardComponent,

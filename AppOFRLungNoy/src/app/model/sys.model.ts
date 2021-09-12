@@ -7,3 +7,9 @@ export interface ShoppingCart {
   Amount: number;
   TotalPrice: number;
 }
+
+export interface Auth {
+  UserID: number;
+  AuthToken: string;
+  Name: string;
+}

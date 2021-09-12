@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy, Input,enableProdMode} from '@angular/core';
+import { Component, OnInit, OnDestroy, Input} from '@angular/core';
 import { Router } from '@angular/router';
 import { Login, Register } from 'src/app/model/auth.model';
 import { User } from 'src/app/model/db.model';
 import { AlertService } from 'src/app/service/alert.service';
 import { BackendService } from 'src/app/service/backend.service';
+import { Auth } from 'src/app/model/sys.model';
+import { Md5 } from 'ts-md5/dist/md5';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +13,11 @@ import { BackendService } from 'src/app/service/backend.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  private auth:Auth = {
+    UserID: -1,
+    AuthToken:'',
+    Name: ''
+  };
   
   @Input() login : Login={Username:"",Password:""};
   @Input() register : Register={Name:"",Username:"",Password1:"",Password2:""};
@@ -20,8 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private alert:AlertService,
     private api:BackendService,
-    private router:Router
-  ) { }
+    private router:Router  ) { }
 
   ngOnInit() {
   }
@@ -65,7 +71,17 @@ export class LoginComponent implements OnInit, OnDestroy {
         return;
       }
 
-      localStorage.setItem('UserID', data.Return.User.UserID.toString());
+      const md5 = new Md5();
+    
+    const Auth = md5.appendStr("AuthLuePeeCo<<>>"+ data.Return.User.UserID.toString()).end();
+
+      this.auth.UserID = data.Return.User.UserID;
+      this.auth.AuthToken = Auth.toString();
+      this.auth.Name = data.Return.User.Name;
+      localStorage.setItem('currentUser', JSON.stringify(this.auth||""));
+
+      console.log(this.auth);
+
       this.router.navigate(['/dashboard']);
     }).catch((err) => {
       this.alert.err(err);

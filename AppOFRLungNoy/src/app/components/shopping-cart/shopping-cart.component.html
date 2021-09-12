@@ -1,6 +1,6 @@
 <button mat-raised-button matBadge="{{countShoppingCart}}" matBadgeHidden="{{countShoppingCart==0}}"
     matBadgeColor="warn" class="btn btn-pinterest btn-icon-only rounded-circle" type="button"
-    (click)="openShoppingCart(ChoppingCart)"><span class=" btn-inner--icon"><i class="ni ni-bag-17"></i></span></button>
+    (click)="openShoppingCart(ChoppingCart)"><span class=" btn-inner--icon"><i class="ni ni-basket"></i></span></button>
 
 
 
@@ -15,7 +15,6 @@
         </button>
     </div>
     <div class="modal-body">
-
         <div class="col">
             <div class="card shadow">
                 <div class="card-header border-0">
@@ -23,7 +22,6 @@
                         <div class="col">
                             <h3 class="mb-0">รายการ</h3>
                         </div>
-                        <div class="col text-right"><a class="btn btn-sm btn-primary" href="#!">บันทึก</a></div>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -34,9 +32,9 @@
                                     <th scope="col">ลำดับ</th>
                                     <th scope="col">พันธุ์ทุเรียน</th>
                                     <th scope="col">เกรด</th>
-                                    <th scope="col">ราคา</th>
-                                    <th scope="col" style="text-align: end">จำนวน (Kg)</th>
-                                    <th scope="col">ราคารวม</th>
+                                    <th scope="col" style="text-align: end">ราคา</th>
+                                    <th scope="col" style="text-align: end" width="200">จำนวน (Kg)</th>
+                                    <th scope="col" style="text-align: end">ราคารวม</th>
                                     <th scope="col">คำสั่ง</th>
                                 </tr>
                             </thead>
@@ -55,9 +53,9 @@
                                         {{shoppingCartIn.SellingPrice | number : "1.2-2"}}
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control" [(ngModel)]="shoppingCartList[i].Amount"
-                                            (ngModelChange)="changePrice(i)" id="Amount[{{i}}]" name="Amount[{{i}}]" min="1"
-                                            style="text-align: end;">
+                                        <input type="number" class="form-control"
+                                            [(ngModel)]="shoppingCartList[i].Amount" (ngModelChange)="changePrice(i)"
+                                            id="Amount[{{i}}]" name="Amount[{{i}}]" min="1" style="text-align: end;">
                                     </td>
                                     <td style="text-align: end;">
                                         {{shoppingCartIn.TotalPrice | number : "1.2-2"}}
@@ -84,10 +82,9 @@
                 </div>
             </div>
         </div>
-
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-success">ยืนยัน</button>
+        <button type="button" class="btn btn-success" (click)="save()">ยืนยัน</button>
         <button type="button" class="btn btn-dark" (click)="modal.close('Close click')">ปิด</button>
     </div>
 </ng-template>

@@ -20,6 +20,7 @@ import { MeatComponent } from './pages/durian-master-data/meat/meat.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatBadgeModule } from '@angular/material/badge';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { OdersComponent } from './pages/oders/oders.component';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     GradeComponent,
     PriceComponent,
     MeatComponent,
+    OdersComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],

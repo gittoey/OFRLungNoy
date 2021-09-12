@@ -3,6 +3,7 @@ import { PopupService } from 'src/app/service/popup.service';
 import { ShoppingCart } from 'src/app/model/sys.model';
 import { DataService } from 'src/app/service/data.service';
 import { AlertService } from 'src/app/service/alert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -28,7 +29,8 @@ export class ShoppingCartComponent implements OnInit {
   constructor(
     private popup: PopupService,
     public alert: AlertService,
-    public dataService: DataService
+    public dataService: DataService,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
@@ -47,7 +49,7 @@ export class ShoppingCartComponent implements OnInit {
     var shoppingCartList = JSON.parse(
       localStorage.getItem('shoppingCartList') || '{}'
     );
-    if (shoppingCartList != '{}') {
+    if (shoppingCartList.length) {
       this.shoppingCartList = shoppingCartList || [];
     }
 
@@ -90,5 +92,10 @@ export class ShoppingCartComponent implements OnInit {
   sumPrice() {
     this.sumTotalPrice = 0;
     this.shoppingCartList.forEach((a) => (this.sumTotalPrice += a.TotalPrice));
+  }
+
+  save(){
+    this.popup.ref?.close();
+    this.router.navigate(["/app-oders"]);
   }
 }

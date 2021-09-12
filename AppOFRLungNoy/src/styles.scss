@@ -50,3 +50,14 @@ input[type="file"] {
 .cdk-overlay-container {
   z-index: 99999 !important;
 }
+
+.modal-body {
+  border-top: 1px solid #a0a0a02c;
+  border-bottom: 1px solid #a0a0a02c  ;
+}
+
+.mat-h4,
+.mat-subheading-1,
+.mat-typography h4 {
+  font-size: 18px;
+}
