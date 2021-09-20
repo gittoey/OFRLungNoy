@@ -96,6 +96,6 @@ export class ShoppingCartComponent implements OnInit {
 
   save(){
     this.popup.ref?.close();
-    this.router.navigate(["/app-oders"]);
+    this.router.navigate(["/oders"]);
   }
 }

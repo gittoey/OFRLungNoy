@@ -6,8 +6,8 @@ import { DurianMasterDataComponent } from 'src/app/pages/durian-master-data/duri
 import { OdersComponent } from 'src/app/pages/oders/oders.component';
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard',      component: DashboardComponent },
+    { path: 'shop',      component: DashboardComponent },
     { path: 'user-profile',   component: UserProfileComponent },
-    { path: 'app-durian-master-data',   component: DurianMasterDataComponent },
-    { path: 'app-oders',   component: OdersComponent }
+    { path: 'durian-master-data',   component: DurianMasterDataComponent },
+    { path: 'oders',   component: OdersComponent }
 ];

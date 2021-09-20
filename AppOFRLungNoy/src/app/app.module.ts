@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatBadgeModule } from '@angular/material/badge';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { OdersComponent } from './pages/oders/oders.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { OdersComponent } from './pages/oders/oders.component';
     PriceComponent,
     MeatComponent,
     OdersComponent,
+    HomeComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],
