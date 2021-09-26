@@ -22,7 +22,7 @@ $result->free_result();
 if($row != 0){
     $_POST["Return"]["Status"] = "No";
     $_POST["Return"]["Type"] = "Username";
-    echo json_encode($_POST);
+    print_r(json_encode($_POST));
     exit();
 }
 
@@ -33,4 +33,4 @@ $mysqli->close();
 
 $_POST["Return"]["Status"] = "Yes";
 $_POST["Return"]["Type"] = "Registed";
-echo json_encode($_POST);
+print_r(json_encode($_POST));

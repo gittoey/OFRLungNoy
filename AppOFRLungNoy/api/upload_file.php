@@ -26,4 +26,4 @@ $fileurl = $original .  "-"  . date("YmdHis")  .  "."  . $ext;
 $_POST["PathFileName"] = $uploadFolder . $fileurl;
 copy($_FILES["File"]["tmp_name"], $_POST["PathFileName"]);
 
-echo json_encode($_POST);
+print_r(json_encode($_POST));
