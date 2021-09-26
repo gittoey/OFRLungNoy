@@ -13,8 +13,8 @@ export const ROUTES: RouteInfo[] = [
     { path: '/user-profile', title: 'User profile',  icon:'ni-single-02 text-yellow', class: '' },
     { path: '/oders', title: 'รายการสั่งจอง',  icon:'ni ni-bullet-list-67 text-default', class: '' },
     { path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
-    { path: '/durian-master-data', title: 'จัดการข้อมูลทุเรียน',  icon:'ni-archive-2 text-info', class: '' }
-
+    { path: '/durian-master-data', title: 'จัดการข้อมูลทุเรียน',  icon:'ni-archive-2 text-info', class: '' },
+    { path: '/post-feeds', title: 'แจ้งข่าวสาร',  icon:'ni-laptop text-primary', class: '' }
     
 ];
 

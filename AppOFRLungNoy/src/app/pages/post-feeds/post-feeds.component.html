@@ -1,0 +1,158 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+            <div class="row">
+                <div class="col-xl-3 col-lg-6 card-setting" style="cursor: pointer;">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">โพสต์</h5>
+                                    <span class="h2 font-weight-bold mb-0">แจ้งข่างสารหน้าหนัก</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-success text-white rounded-circle shadow">
+                                        <i class="fas fa-atom"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h6 class="text-uppercase text-muted ls-1 mb-1">แจ้งข่างสารหน้าหนัก</h6>
+                            <h2 class="mb-0"></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <h6 class="heading-small text-muted mb-4" *ngIf="!isEdit">เพิ่ม</h6>
+                        <h6 class="heading-small text-muted mb-4" *ngIf="isEdit">แก้ไข</h6>
+                        <div class="alert alert-warning" *ngIf="isEdit" role="alert">
+                            <span class=" alert-icon"><i class="ni ni-settings"></i></span>
+                            <strong>แก้ไข</strong> -> กดบันทึก เพื่อ บันทึกการแก้ไข
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-xl-10 col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="Title">ชื่อเรื่อง</label>
+                                                <input type="text" id="Title" name="Title" [(ngModel)]="feed.Title"
+                                                    class="form-control form-control-alternative"
+                                                    placeholder="ชื่อเรื่อง">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12">
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="Img">รูป</label>
+                                                        <input type="file" id="Img" name="Img" #takeInput
+                                                            (change)="setFromFile($event)" accept="image/*"
+                                                            class="form-control form-control-alternative">
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="deleteImg">&nbsp;</label>
+                                                        <button
+                                                            class="form-control form-control-alternative btn btn-danger"
+                                                            id="deleteImg" (click)="deleteImg()">ลบรูป</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="Text">เนื่อหา</label>
+                                                <textarea id="Text" name="Text" [(ngModel)]="feed.Text"
+                                                    class="form-control form-control-alternative" style="height: 150px;"
+                                                    placeholder="เนื่อหา"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="saveButton">คำสั่ง</label>
+                                        <button
+                                            class="form-control form-control-alternative btn {{(isEdit ? 'btn-warning' : 'btn-primary')}}"
+                                            id="saveButton" (click)="save()">โพสต์</button>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="form-control form-control-alternative btn btn-danger"
+                                            id="saveCancel"(click)="cancel()" >ยกเลิก</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="card bg-default shadow">
+                        <div class="card-header bg-transparent border-0">
+                            <form>
+                                <div class="row">
+                                    <div class="col-xl-9 col-lg-8">
+                                        <input type="text" id="searchTitle" name="searchTitle" class="form-control"
+                                            [(ngModel)]="searchTitle" placeholder="ค้นหา : ชื่อเรื่อง">
+                                    </div>
+                                    <div class="col-xl-3 col-lg-4">
+                                        <button class="form-control btn btn-info" id="searchButton" (click)="search()">ค้นหา</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="container" *ngFor="let aFeed of feedList; let i = index">
+                            <div class="row justify-content-md-center">
+                                <div class="col col-lg-10">
+                                    <article id="content">
+                                        <header>
+                                            <div class=" row">
+                                                <div class=" col-9">
+                                                    <h2>{{aFeed.Title}}</h2>
+                                                </div>
+                                                <div class=" col-3 text-right">
+                                                    <div ngbDropdown container="body">
+                                                        <button class="btn btn-outline-primary btn-sm"
+                                                            ngbDropdownToggle>จัดการ</button>
+                                                        <div ngbDropdownMenu>
+                                                            <button ngbDropdownItem (click)="edit(aFeed)">แก้ไข</button>
+                                                            <div class="dropdown-divider"></div>
+                                                            <button ngbDropdownItem
+                                                                (click)="delete(aFeed.FeedID)">ลบ</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </header>
+                                        <img *ngIf="aFeed.Img!=''" src="{{api}}{{aFeed.Img}}" alt=""
+                                            class="rounded float-start" width="100%">
+                                        <p [innerHTML]="aFeed.Text | nl2br : true"></p>
+                                    </article>
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

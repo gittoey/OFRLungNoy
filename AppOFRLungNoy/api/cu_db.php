@@ -26,7 +26,7 @@ if ($_POST["Data"][$_POST["Table"] . "ID"] == 0) {
                 $Values .= ", ";
             }
             $Field .= "`" . $key . "`";
-            $Values .= "'" . $value . "'";
+            $Values .= "'" . $mysqli->real_escape_string($value) . "'";
             $Loop++;
         }
     }
@@ -47,7 +47,7 @@ if ($_POST["Data"][$_POST["Table"] . "ID"] == 0) {
                 if ($Loop > 0) {
                     $Set .= ", ";
                 }
-                $Set .= "`" . $key . "` = '{$value}'";
+                $Set .= "`" . $key . "` = '{$mysqli->real_escape_string($value)}'";
                 $Loop++;
             }
         }

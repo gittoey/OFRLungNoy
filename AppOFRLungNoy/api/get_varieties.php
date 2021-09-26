@@ -13,11 +13,13 @@ if ($mysqli->connect_errno) {
     exit();
 }
 
-$sql = "SELECT `Varieties`.* FROM `Varieties` WHERE `Varieties`.`Active` = TRUE ORDER BY `Varieties`.`Name` ASC";
+$sql = "SELECT `Varieties`.* FROM `Varieties` WHERE `Varieties`.`Active` = TRUE";
 
 if ($_POST["Name"] != "") {
-    $sql .= " AND `Varieties`.`Name` LIKE '%{$_POST["Name"]}%'";
+    $sql .= " AND `Varieties`.`Name` LIKE '%{$mysqli->real_escape_string($_POST["Name"])}%'";
 }
+
+$sql .= " ORDER BY `Varieties`.`Name` ASC";
 
 $_POST["Return"]["SQL"] = $sql;
 $result = $mysqli->query($sql);

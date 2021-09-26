@@ -92,3 +92,15 @@ export interface Oder {
   UpdateDate: Date;
   Active: boolean;
 }
+
+export interface Feed {
+  FeedID: number;
+  Title: string;
+  Img: string;
+  Text: string;
+  CreateBy: number;
+  UpdateBy: number;
+  CreateDate: Date;
+  UpdateDate: Date;
+  Active: boolean;
+}

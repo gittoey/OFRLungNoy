@@ -13,7 +13,7 @@ if ($mysqli->connect_errno) {
     exit();
 }
 
-$sql = "SELECT `UserID` FROM `User` WHERE `Username` = '{$_POST["Username"]}'";
+$sql = "SELECT `UserID` FROM `User` WHERE `Username` = '{$mysqli->real_escape_string($_POST["Username"])}'";
 $_POST["Return"]["SQL1"] = $sql;
 $result = $mysqli->query($sql);
 $row = $result->fetch_assoc();
@@ -26,7 +26,7 @@ if($row != 0){
     exit();
 }
 
-$sql = "INSERT INTO `user` (`Username`, `Password`, `Name`) VALUES ('{$_POST["Username"]}', '{$_POST["Password1"]}', '{$_POST["Name"]}')";
+$sql = "INSERT INTO `user` (`Username`, `Password`, `Name`) VALUES ('{$mysqli->real_escape_string($_POST["Username"])}', '{$mysqli->real_escape_string($_POST["Password1"])}', '{$mysqli->real_escape_string($_POST["Name"])}')";
 $_POST["Return"]["SQL2"] = $sql;
 $mysqli->query($sql);
 $mysqli->close();

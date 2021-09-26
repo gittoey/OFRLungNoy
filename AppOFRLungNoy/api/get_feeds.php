@@ -13,22 +13,13 @@ if ($mysqli->connect_errno) {
     exit();
 }
 
-$sql = "
-SELECT `Price`.* 
-FROM `Price` 
-INNER JOIN `Varieties` ON `Price`.`VarietiesID` = `Varieties`.`VarietiesID` AND `Varieties`.`Active` = 1 
-WHERE `Price`.`Active` = 1 
-";
+$sql = "SELECT `Feed`.* FROM `Feed` WHERE `Feed`.`Active` = TRUE";
 
-if ($_POST["VarietiesID"] != 0) {
-    $sql .= " AND `Price`.`VarietiesID` = '{$mysqli->real_escape_string($_POST["VarietiesID"])}'";
+if ($_POST["Title"] != "") {
+    $sql .= " AND `Feed`.`Title` LIKE '%".$mysqli->real_escape_string($_POST["Title"])."%'";
 }
 
-if ($_POST["GradeCode"] != '') {
-    $sql .= " AND `Price`.`GradeCode` = '{$mysqli->real_escape_string($_POST["GradeCode"])}'";
-}
-
-$sql .= " ORDER BY `Varieties`.`Name` ASC,  `Price`.`GradeCode` ASC";
+$sql .= " ORDER BY `Feed`.`FeedID` DESC";
 
 $_POST["Return"]["SQL"] = $sql;
 $result = $mysqli->query($sql);
@@ -55,5 +46,6 @@ $mysqli->close();
 
 $_POST["Return"]["Status"] = "Yes";
 $_POST["Return"]["Type"] = "Geted";
-$_POST["Return"]["Price"] = $dataReturn;
+$_POST["Return"]["Feed"] = $dataReturn;
+
 echo json_encode($_POST);

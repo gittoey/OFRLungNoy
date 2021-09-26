@@ -3,7 +3,7 @@
     <!-- Header -->
     <div id="header-wrapper">
         <div id="header" class="container">
-            <a href="#" class="image featured"><img src="./assets/home/images/pic06.jpg" alt=""></a>
+            <a href="#" class="image featured"><img src="./assets/home/images/fb0d7a77-ec27-46a0-9911-acac76697203.jpg" alt=""></a>
         </div>
 
         <!-- Hero -->
@@ -11,10 +11,7 @@
             <header>
                 <h2>ระบบสั่งจองทุเรียน</h2>
             </header>
-            <p>Designed and built by <a href="http://twitter.com/ajlkn">AJ</a> and released for free under
-                <br />
-                the <a href="http://html5up.net/license">Creative Commons Attribution 3.0 license</a>.
-            </p>
+            <p>--------------------------------------------------</p>
             <ul class="actions">
                 <li><button type="button" class="button" [routerLink]="['/shop']">สั่งจองตอนนี้</button></li>
             </ul>
@@ -26,84 +23,23 @@
         <div class="container" id="main">
 
             <!-- Content -->
-                <article id="content">
-                    <header>
-                        <h2>No Sidebar</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit
-                        dolor neque semper.</p>
-                    </header>
-                    <a href="#" class="image featured"><img src="./assets/home/images/pic06.jpg" alt=""></a>
-                    <p>Ut sed tortor luctus, gravida nibh eget, volutpat odio. Proin rhoncus, sapien
-                    mollis luctus hendrerit, orci dui viverra metus, et cursus nulla mi sed elit. Vestibulum
-                    condimentum, mauris a mattis vestibulum, urna mauris cursus lorem, eu fringilla lacus
-                    ante non est. Nullam vitae feugiat libero, eu consequat sem. Proin tincidunt neque
-                    eros. Duis faucibus blandit ligula, mollis commodo risus sodales at. Sed rutrum et
-                    turpis vel blandit. Nullam ornare congue massa, at commodo nunc venenatis varius.
-                    Praesent mollis nisi at vestibulum aliquet. Sed sagittis congue urna ac consectetur.</p>
-                    <p>Mauris eleifend eleifend felis aliquet ornare. Vestibulum porta velit at elementum
-                    gravida nibh eget, volutpat odio. Proin rhoncus, sapien
-                    mollis luctus hendrerit, orci dui viverra metus, et cursus nulla mi sed elit. Vestibulum
-                    condimentum, mauris a mattis vestibulum, urna mauris cursus lorem, eu fringilla lacus
-                    ante non est. Nullam vitae feugiat libero, eu consequat sem. Proin tincidunt neque
-                    eros. Duis faucibus blandit ligula, mollis commodo risus sodales at. Sed rutrum et
-                    turpis vel blandit. Nullam ornare congue massa, at commodo nunc venenatis varius.
-                    Praesent mollis nisi at vestibulum aliquet. Sed sagittis congue urna ac consectetur.</p>
-                    <p>Vestibulum pellentesque posuere lorem non aliquam. Mauris eleifend eleifend
-                    felis aliquet ornare. Vestibulum porta velit at elementum elementum.</p>
-                </article>
-
-            <div class="row features">
-                <section class="col-4 col-12-narrower feature">
-                    <div class="image-wrapper first">
-                        <a href="#" class="image featured"><img src="./assets/home/images/pic03.jpg" alt=""></a>
-                    </div>
-                    <header>
-                        <h3>Dolor sit consequat magna</h3>
-                    </header>
-                    <p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur
-                    vel sem sit dolor neque semper magna lorem ipsum.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">Elevate my awareness</a></li>
-                    </ul>
-                </section>
-                <section class="col-4 col-12-narrower feature">
-                    <div class="image-wrapper">
-                        <a href="#" class="image featured"><img src="./assets/home/images/pic04.jpg" alt=""></a>
-                    </div>
-                    <header>
-                        <h3>Dolor sit consequat magna</h3>
-                    </header>
-                    <p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur
-                    vel sem sit dolor neque semper magna lorem ipsum.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">Elevate my awareness</a></li>
-                    </ul>
-                </section>
-                <section class="col-4 col-12-narrower feature">
-                    <div class="image-wrapper">
-                        <a href="#" class="image featured"><img src="./assets/home/images/pic05.jpg" alt=""></a>
-                    </div>
-                    <header>
-                        <h3>Dolor sit consequat magna</h3>
-                    </header>
-                    <p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur
-                    vel sem sit dolor neque semper magna lorem ipsum.</p>
-                    <ul class="actions">
-                        <li><a href="#" class="button">Elevate my awareness</a></li>
-                    </ul>
-                </section>
-            </div>
+            <article id="content"  *ngFor="let aFeed of feedList; let i = index">
+                <header>
+                    <h2>{{aFeed.Title}}</h2>
+                </header>
+                <div class="image featured"><img src="{{api}}{{aFeed.Img}}" alt="" class="img-thumbnail"></div>
+                <p [innerHTML]="aFeed.Text | nl2br : true"></p>
+                <hr/>
+            </article>
         </div>
     </div>
 
     <!-- Footer -->
-    <div id="footer-wrapper">
-        <div id="copyright" class="container">
-            <ul class="menu">
-                <li>&copy; Untitled. All rights reserved.</li>
-                <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-            </ul>
-        </div>
+    <div id="footer-wrapper" style="text-align: center;">
+        <ul class="menu">
+            <li>&copy; Untitled. All rights reserved.</li>
+            <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
     </div>
 
 </div>

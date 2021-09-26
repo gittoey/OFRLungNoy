@@ -66,7 +66,6 @@ export class VarietiesComponent implements OnInit {
   }
 
   async save() {
-    this.spinner.show();
     let errText = '';
     if (this.varieties.Name == '') {
       errText = 'กรอก : ชื่อพันธุ์ทุเรียน';
@@ -120,6 +119,7 @@ export class VarietiesComponent implements OnInit {
       this.alert.err(errText);
       return;
     }
+    this.spinner.show();
 
     let PathFile: string = '';
     await this.bs.uploadFile(this.from).then((d: any) => {

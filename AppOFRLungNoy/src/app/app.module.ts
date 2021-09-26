@@ -22,6 +22,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { OdersComponent } from './pages/oders/oders.component';
 import { HomeComponent } from './pages/home/home.component';
+import { PostFeedsComponent } from './pages/post-feeds/post-feeds.component';
+import { Nl2BrPipeModule } from 'nl2br-pipe';
 
 @NgModule({
   imports: [
@@ -35,6 +37,7 @@ import { HomeComponent } from './pages/home/home.component';
     MatSelectModule,
     MatBadgeModule,
     NgxSpinnerModule,
+    Nl2BrPipeModule,
   ],
   declarations: [
     AppComponent,
@@ -47,6 +50,7 @@ import { HomeComponent } from './pages/home/home.component';
     MeatComponent,
     OdersComponent,
     HomeComponent,
+    PostFeedsComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],

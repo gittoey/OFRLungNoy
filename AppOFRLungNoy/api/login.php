@@ -13,7 +13,7 @@ if ($mysqli->connect_errno) {
     exit();
 }
 
-$sql = "SELECT `UserID`,`Type`,`Username`,`Password`,`Name`,`Active`,`NewDate`,`UpdateDate` FROM `User` WHERE `Username` = '{$_POST["Username"]}'";
+$sql = "SELECT `UserID`,`Type`,`Username`,`Password`,`Name`,`Active`,`NewDate`,`UpdateDate` FROM `User` WHERE `Username` = '".$mysqli->real_escape_string($_POST["Username"])."'";
 $_POST["Return"]["SQL"] = $sql;
 $result = $mysqli->query($sql);
 $row = $result->fetch_assoc();

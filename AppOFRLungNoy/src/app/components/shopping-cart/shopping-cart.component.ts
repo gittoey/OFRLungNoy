@@ -1,9 +1,10 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { PopupService } from 'src/app/service/popup.service';
-import { ShoppingCart } from 'src/app/model/sys.model';
+import { Auth, ShoppingCart } from 'src/app/model/sys.model';
 import { DataService } from 'src/app/service/data.service';
 import { AlertService } from 'src/app/service/alert.service';
 import { Router } from '@angular/router';
+import { Oder } from 'src/app/model/db.model';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -11,6 +12,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./shopping-cart.component.scss'],
 })
 export class ShoppingCartComponent implements OnInit {
+
+  public oder :Oder = {
+    OderID: 0,
+    UserID: 0,
+    AddressText: '',
+    ProvinceID: 0,
+    DistrictID: 0,
+    SubdistrictID: 0,
+    Remark: '',
+    StatusCode: '',
+    CreateBy: 0,
+    UpdateBy: 0,
+    CreateDate: new Date(),
+    UpdateDate: new Date(),
+    Active: false
+  }
+
   public shoppingCartList: Array<ShoppingCart> = [];
   public shoppingCart: ShoppingCart = {
     VarietiesID: 0,
@@ -23,8 +41,13 @@ export class ShoppingCartComponent implements OnInit {
   };
 
   public sumTotalPrice: number = 0;
-
   public countShoppingCart: number = 0;
+
+  private auth: Auth = {
+    UserID: -1,
+    AuthToken:'',
+    Name: '',
+  };
 
   constructor(
     private popup: PopupService,
@@ -96,6 +119,10 @@ export class ShoppingCartComponent implements OnInit {
 
   save(){
     this.popup.ref?.close();
+
+    this.auth = JSON.parse(
+      localStorage.getItem('currentUser') || '{}'
+    );
     this.router.navigate(["/oders"]);
   }
 }
