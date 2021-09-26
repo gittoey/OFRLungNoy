@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   async getFeed(Title: string) {
     this.bs.post('get_feeds.php', { Title: Title }).then((d: any) => {
       this.spinner.hide();
-      if (d.Return.Varieties != 0) {
+      if (d.Return.Feed != 0) {
         this.feedList = d.Return.Feed;
       } else {
         this.feedList = [];
