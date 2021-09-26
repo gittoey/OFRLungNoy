@@ -13,13 +13,13 @@ if ($mysqli->connect_errno) {
     exit();
 }
 
-$sql = "SELECT `Feed`.* FROM `Feed` WHERE `Feed`.`Active` = TRUE";
+$sql = "SELECT `feed`.* FROM `feed` WHERE `feed`.`Active` = TRUE";
 
 if ($_POST["Title"] != "") {
-    $sql .= " AND `Feed`.`Title` LIKE '%".$mysqli->real_escape_string($_POST["Title"])."%'";
+    $sql .= " AND `feed`.`Title` LIKE '%{$mysqli->real_escape_string($_POST["Title"])}%'";
 }
 
-$sql .= " ORDER BY `Feed`.`FeedID` DESC";
+$sql .= " ORDER BY `feed`.`FeedID` DESC";
 
 $_POST["Return"]["SQL"] = $sql;
 $result = $mysqli->query($sql);
