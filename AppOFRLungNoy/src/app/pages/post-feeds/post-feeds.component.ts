@@ -94,7 +94,7 @@ export class PostFeedsComponent implements OnInit {
 
     let PathFile: string = '';
 
-    if(this.feed.Img != ""){
+    if(this.InputVar.nativeElement.value != ""){
       await this.bs.uploadFile(this.from).then((d: any) => {
         PathFile = d.PathFileName;
       });
