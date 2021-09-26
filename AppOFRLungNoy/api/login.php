@@ -23,14 +23,14 @@ $mysqli->close();
 if($row == 0){
     $_POST["Return"]["Status"] = "No";
     $_POST["Return"]["Type"] = "Username";
-    print_r(json_encode($_POST));
+    echo json_encode($_POST);
     exit();
 }
 
 if($_POST["Password"] != $row["Password"]){
     $_POST["Return"]["Status"] = "No";
     $_POST["Return"]["Type"] = "Password";
-    print_r(json_encode($_POST));
+    echo json_encode($_POST);
     exit();
 }
 
@@ -43,4 +43,4 @@ $_POST["Return"]["User"]["Name"] = $row["Name"];
 $_POST["Return"]["User"]["Active"] = $row["Active"];
 $_POST["Return"]["User"]["NewDate"] = $row["NewDate"];
 $_POST["Return"]["User"]["UpdateDate"] = $row["UpdateDate"];
-print_r(json_encode($_POST));
+echo json_encode($_POST);

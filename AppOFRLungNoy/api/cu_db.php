@@ -70,4 +70,4 @@ if ($mysqli->query($sql) === TRUE) {
 }
 $mysqli->close();
 
-print_r(json_encode($_POST));
+echo json_encode($_POST);

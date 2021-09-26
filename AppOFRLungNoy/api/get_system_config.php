@@ -46,4 +46,4 @@ $_POST["Return"]["Status"] = "Yes";
 $_POST["Return"]["Type"] = "Geted";
 $_POST["Return"]["SystemConfig"] = $dataReturn;
 
-print_r(json_encode($_POST));
+echo json_encode($_POST);

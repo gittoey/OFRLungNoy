@@ -56,4 +56,4 @@ $mysqli->close();
 $_POST["Return"]["Status"] = "Yes";
 $_POST["Return"]["Type"] = "Geted";
 $_POST["Return"]["Price"] = $dataReturn;
-print_r(json_encode($_POST));
+echo json_encode($_POST);
