@@ -5,6 +5,12 @@ authorization(basename(__FILE__));
 
 $_POST["File"] = $_FILES['File']['name'];
 
+if($_POST["File"] == ""){
+    $_POST["PathFileName"] = "";
+    echo json_encode($_POST);
+    exit();
+}
+
 $uploadFolder =  "upload/";
 if(isset($_POST["Path"])){
     if($_POST["Path"] != ""){
