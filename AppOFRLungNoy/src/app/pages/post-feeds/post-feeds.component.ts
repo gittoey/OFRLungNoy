@@ -93,9 +93,12 @@ export class PostFeedsComponent implements OnInit {
     this.spinner.show();
 
     let PathFile: string = '';
-    await this.bs.uploadFile(this.from).then((d: any) => {
-      PathFile = d.PathFileName;
-    });
+
+    if(this.feed.Img != ""){
+      await this.bs.uploadFile(this.from).then((d: any) => {
+        PathFile = d.PathFileName;
+      });
+    }
 
     if (this.from.get('File')) {
       this.feed.Img = PathFile.toString();

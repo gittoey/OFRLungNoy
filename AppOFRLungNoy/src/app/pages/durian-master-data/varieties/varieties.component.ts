@@ -122,9 +122,11 @@ export class VarietiesComponent implements OnInit {
     this.spinner.show();
 
     let PathFile: string = '';
-    await this.bs.uploadFile(this.from).then((d: any) => {
-      PathFile = d.PathFileName;
-    });
+    if(this.varieties.Img != ""){
+      await this.bs.uploadFile(this.from).then((d: any) => {
+        PathFile = d.PathFileName;
+      });
+    }
 
     if (this.from.get('File')) {
       this.varieties.Img = PathFile.toString();
