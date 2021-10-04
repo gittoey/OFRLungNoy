@@ -79,13 +79,28 @@ export interface SubDistrict {
 
 export interface Oder {
   OderID: number;
+  OderNo: string;
   UserID: number;
   AddressText: string;
   ProvinceID: number;
   DistrictID: number;
-  SubdistrictID: number;
+  SubDistrictID: number;
   Remark: string;
   StatusCode: string;
+  CreateBy: number;
+  UpdateBy: number;
+  CreateDate: Date;
+  UpdateDate: Date;
+  Active: boolean;
+}
+
+export interface OderDetail {
+  OderDetailID: number;
+  OderID: number;
+  VarietiesID: number;
+  GradeCode: string;
+  SellingPrice: number;
+  Amount: number;
   CreateBy: number;
   UpdateBy: number;
   CreateDate: Date;

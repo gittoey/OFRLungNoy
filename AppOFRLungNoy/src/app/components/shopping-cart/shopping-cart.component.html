@@ -78,6 +78,65 @@
                                 </tr>
                             </tbody>
                         </table>
+
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="AddressText">บ้านเลขที่, หมู่,
+                                            ซอย</label>
+                                        <textarea id="AddressText" name="AddressText" [(ngModel)]="oder.AddressText"
+                                            class="form-control form-control-alternative"
+                                            placeholder="999 หมู่ 88"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="ProvinceID">จังหวัด</label>
+                                        <mat-select [(ngModel)]="oder.ProvinceID" name="ProvinceID" (ngModelChange)="getDistrict()"
+                                            class="form-control form-control-alternative">
+                                            <mat-option [value]="0">เลือกจังหวัด</mat-option>
+                                            <mat-option *ngFor="let sProvince of provinceList"
+                                                [value]="sProvince.ProvinceID">
+                                                {{sProvince.NameInThai}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="DistrictID">อำเภอ</label>
+                                        <mat-select [(ngModel)]="oder.DistrictID" name="DistrictID"  (ngModelChange)="getSubDistrict()" [disabled]="oder.ProvinceID==0?true:false"
+                                            class="form-control form-control-alternative">
+                                            <mat-option [value]="0">เลือกอำเภอ</mat-option>
+                                            <mat-option *ngFor="let sDistrict of districtList"
+                                                [value]="sDistrict.DistrictID">
+                                                {{sDistrict.NameInThai}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="SubDistrictID">ตำบล</label>
+                                        <mat-select [(ngModel)]="oder.SubDistrictID" name="SubDistrictID" [disabled]="oder.DistrictID==0?true:false"
+                                            class="form-control form-control-alternative">
+                                            <mat-option [value]="0">เลือกตำบล</mat-option>
+                                            <mat-option *ngFor="let sSubDistrict of subDistrictList"
+                                                [value]="sSubDistrict.SubDistrictID">
+                                                {{sSubDistrict.NameInThai}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
                     </form>
                 </div>
             </div>

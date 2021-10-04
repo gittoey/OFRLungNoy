@@ -21,13 +21,15 @@ if ($_POST["Data"][$_POST["Table"] . "ID"] == 0) {
     $Loop = 0;
     foreach ($_POST["Data"] as $key => $value) {
         if (!in_array($key, $db_if)) {
-            if ($Loop > 0) {
-                $Field .= ", ";
-                $Values .= ", ";
+            if ($mysqli->real_escape_string($value) != "<null>") {
+                if ($Loop > 0) {
+                    $Field .= ", ";
+                    $Values .= ", ";
+                }
+                $Field .= "`" . $key . "`";
+                $Values .= "'" . $mysqli->real_escape_string($value) . "'";
+                $Loop++;
             }
-            $Field .= "`" . $key . "`";
-            $Values .= "'" . $mysqli->real_escape_string($value) . "'";
-            $Loop++;
         }
     }
 
@@ -61,6 +63,12 @@ if ($_POST["Data"][$_POST["Table"] . "ID"] == 0) {
 $_POST["Return"]["SQL2"] = $sql;
 if ($mysqli->query($sql) === TRUE) {
     $_POST["Return"]["Status"] = "Yes";
+    if($_POST["Data"][$_POST["Table"] . "ID"] == 0){
+        $_POST["Return"]["insert_id"] = $mysqli->insert_id;
+    }else{
+        $_POST["Return"]["insert_id"] = $_POST["Data"][$_POST["Table"] . "ID"];
+    }
+    
 } else {
     $ERROR["Return"]["Status"] = "Error";
     $ERROR["Return"]["Message"] = "Error: " . $sql . "<br>" . $mysqli->error;

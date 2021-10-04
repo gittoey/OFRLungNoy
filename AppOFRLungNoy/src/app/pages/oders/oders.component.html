@@ -9,24 +9,46 @@
         <div class=" col">
             <div class=" card">
                 <div class=" card-header border-0">
-                    <h3 class=" mb-0">รายการสั่งจอง</h3>
+                    <div class=" row">
+                        <div class=" col-6">
+                            <h3 class=" mb-0">รายการสั่งจอง</h3>
+                        </div>
+                        <div class=" col-6 text-right">
+                            <div class="row">
+                                <div class=" col-md-9"><input class=" form-control form-control-sm" placeholder="ค้นหา เลขที่" type="text" [(ngModel)]="searchOderNo"></div>
+                                <div class=" col-md-3"><button class=" btn btn-primary btn-sm btn-block" type="button" (click)="search()"> ค้นหา </button></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class=" table-responsive">
                     <table class=" table align-items-center table-flush">
                         <thead class=" thead-light">
                             <tr>
-                                <th class=" sort" data-sort="name" scope="col">ลำดับ</th>
-                                <th class=" sort" data-sort="budget" scope="col">เลขที่</th>
-                                <th class=" sort" data-sort="status" scope="col">จำนวนที่สั่ง</th>
-                                <th class=" sort" data-sort="status" scope="col">ราคารวม</th>
+                                <th class=" sort" scope="col">ลำดับ</th>
+                                <th class=" sort" scope="col">เลขที่</th>
+                                <th class=" sort" scope="col" style="text-align:end">จำนวนที่สั่ง</th>
+                                <th class=" sort" scope="col" style="text-align:end">ราคารวม</th>
+                                <th class=" sort" scope="col" style="text-align:end">คำสั่ง</th>
                             </tr>
                         </thead>
                         <tbody class=" list">
-                            <tr>
-                                <td class=" budget">$2500 USD</td>
-                                <td class=" budget">$2500 USD</td>
-                                <td class=" budget">$2500 USD</td>
-                                <td class=" budget">$2500 USD</td>
+                            <tr *ngFor="let sOder of sysOderList; let i = index">
+                                <td class=" budget">{{ i + 1 }}</td>
+                                <td class=" budget">{{ sOder.OderNo }}</td>
+                                <td class=" budget" style="text-align:end">{{ sOder.TotalAmount | number : "1.0-0"}}</td>
+                                <td class=" budget" style="text-align:end">{{ sOder.TotalPrice | number : "1.2-2"}} บาท</td>
+                                <td class=" budget" style="text-align:end">
+                                    <div ngbDropdown container="body">
+                                        <button class="btn btn-outline-primary btn-sm" ngbDropdownToggle>จัดการ</button>
+                                        <div ngbDropdownMenu>
+                                            <button ngbDropdownItem >แสดง/แก้ไข</button>
+                                            <button ngbDropdownItem >แจ้งชำระ</button>
+                                            <div class="dropdown-divider"></div>
+                                            <button ngbDropdownItem >ลบ</button>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
