@@ -52,7 +52,8 @@ import { Nl2BrPipeModule } from 'nl2br-pipe';
     HomeComponent,
     PostFeedsComponent,
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

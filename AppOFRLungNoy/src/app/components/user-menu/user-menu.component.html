@@ -9,7 +9,7 @@
             </div>
         </div>
     </a>
-    <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu>
+    <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu  *ngIf="auth.UserID > 0">
         <div class=" dropdown-header noti-title">
             <h6 class="text-overflow m-0">Welcome!</h6>
         </div>
@@ -18,9 +18,18 @@
             <span>My profile</span>
         </a>
         <div class="dropdown-divider"></div>
-        <a href="#!" class="dropdown-item">
+        <button (click)="logout()" class="dropdown-item">
             <i class="ni ni-user-run"></i>
             <span>Logout</span>
+        </button>
+    </div>
+    <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu  *ngIf="auth.UserID===undefined">
+        <div class=" dropdown-header noti-title">
+            <h6 class="text-overflow m-0">Welcome!</h6>
+        </div>
+        <a routerLinkActive="active" [routerLink]="['/login']" class="dropdown-item">
+            <i class="ni ni-single-02"></i>
+            <span>Log In</span>
         </a>
     </div>
 </li>

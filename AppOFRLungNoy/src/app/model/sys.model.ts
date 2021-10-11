@@ -1,4 +1,4 @@
-import { Oder } from "./db.model";
+import { Oder, OderDetail } from './db.model';
 
 export interface ShoppingCart {
   VarietiesID: number;
@@ -14,23 +14,17 @@ export interface Auth {
   UserID: number;
   AuthToken: string;
   Name: string;
+  UserType: string;
 }
 
-export interface SysOder {
-  OderID: number;
-  OderNo: string;
-  UserID: number;
-  AddressText: string;
-  ProvinceID: number;
-  DistrictID: number;
-  SubDistrictID: number;
-  Remark: string;
-  StatusCode: string;
-  CreateBy: number;
-  UpdateBy: number;
-  CreateDate: Date;
-  UpdateDate: Date;
-  Active: boolean;
-  TotalAmount : number;
-  TotalPrice : number;
+export interface SysOder extends Oder {
+  ConfigDisplay: string;
+  TotalAmount: number;
+  TotalPrice: number;
+}
+
+export interface SysOderDetail extends OderDetail {
+  ConfigDisplay: string;
+  Name: string;
+  TotalPrice: number;
 }

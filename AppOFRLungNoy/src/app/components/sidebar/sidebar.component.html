@@ -47,19 +47,18 @@
         </div>
       </form>
       <!-- Navigation -->
-      <ul class="navbar-nav">
-        <li *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
+      <ul class="navbar-nav" *ngFor="let menuItem of menuItems">
+        <li class="{{menuItem.class}} nav-item"
+          *ngIf="auth.UserType=='UA' || auth.UserType==menuItem.permission || menuItem.permission == ''">
           <a routerLinkActive="active" [routerLink]="[menuItem.path]" class="nav-link">
             <i class="ni {{menuItem.icon}}"></i>
             {{menuItem.title}}
           </a>
         </li>
       </ul>
-      <!-- Divider -->
+      <!-- Divider
       <hr class="my-3">
-      <!-- Heading -->
       <h6 class="navbar-heading text-muted">Documentation</h6>
-      <!-- Navigation -->
       <ul class="navbar-nav mb-md-3">
         <li class="nav-item">
           <a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard-angular/documentation/tutorial">
@@ -76,7 +75,7 @@
             <i class="ni ni-ui-04"></i> Components
           </a>
         </li>
-      </ul>
+      </ul> -->
     </div>
   </div>
 </nav>

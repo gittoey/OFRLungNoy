@@ -10,8 +10,9 @@ import { Auth } from 'src/app/model/sys.model';
 export class UserProfileComponent implements OnInit {
   private auth:Auth = {
     UserID: -1,
-    AuthToken:'',
-    Name: ''
+    AuthToken: '',
+    Name: '',
+    UserType: ''
   };
   private userID: number = -1;
 

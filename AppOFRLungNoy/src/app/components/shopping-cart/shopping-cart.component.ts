@@ -99,6 +99,7 @@ export class ShoppingCartComponent implements OnInit {
     UserID: -1,
     AuthToken: '',
     Name: '',
+    UserType: ''
   };
 
   constructor(

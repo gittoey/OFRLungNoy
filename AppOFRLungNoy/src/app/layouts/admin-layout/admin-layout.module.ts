@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -21,12 +22,8 @@ import { MatSelectModule } from '@angular/material/select';
     NgbModule,
     ClipboardModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  declarations: [
-    DashboardComponent,
-    UserProfileComponent
-  ]
+  declarations: [DashboardComponent, UserProfileComponent],
 })
-
 export class AdminLayoutModule {}

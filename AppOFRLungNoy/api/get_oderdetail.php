@@ -14,34 +14,26 @@ if ($mysqli->connect_errno) {
 }
 
 $sql = "
-SELECT 
-    `Oder`.* ,
-    systemconfig.ConfigDisplay,
-    od.TotalAmount,
-    od.TotalPrice
+SELECT
+	oderdetail.*,
+	varieties.`Name`,
+	systemconfig.ConfigDisplay,
+    0 AS TotalPrice
 FROM
-    oder
-    INNER JOIN systemconfig ON systemconfig.ConfigCode = 'Oder' AND systemconfig.ConfigValue = `Oder`.StatusCode
-    INNER JOIN
-    (
-        SELECT
-            oderdetail.OderID, 
-            COUNT(oderdetail.OderDetailID) TotalAmount, 
-            SUM(oderdetail.SellingPrice * oderdetail.Amount) TotalPrice
-        FROM
-            oderdetail
-        WHERE oderdetail.Active = true
-        GROUP BY
-            oderdetail.OderID
-) od ON oder.OderID = od.OderID 
-WHERE `Oder`.`Active` = TRUE AND `Oder`.`UserID` = {$_POST["UserID"]}
+	oderdetail
+	INNER JOIN
+	varieties
+	ON 
+		oderdetail.VarietiesID = varieties.VarietiesID
+	INNER JOIN
+	systemconfig
+	ON 
+		oderdetail.GradeCode = systemconfig.ConfigValue AND
+		systemconfig.ConfigCode = 'Grade'
+WHERE `oderdetail`.`Active` = TRUE AND `oderdetail`.`OderID` = {$_POST["OderID"]}
 ";
 
-if ($_POST["OderNo"] != "") {
-    $sql .= " AND `Oder`.`OderNo` LIKE '%{$mysqli->real_escape_string($_POST["OderNo"])}%'";
-}
-
-$sql .= " ORDER BY `Oder`.`UpdateDate` DESC";
+$sql .= " ORDER BY `oderdetail`.`OderDetailID` ASC";
 
 $_POST["Return"]["SQL"] = $sql;
 $result = $mysqli->query($sql);
@@ -68,6 +60,6 @@ $mysqli->close();
 
 $_POST["Return"]["Status"] = "Yes";
 $_POST["Return"]["Type"] = "Geted";
-$_POST["Return"]["SysOder"] = $dataReturn;
+$_POST["Return"]["SysOderDetail"] = $dataReturn;
 
 echo json_encode($_POST);

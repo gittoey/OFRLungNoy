@@ -15,8 +15,9 @@ import { Md5 } from 'ts-md5/dist/md5';
 export class LoginComponent implements OnInit, OnDestroy {
   private auth:Auth = {
     UserID: -1,
-    AuthToken:'',
-    Name: ''
+    AuthToken: '',
+    Name: '',
+    UserType: ''
   };
   
   @Input() login : Login={Username:"",Password:""};
@@ -78,11 +79,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.auth.UserID = data.Return.User.UserID;
       this.auth.AuthToken = Auth.toString();
       this.auth.Name = data.Return.User.Name;
+      this.auth.UserType = data.Return.User.Type
       localStorage.setItem('currentUser', JSON.stringify(this.auth||""));
 
       console.log(this.auth);
 
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/shop']);
     }).catch((err) => {
       this.alert.err(err);
     });
