@@ -373,14 +373,14 @@
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
-                                                     ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()">
+                                                     ngbDatepicker #d="ngbDatepicker" [(ngModel)]="payDate" (click)="d.toggle()">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-8 col-md-12">
                                     <div class="form-group">
-                                        <label class="form-control-label" for="Img">รูปพันธุ์ทุเรียน</label>
+                                        <label class="form-control-label" for="Img">ภาพหลักฐานการชำระ</label>
                                         <input type="file" id="Img" name="Img" #takeInput (change)="setFromFile($event)"
                                             accept="image/*" class="form-control form-control-alternative">
                                     </div>

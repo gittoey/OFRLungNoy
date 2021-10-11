@@ -32,6 +32,9 @@ import { SysService } from 'src/app/service/sys.service';
   styleUrls: ['./oders.component.scss'],
 })
 export class OdersComponent implements OnInit {
+  public payDate : string = '';
+
+
   private auth: Auth = {
     UserID: -1,
     AuthToken: '',
@@ -503,6 +506,22 @@ export class OdersComponent implements OnInit {
     });
   }
   savePayment() {
+    let errText = '';    
+    if (this.payDate == '') {
+      errText = 'เลือก : วันที่ชำระ';
+    }
+
+    if (!this.from.get('File')) {
+      if (errText != '') {
+        errText += '\n';
+      }
+      errText += 'เลือก : ภาพหลักฐานการชำระ';
+    }
+
+    if (errText != '') {
+      this.alert.err(errText);
+      return;
+    }
     this.oder.UserID = this.auth.UserID;
     this.oder.CreateBy = this.auth.UserID;
     this.oder.UpdateBy = this.auth.UserID;
