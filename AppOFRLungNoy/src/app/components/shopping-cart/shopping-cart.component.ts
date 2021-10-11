@@ -185,6 +185,7 @@ export class ShoppingCartComponent implements OnInit {
 
     if(this.auth.UserID === undefined){
       this.router.navigate(['/login']);
+      return;
     }
 
     this.oder.UserID = this.auth.UserID;
