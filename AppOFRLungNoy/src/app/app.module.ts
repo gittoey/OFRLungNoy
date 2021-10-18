@@ -20,10 +20,11 @@ import { MeatComponent } from './pages/durian-master-data/meat/meat.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatBadgeModule } from '@angular/material/badge';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { OdersComponent } from './pages/oders/oders.component';
+import { OrdersComponent } from './pages/orders/orders.component';
 import { HomeComponent } from './pages/home/home.component';
 import { PostFeedsComponent } from './pages/post-feeds/post-feeds.component';
 import { Nl2BrPipeModule } from 'nl2br-pipe';
+import { CheckOrderComponent } from './pages/check-order/check-order.component';
 
 @NgModule({
   imports: [
@@ -48,9 +49,10 @@ import { Nl2BrPipeModule } from 'nl2br-pipe';
     GradeComponent,
     PriceComponent,
     MeatComponent,
-    OdersComponent,
+    OrdersComponent,
     HomeComponent,
     PostFeedsComponent,
+    CheckOrderComponent,
   ],
   providers: [
   ],

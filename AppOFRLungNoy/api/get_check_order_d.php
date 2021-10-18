@@ -15,25 +15,15 @@ if ($mysqli->connect_errno) {
 
 $sql = "
 SELECT
-	oderdetail.*,
-	varieties.`Name`,
-	systemconfig.ConfigDisplay,
-    0 AS TotalPrice
+	orderpayment.*
 FROM
-	oderdetail
-	INNER JOIN
-	varieties
-	ON 
-		oderdetail.VarietiesID = varieties.VarietiesID
-	INNER JOIN
-	systemconfig
-	ON 
-		oderdetail.GradeCode = systemconfig.ConfigValue AND
-		systemconfig.ConfigCode = 'Grade'
-WHERE `oderdetail`.`Active` = TRUE AND `oderdetail`.`OderID` = {$_POST["OderID"]}
+	orderpayment
+WHERE
+	orderpayment.OrderID = {$_POST["OrderID"]}
+ORDER BY
+	orderpayment.OrderPaymentID DESC
+LIMIT 1
 ";
-
-$sql .= " ORDER BY `oderdetail`.`OderDetailID` ASC";
 
 $_POST["Return"]["SQL"] = $sql;
 $result = $mysqli->query($sql);
@@ -60,6 +50,6 @@ $mysqli->close();
 
 $_POST["Return"]["Status"] = "Yes";
 $_POST["Return"]["Type"] = "Geted";
-$_POST["Return"]["SysOderDetail"] = $dataReturn;
+$_POST["Return"]["OrderPayment"] = $dataReturn;
 
 echo json_encode($_POST);

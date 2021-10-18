@@ -9,17 +9,13 @@ import {
 import { NgxSpinnerService } from 'ngx-spinner';
 import {
   District,
-  Oder,
-  OderDetail,
+  Order,
+  OrderDetail,
+  OrderPayment,
   Province,
   SubDistrict,
 } from 'src/app/model/db.model';
-import {
-  Auth,
-  ShoppingCart,
-  SysOder,
-  SysOderDetail,
-} from 'src/app/model/sys.model';
+import { Auth, SysOrder, SysOrderDetail } from 'src/app/model/sys.model';
 import { AlertService } from 'src/app/service/alert.service';
 import { BackendService } from 'src/app/service/backend.service';
 import { DataService } from 'src/app/service/data.service';
@@ -27,13 +23,12 @@ import { PopupService } from 'src/app/service/popup.service';
 import { SysService } from 'src/app/service/sys.service';
 
 @Component({
-  selector: 'app-oders',
-  templateUrl: './oders.component.html',
-  styleUrls: ['./oders.component.scss'],
+  selector: 'app-orders',
+  templateUrl: './orders.component.html',
+  styleUrls: ['./orders.component.scss'],
 })
-export class OdersComponent implements OnInit {
-  public payDate : string = '';
-
+export class OrdersComponent implements OnInit {
+  public payDate: any;
 
   private auth: Auth = {
     UserID: -1,
@@ -42,9 +37,9 @@ export class OdersComponent implements OnInit {
     UserType: '',
   };
 
-  public oder: Oder = {
-    OderID: 0,
-    OderNo: '',
+  public order: Order = {
+    OrderID: 0,
+    OrderNo: '',
     UserID: 0,
     AddressText: '',
     ProvinceID: 0,
@@ -58,12 +53,12 @@ export class OdersComponent implements OnInit {
     UpdateDate: new Date(),
     Active: true,
   };
-  public sysOder: SysOder = {
+  public sysOrder: SysOrder = {
     ConfigDisplay: '',
     TotalAmount: 0,
     TotalPrice: 0,
-    OderID: 0,
-    OderNo: '',
+    OrderID: 0,
+    OrderNo: '',
     UserID: 0,
     AddressText: '',
     ProvinceID: 0,
@@ -77,11 +72,11 @@ export class OdersComponent implements OnInit {
     UpdateDate: new Date(),
     Active: false,
   };
-  public sysOderList: Array<SysOder> = [];
+  public sysOrderList: Array<SysOrder> = [];
 
-  public oderDetail: OderDetail = {
-    OderDetailID: 0,
-    OderID: 0,
+  public orderDetail: OrderDetail = {
+    OrderDetailID: 0,
+    OrderID: 0,
     VarietiesID: 0,
     GradeCode: '',
     SellingPrice: 0,
@@ -92,11 +87,11 @@ export class OdersComponent implements OnInit {
     UpdateDate: new Date(),
     Active: true,
   };
-  public oderDetailList: Array<OderDetail> = [];
+  public orderDetailList: Array<OrderDetail> = [];
 
-  public sysOderDetailList: Array<SysOderDetail> = [];
+  public sysOrderDetailList: Array<SysOrderDetail> = [];
 
-  public searchOderNo: string = '';
+  public searchOrderNo: string = '';
 
   @Input() province: Province = {
     ProvinceID: 0,
@@ -127,25 +122,25 @@ export class OdersComponent implements OnInit {
   };
   public subDistrictList: Array<SubDistrict> = [];
 
-  public shoppingCartList: Array<ShoppingCart> = [];
-  public shoppingCart: ShoppingCart = {
-    VarietiesID: 0,
-    VarietiesName: '',
-    GradeCode: '',
-    GradeName: '',
-    SellingPrice: 0,
-    Amount: 0,
-    TotalPrice: 0,
-  };
-
   public sumTotalPrice: number = 0;
-  public countShoppingCart: number = 0;
 
   @ViewChild('takeInput', { static: false })
   InputVar: ElementRef = {
     nativeElement: null,
   };
   public from: FormData = new FormData();
+
+  public orderPayment: OrderPayment = {
+    OrderPaymentID: 0,
+    OrderID: 0,
+    PaymentDate: '',
+    PaymentImg: '',
+    CreateBy: 0,
+    UpdateBy: 0,
+    CreateDate: new Date(),
+    UpdateDate: new Date(),
+    Active: false,
+  };
 
   constructor(
     private popup: PopupService,
@@ -158,62 +153,62 @@ export class OdersComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.auth = await this.sys.ckLogin();
-    await this.getOder('');
+    await this.getOrder('');
   }
 
-  async getOder(oderNo: string) {
+  async getOrder(orderNo: string) {
     this.spinner.show();
     this.bs
-      .post('get_oder.php', { UserID: this.auth.UserID, OderNo: oderNo })
+      .post('get_order.php', { UserID: this.auth.UserID, OrderNo: orderNo })
       .then((d: any) => {
         this.spinner.hide();
-        if (d.Return.SysOder != 0) {
-          this.sysOderList = d.Return.SysOder;
+        if (d.Return.SysOrder != 0) {
+          this.sysOrderList = d.Return.SysOrder;
         } else {
-          this.sysOderList = [];
+          this.sysOrderList = [];
         }
       });
   }
 
   setFromFile(event: any) {
     this.bs.setFormDataFile(this.from, 'File', event);
-    this.from.append('Path', 'VarietiesImg/');
+    this.from.append('Path', 'OrderPayment/');
   }
 
   search() {
-    this.getOder(this.searchOderNo);
+    this.getOrder(this.searchOrderNo);
   }
 
-  async openOderDetail(content: TemplateRef<any>, sOder: SysOder) {
-    this.oder = <Oder>sOder;
+  async openOrderDetail(content: TemplateRef<any>, sOrder: SysOrder) {
+    this.order = <Order>sOrder;
     this.getProvince();
     this.getDistrict();
     this.getSubDistrict();
-    await this.getOderDetailList();
+    await this.getOrderDetailList();
     this.popup.open_xl(content);
   }
 
-  async openNoticeOfPayment(content: TemplateRef<any>, sOder: SysOder) {
-    this.oder = <Oder>sOder;
+  async openNoticeOfPayment(content: TemplateRef<any>, sOrder: SysOrder) {
+    this.order = <Order>sOrder;
     this.getProvince();
     this.getDistrict();
     this.getSubDistrict();
-    await this.getOderDetailList();
+    await this.getOrderDetailList();
     this.popup.open_xl(content);
   }
 
-  async getOderDetailList() {
+  async getOrderDetailList() {
     this.spinner.show();
     await this.bs
-      .post('get_oderdetail.php', { OderID: this.oder.OderID })
+      .post('get_orderdetail.php', { OrderID: this.order.OrderID })
       .then((d: any) => {
         this.spinner.hide();
-        if (d.Return.SysOderDetail != 0) {
-          this.sysOderDetailList = d.Return.SysOderDetail;
+        if (d.Return.SysOrderDetail != 0) {
+          this.sysOrderDetailList = d.Return.SysOrderDetail;
         } else {
-          this.sysOderDetailList = [];
+          this.sysOrderDetailList = [];
         }
-        this.sysOderDetailList.forEach((a) => {
+        this.sysOrderDetailList.forEach((a) => {
           a.TotalPrice = a.Amount * a.SellingPrice;
         });
         this.sumPrice();
@@ -222,31 +217,31 @@ export class OdersComponent implements OnInit {
   }
 
   changePrice(index: number): void {
-    if (this.sysOderDetailList[index].Amount == 0) {
+    if (this.sysOrderDetailList[index].Amount == 0) {
       this.alert.warn('กรอกราคา มากกว่า 0');
-      this.sysOderDetailList[index].Amount = 1;
+      this.sysOrderDetailList[index].Amount = 1;
     }
-    this.sysOderDetailList[index].TotalPrice =
-      this.sysOderDetailList[index].Amount *
-      this.sysOderDetailList[index].SellingPrice;
+    this.sysOrderDetailList[index].TotalPrice =
+      this.sysOrderDetailList[index].Amount *
+      this.sysOrderDetailList[index].SellingPrice;
     this.sumPrice();
   }
 
   sumPrice() {
     this.sumTotalPrice = 0;
-    this.sysOderDetailList.forEach((a) => {
+    this.sysOrderDetailList.forEach((a) => {
       if (a.Active) {
         this.sumTotalPrice += a.TotalPrice;
       }
     });
   }
 
-  deleteOder(oderID: number) {
-    this.alert.conf('ยืนยันการลบ Oder').then(async (d) => {
+  deleteOrder(orderID: number) {
+    this.alert.conf('ยืนยันการลบ Order').then(async (d) => {
       if (d.isConfirmed) {
-        this.oder = {
-          OderID: oderID,
-          OderNo: '',
+        this.order = {
+          OrderID: orderID,
+          OrderNo: '',
           UserID: 0,
           AddressText: '',
           ProvinceID: 0,
@@ -261,13 +256,13 @@ export class OdersComponent implements OnInit {
           Active: false,
         };
         var Insert = {
-          Table: 'Oder',
-          Data: this.oder,
+          Table: 'Order',
+          Data: this.order,
         };
 
         await this.bs.cu(Insert).then((d: any) => {
           if (d.Return.Status == 'Yes') {
-            var msg = 'ลบรายการ Oder แล้ว';
+            var msg = 'ลบรายการ Order แล้ว';
             this.alert.succ(msg);
             this.ngOnInit();
           }
@@ -276,28 +271,66 @@ export class OdersComponent implements OnInit {
     });
   }
 
-  cancelExaminePaid(oder: Oder) {
+  async saveOrderPayment(
+    orderID: number,
+    paymentDate: string,
+    paymentImg: string
+  ): Promise<number> {
+    this.orderPayment = {
+      OrderPaymentID: 0,
+      OrderID: orderID,
+      PaymentDate: paymentDate,
+      PaymentImg: paymentImg,
+      CreateBy: this.order.CreateBy,
+      UpdateBy: this.order.UpdateBy,
+      CreateDate: new Date(),
+      UpdateDate: new Date(),
+      Active: true,
+    };
+    var Insert = {
+      Table: 'OrderPayment',
+      Data: this.orderPayment,
+    };
+
+    console.log(Insert);
+
+    let lReturn = 1;
+
+    await this.bs.cu(Insert).then((d: any) => {
+      console.log(d);
+      
+      if (d.Return.Status != 'Yes') {
+        var msg = 'บันทึกข้อมูลการชำระไม่สำเร็จ';
+        this.alert.err(msg);
+        lReturn = 0;
+      }
+    });
+
+    return lReturn;
+  }
+
+  cancelExaminePaid(order: Order) {
     this.alert.conf('ต้องการยกเลิกการแจ้งชำระ ใช่หรือไม่').then(async (d) => {
       if (d.isConfirmed) {
-        oder = {
-          OderID: oder.OderID,
-          OderNo: oder.OderNo,
-          UserID: oder.UserID,
-          AddressText: oder.AddressText,
-          ProvinceID: oder.ProvinceID,
-          DistrictID: oder.DistrictID,
-          SubDistrictID: oder.SubDistrictID,
-          Remark: oder.Remark,
+        order = {
+          OrderID: order.OrderID,
+          OrderNo: order.OrderNo,
+          UserID: order.UserID,
+          AddressText: order.AddressText,
+          ProvinceID: order.ProvinceID,
+          DistrictID: order.DistrictID,
+          SubDistrictID: order.SubDistrictID,
+          Remark: order.Remark,
           StatusCode: 'PendingPayment',
-          CreateBy: oder.CreateBy,
-          UpdateBy: oder.UpdateBy,
-          CreateDate: oder.CreateDate,
-          UpdateDate: oder.UpdateDate,
-          Active: oder.Active,
+          CreateBy: order.CreateBy,
+          UpdateBy: order.UpdateBy,
+          CreateDate: order.CreateDate,
+          UpdateDate: order.UpdateDate,
+          Active: order.Active,
         };
         var Insert = {
-          Table: 'Oder',
-          Data: oder,
+          Table: 'Order',
+          Data: order,
         };
 
         await this.bs.cu(Insert).then((d: any) => {
@@ -311,10 +344,10 @@ export class OdersComponent implements OnInit {
     });
   }
 
-  deleteOderDetailList(sysOderDetail: SysOderDetail) {
+  deleteOrderDetailList(sysOrderDetail: SysOrderDetail) {
     this.alert.conf('ต้องการลบรายการทุเรียน ใช่หรือไม่').then((d) => {
       if (d.isConfirmed) {
-        sysOderDetail.Active = false;
+        sysOrderDetail.Active = false;
         this.sumPrice();
       }
     });
@@ -332,13 +365,13 @@ export class OdersComponent implements OnInit {
   }
 
   async getDistrict() {
-    if (this.oder.ProvinceID == 0) {
-      this.oder.DistrictID = 0;
-      this.oder.SubDistrictID = 0;
+    if (this.order.ProvinceID == 0) {
+      this.order.DistrictID = 0;
+      this.order.SubDistrictID = 0;
       return;
     }
     this.bs
-      .post('get_district.php', { ProvinceID: this.oder.ProvinceID })
+      .post('get_district.php', { ProvinceID: this.order.ProvinceID })
       .then((d: any) => {
         this.spinner.hide();
         if (d.Return.District != 0) {
@@ -350,12 +383,12 @@ export class OdersComponent implements OnInit {
   }
 
   async getSubDistrict() {
-    if (this.oder.DistrictID == 0) {
-      this.oder.SubDistrictID = 0;
+    if (this.order.DistrictID == 0) {
+      this.order.SubDistrictID = 0;
       return;
     }
     this.bs
-      .post('get_subdistrict.php', { DistrictID: this.oder.DistrictID })
+      .post('get_subdistrict.php', { DistrictID: this.order.DistrictID })
       .then((d: any) => {
         this.spinner.hide();
         if (d.Return.SubDistrict != 0) {
@@ -367,53 +400,53 @@ export class OdersComponent implements OnInit {
   }
 
   async save() {
-    if (this.sysOderDetailList.length == 0) {
-      this.alert.err('ไม่มีรายการใน Oder');
+    if (this.sysOrderDetailList.length == 0) {
+      this.alert.err('ไม่มีรายการใน Order');
       return;
     }
 
-    this.oder.UserID = this.auth.UserID;
-    this.oder.CreateBy = this.auth.UserID;
-    this.oder.UpdateBy = this.auth.UserID;
-    this.oder.UpdateDate = new Date();
+    this.order.UserID = this.auth.UserID;
+    this.order.CreateBy = this.auth.UserID;
+    this.order.UpdateBy = this.auth.UserID;
+    this.order.UpdateDate = new Date();
 
-    this.oder = {
-      OderID: this.oder.OderID,
-      OderNo: this.oder.OderNo,
-      UserID: this.oder.UserID,
-      AddressText: this.oder.AddressText,
-      ProvinceID: this.oder.ProvinceID,
-      DistrictID: this.oder.DistrictID,
-      SubDistrictID: this.oder.SubDistrictID,
-      Remark: this.oder.Remark,
-      StatusCode: this.oder.StatusCode,
-      CreateBy: this.oder.CreateBy,
-      UpdateBy: this.oder.UpdateBy,
-      CreateDate: this.oder.CreateDate,
-      UpdateDate: this.oder.UpdateDate,
-      Active: this.oder.Active,
+    this.order = {
+      OrderID: this.order.OrderID,
+      OrderNo: this.order.OrderNo,
+      UserID: this.order.UserID,
+      AddressText: this.order.AddressText,
+      ProvinceID: this.order.ProvinceID,
+      DistrictID: this.order.DistrictID,
+      SubDistrictID: this.order.SubDistrictID,
+      Remark: this.order.Remark,
+      StatusCode: this.order.StatusCode,
+      CreateBy: this.order.CreateBy,
+      UpdateBy: this.order.UpdateBy,
+      CreateDate: this.order.CreateDate,
+      UpdateDate: this.order.UpdateDate,
+      Active: this.order.Active,
     };
 
     let errText = '';
-    if (this.oder.AddressText == '') {
+    if (this.order.AddressText == '') {
       errText = 'กรอก : บ้านเลขที่, หมู่, ซอย';
     }
 
-    if (this.oder.ProvinceID == 0) {
+    if (this.order.ProvinceID == 0) {
       if (errText != '') {
         errText += '\n';
       }
       errText += 'เลือก : จังหวัด';
     }
 
-    if (this.oder.DistrictID == 0) {
+    if (this.order.DistrictID == 0) {
       if (errText != '') {
         errText += '\n';
       }
       errText += 'เลือก : อำเภอ';
     }
 
-    if (this.oder.SubDistrictID == 0) {
+    if (this.order.SubDistrictID == 0) {
       if (errText != '') {
         errText += '\n';
       }
@@ -425,33 +458,33 @@ export class OdersComponent implements OnInit {
       return;
     }
 
-    this.alert.conf('ยืนยันการแก้ไข Oder').then(async (d) => {
+    this.alert.conf('ยืนยันการแก้ไข Order').then(async (d) => {
       if (d.isConfirmed) {
         var Insert = {
-          Table: 'Oder',
-          Data: this.oder,
+          Table: 'Order',
+          Data: this.order,
         };
 
         await this.bs.cu(Insert).then((d: any) => {
           if (d.Return.Status == 'Yes') {
-            this.sysOderDetailList.forEach((sSysOderDetail) => {
-              this.oderDetail = {
-                OderDetailID: sSysOderDetail.OderDetailID,
-                OderID: this.oder.OderID,
-                VarietiesID: sSysOderDetail.VarietiesID,
-                GradeCode: sSysOderDetail.GradeCode,
-                SellingPrice: sSysOderDetail.SellingPrice,
-                Amount: sSysOderDetail.Amount,
+            this.sysOrderDetailList.forEach((sSysOrderDetail) => {
+              this.orderDetail = {
+                OrderDetailID: sSysOrderDetail.OrderDetailID,
+                OrderID: this.order.OrderID,
+                VarietiesID: sSysOrderDetail.VarietiesID,
+                GradeCode: sSysOrderDetail.GradeCode,
+                SellingPrice: sSysOrderDetail.SellingPrice,
+                Amount: sSysOrderDetail.Amount,
                 CreateBy: this.auth.UserID,
                 UpdateBy: this.auth.UserID,
                 CreateDate: new Date(),
                 UpdateDate: new Date(),
-                Active: sSysOderDetail.Active,
+                Active: sSysOrderDetail.Active,
               };
 
               var Insert = {
-                Table: 'OderDetail',
-                Data: this.oderDetail,
+                Table: 'OrderDetail',
+                Data: this.orderDetail,
               };
 
               this.bs.cu(Insert).then((d: any) => {
@@ -468,9 +501,9 @@ export class OdersComponent implements OnInit {
             var msg = 'แก้ไขการสั่งจองแล้ว\nกรุณาชำระและแจ้งชำระในขั้นตอนถัดไป';
             this.alert.succ(msg);
 
-            this.oder = {
-              OderID: 0,
-              OderNo: '',
+            this.order = {
+              OrderID: 0,
+              OrderNo: '',
               UserID: 0,
               AddressText: '',
               ProvinceID: 0,
@@ -485,14 +518,6 @@ export class OdersComponent implements OnInit {
               Active: false,
             };
 
-            this.shoppingCartList = [];
-            this.dataService.changeCountShoppingCart(
-              this.shoppingCartList.length
-            );
-            localStorage.setItem(
-              'shoppingCartList',
-              JSON.stringify(this.shoppingCartList)
-            );
             this.sumPrice();
           } else {
             this.alert.err(d.Return.Message);
@@ -506,8 +531,8 @@ export class OdersComponent implements OnInit {
     });
   }
   savePayment() {
-    let errText = '';    
-    if (this.payDate == '') {
+    let errText = '';
+    if (this.payDate == undefined) {
       errText = 'เลือก : วันที่ชำระ';
     }
 
@@ -522,37 +547,57 @@ export class OdersComponent implements OnInit {
       this.alert.err(errText);
       return;
     }
-    this.oder.UserID = this.auth.UserID;
-    this.oder.CreateBy = this.auth.UserID;
-    this.oder.UpdateBy = this.auth.UserID;
-    this.oder.UpdateDate = new Date();
-
-    this.oder = {
-      OderID: this.oder.OderID,
-      OderNo: this.oder.OderNo,
-      UserID: this.oder.UserID,
-      AddressText: this.oder.AddressText,
-      ProvinceID: this.oder.ProvinceID,
-      DistrictID: this.oder.DistrictID,
-      SubDistrictID: this.oder.SubDistrictID,
-      Remark: this.oder.Remark,
-      StatusCode: 'ExaminePaid',
-      CreateBy: this.oder.CreateBy,
-      UpdateBy: this.oder.UpdateBy,
-      CreateDate: this.oder.CreateDate,
-      UpdateDate: this.oder.UpdateDate,
-      Active: this.oder.Active,
-    };
 
     this.alert.conf('ยืนยันการแจ้งชำระ').then(async (d) => {
       if (d.isConfirmed) {
+        this.order.UserID = this.auth.UserID;
+        this.order.CreateBy = this.auth.UserID;
+        this.order.UpdateBy = this.auth.UserID;
+        this.order.UpdateDate = new Date();
+
+        this.order = {
+          OrderID: this.order.OrderID,
+          OrderNo: this.order.OrderNo,
+          UserID: this.order.UserID,
+          AddressText: this.order.AddressText,
+          ProvinceID: this.order.ProvinceID,
+          DistrictID: this.order.DistrictID,
+          SubDistrictID: this.order.SubDistrictID,
+          Remark: this.order.Remark,
+          StatusCode: 'ExaminePaid',
+          CreateBy: this.order.CreateBy,
+          UpdateBy: this.order.UpdateBy,
+          CreateDate: this.order.CreateDate,
+          UpdateDate: this.order.UpdateDate,
+          Active: this.order.Active,
+        };
+
+        let PathFile: string = '';
+
+        await this.bs.uploadFile(this.from).then((d: any) => {
+          PathFile = d.PathFileName;
+        });
+
+        let ops = await this.saveOrderPayment(
+          this.order.OrderID,
+          this.payDate.year.toString()+'-'+this.payDate.month.toString()+'-'+this.payDate.day.toString(),
+          PathFile
+        );        
+
+        if ((ops = 0)) {
+          this.alert.err('บันทึกการแจ้งชำระไม่สำเร็จ');
+          this.popup.ref?.close();
+          return;
+        }
+
         var Insert = {
-          Table: 'Oder',
-          Data: this.oder,
+          Table: 'Order',
+          Data: this.order,
         };
 
         await this.bs.cu(Insert).then((d: any) => {
           if (d.Return.Status == 'Yes') {
+            this.alert.succ('บันทึกการแจ้งชำระสำเร็จ');
             this.ngOnInit();
             this.popup.ref?.close();
           }

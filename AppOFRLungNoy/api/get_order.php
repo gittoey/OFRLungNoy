@@ -15,33 +15,34 @@ if ($mysqli->connect_errno) {
 
 $sql = "
 SELECT 
-    `Oder`.* ,
+    `Order`.* ,
     systemconfig.ConfigDisplay,
     od.TotalAmount,
     od.TotalPrice
 FROM
-    oder
-    INNER JOIN systemconfig ON systemconfig.ConfigCode = 'Oder' AND systemconfig.ConfigValue = `Oder`.StatusCode
-    INNER JOIN
-    (
-        SELECT
-            oderdetail.OderID, 
-            COUNT(oderdetail.OderDetailID) TotalAmount, 
-            SUM(oderdetail.SellingPrice * oderdetail.Amount) TotalPrice
-        FROM
-            oderdetail
-        WHERE oderdetail.Active = true
-        GROUP BY
-            oderdetail.OderID
-) od ON oder.OderID = od.OderID 
-WHERE `Oder`.`Active` = TRUE AND `Oder`.`UserID` = {$_POST["UserID"]}
+	`Order`
+	INNER JOIN systemconfig ON systemconfig.ConfigCode = 'Order' 
+	AND systemconfig.ConfigValue = `Order`.StatusCode
+	INNER JOIN (
+	SELECT
+		orderdetail.OrderID,
+		COUNT( orderdetail.OrderDetailID ) TotalAmount,
+		SUM( orderdetail.SellingPrice * orderdetail.Amount ) TotalPrice 
+	FROM
+		orderdetail 
+	WHERE
+		orderdetail.Active = TRUE 
+	GROUP BY
+		orderdetail.OrderID 
+	) od ON `Order`.OrderID = od.OrderID 
+WHERE `Order`.`Active` = TRUE AND `Order`.`UserID` = {$_POST["UserID"]}
 ";
 
-if ($_POST["OderNo"] != "") {
-    $sql .= " AND `Oder`.`OderNo` LIKE '%{$mysqli->real_escape_string($_POST["OderNo"])}%'";
+if ($_POST["OrderNo"] != "") {
+    $sql .= " AND `Order`.`OrderNo` LIKE '%{$mysqli->real_escape_string($_POST["OrderNo"])}%'";
 }
 
-$sql .= " ORDER BY `Oder`.`UpdateDate` DESC";
+$sql .= " ORDER BY `Order`.`UpdateDate` DESC";
 
 $_POST["Return"]["SQL"] = $sql;
 $result = $mysqli->query($sql);
@@ -68,6 +69,6 @@ $mysqli->close();
 
 $_POST["Return"]["Status"] = "Yes";
 $_POST["Return"]["Type"] = "Geted";
-$_POST["Return"]["SysOder"] = $dataReturn;
+$_POST["Return"]["SysOrder"] = $dataReturn;
 
 echo json_encode($_POST);

@@ -1,4 +1,4 @@
-import { Oder, OderDetail } from './db.model';
+import { Order, OrderDetail } from './db.model';
 
 export interface ShoppingCart {
   VarietiesID: number;
@@ -17,14 +17,18 @@ export interface Auth {
   UserType: string;
 }
 
-export interface SysOder extends Oder {
+export interface SysOrder extends Order {
   ConfigDisplay: string;
   TotalAmount: number;
   TotalPrice: number;
 }
 
-export interface SysOderDetail extends OderDetail {
+export interface SysOrderDetail extends OrderDetail {
   ConfigDisplay: string;
   Name: string;
   TotalPrice: number;
+}
+
+export interface SysCheckOrder extends SysOrder {
+  OrderByName: string;
 }

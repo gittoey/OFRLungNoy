@@ -5,8 +5,8 @@ import { DataService } from 'src/app/service/data.service';
 import { AlertService } from 'src/app/service/alert.service';
 import { Router } from '@angular/router';
 import {
-  Oder,
-  OderDetail,
+  Order,
+  OrderDetail,
   Province,
   District,
   SubDistrict,
@@ -20,9 +20,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./shopping-cart.component.scss'],
 })
 export class ShoppingCartComponent implements OnInit {
-  public oder: Oder = {
-    OderID: 0,
-    OderNo: '',
+  public order: Order = {
+    OrderID: 0,
+    OrderNo: '',
     UserID: 0,
     AddressText: '',
     ProvinceID: 0,
@@ -37,9 +37,9 @@ export class ShoppingCartComponent implements OnInit {
     Active: true,
   };
 
-  public oderDetail: OderDetail = {
-    OderDetailID: 0,
-    OderID: 0,
+  public orderDetail: OrderDetail = {
+    OrderDetailID: 0,
+    OrderID: 0,
     VarietiesID: 0,
     GradeCode: '',
     SellingPrice: 0,
@@ -50,7 +50,7 @@ export class ShoppingCartComponent implements OnInit {
     UpdateDate: new Date(),
     Active: true,
   };
-  public oderDetailList: Array<OderDetail> = [];
+  public orderDetailList: Array<OrderDetail> = [];
 
   @Input() province: Province = {
     ProvinceID: 0,
@@ -188,30 +188,30 @@ export class ShoppingCartComponent implements OnInit {
       return;
     }
 
-    this.oder.UserID = this.auth.UserID;
-    this.oder.CreateBy = this.auth.UserID;
-    this.oder.UpdateBy = this.auth.UserID;
+    this.order.UserID = this.auth.UserID;
+    this.order.CreateBy = this.auth.UserID;
+    this.order.UpdateBy = this.auth.UserID;
 
     let errText = '';
-    if (this.oder.AddressText == '') {
+    if (this.order.AddressText == '') {
       errText = 'กรอก : บ้านเลขที่, หมู่, ซอย';
     }
 
-    if (this.oder.ProvinceID == 0) {
+    if (this.order.ProvinceID == 0) {
       if (errText != '') {
         errText += '\n';
       }
       errText += 'เลือก : จังหวัด';
     }
 
-    if (this.oder.DistrictID == 0) {
+    if (this.order.DistrictID == 0) {
       if (errText != '') {
         errText += '\n';
       }
       errText += 'เลือก : อำเภอ';
     }
 
-    if (this.oder.SubDistrictID == 0) {
+    if (this.order.SubDistrictID == 0) {
       if (errText != '') {
         errText += '\n';
       }
@@ -224,16 +224,16 @@ export class ShoppingCartComponent implements OnInit {
     }
 
     var Insert = {
-      Table: 'Oder',
-      Data: this.oder,
+      Table: 'Order',
+      Data: this.order,
     };
 
     await this.bs.cu(Insert).then((d: any) => {
       if (d.Return.Status == 'Yes') {
         this.shoppingCartList.forEach((sShoppingCart) => {
-          this.oderDetail = {
-            OderDetailID: 0,
-            OderID: d.Return.insert_id,
+          this.orderDetail = {
+            OrderDetailID: 0,
+            OrderID: d.Return.insert_id,
             VarietiesID: sShoppingCart.VarietiesID,
             GradeCode: sShoppingCart.GradeCode,
             SellingPrice: sShoppingCart.SellingPrice,
@@ -246,8 +246,8 @@ export class ShoppingCartComponent implements OnInit {
           };
 
           var Insert = {
-            Table: 'OderDetail',
-            Data: this.oderDetail,
+            Table: 'OrderDetail',
+            Data: this.orderDetail,
           };
 
           this.bs.cu(Insert).then((d: any) => {
@@ -262,9 +262,9 @@ export class ShoppingCartComponent implements OnInit {
         var msg = 'ยืนยันการสั่งจองแล้ว\nกรุณาชำระและแจ้งชำระในขั้นตอนถัดไป';
         this.alert.succ(msg);
 
-        this.oder = {
-          OderID: 0,
-          OderNo: '',
+        this.order = {
+          OrderID: 0,
+          OrderNo: '',
           UserID: 0,
           AddressText: '',
           ProvinceID: 0,
@@ -292,7 +292,7 @@ export class ShoppingCartComponent implements OnInit {
     });
     this.spinner.hide();
 
-    this.router.navigate(['/oders']);
+    this.router.navigate(['/orders']);
   }
 
   async getProvince() {
@@ -307,13 +307,13 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   async getDistrict() {
-    if (this.oder.ProvinceID == 0) {
-      this.oder.DistrictID = 0;
-      this.oder.SubDistrictID = 0;
+    if (this.order.ProvinceID == 0) {
+      this.order.DistrictID = 0;
+      this.order.SubDistrictID = 0;
       return;
     }
     this.bs
-      .post('get_district.php', { ProvinceID: this.oder.ProvinceID })
+      .post('get_district.php', { ProvinceID: this.order.ProvinceID })
       .then((d: any) => {
         this.spinner.hide();
         if (d.Return.District != 0) {
@@ -325,12 +325,12 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   async getSubDistrict() {
-    if (this.oder.DistrictID == 0) {
-      this.oder.SubDistrictID = 0;
+    if (this.order.DistrictID == 0) {
+      this.order.SubDistrictID = 0;
       return;
     }
     this.bs
-      .post('get_subdistrict.php', { DistrictID: this.oder.DistrictID })
+      .post('get_subdistrict.php', { DistrictID: this.order.DistrictID })
       .then((d: any) => {
         this.spinner.hide();
         if (d.Return.SubDistrict != 0) {

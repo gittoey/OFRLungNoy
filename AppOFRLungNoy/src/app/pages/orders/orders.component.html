@@ -16,7 +16,7 @@
                         <div class=" col-6 text-right">
                             <div class="row">
                                 <div class=" col-md-9"><input class=" form-control form-control-sm"
-                                        placeholder="ค้นหา เลขที่" type="text" [(ngModel)]="searchOderNo"></div>
+                                        placeholder="ค้นหา เลขที่" type="text" [(ngModel)]="searchOrderNo"></div>
                                 <div class=" col-md-3"><button class=" btn btn-primary btn-sm btn-block" type="button"
                                         (click)="search()"> ค้นหา </button></div>
                             </div>
@@ -36,40 +36,40 @@
                             </tr>
                         </thead>
                         <tbody class=" list">
-                            <tr *ngFor="let sOder of sysOderList; let i = index">
+                            <tr *ngFor="let sOrder of sysOrderList; let i = index">
                                 <td class=" budget">{{ i + 1 }}</td>
                                 <td class=" budget">
                                     <div ngbDropdown container="body">
-                                        <button class="btn btn-outline-primary btn-sm" ngbDropdownToggle>{{ sOder.OderNo
+                                        <button class="btn btn-outline-primary btn-sm" ngbDropdownToggle>{{ sOrder.OrderNo
                                             }}</button>
                                         <div ngbDropdownMenu>
                                             <button ngbDropdownItem
-                                                (click)="openOderDetail(Oder, sOder)">แสดง/แก้ไข</button>
-                                            <button ngbDropdownItem *ngIf="sOder.StatusCode=='PendingPayment'"
-                                                (click)="openNoticeOfPayment(NoticeOfPayment, sOder)">แจ้งชำระ</button>
-                                            <button ngbDropdownItem *ngIf="sOder.StatusCode=='ExaminePaid'"
-                                                (click)="openNoticeOfPayment(NoticeOfPayment, sOder)">แก้ไขการแจ้งชำระ</button>
-                                            <div class="dropdown-divider"
-                                                *ngIf="sOder.StatusCode=='PendingPayment' || sOder.StatusCode=='ExaminePaid'">
+                                                (click)="openOrderDetail(Order, sOrder)">แสดง/แก้ไข</button>
+                                            <button ngbDropdownItem *ngIf="sOrder.StatusCode=='PendingPayment'"
+                                                (click)="openNoticeOfPayment(NoticeOfPayment, sOrder)">แจ้งชำระ</button>
+                                            <button ngbDropdownItem *ngIf="sOrder.StatusCode=='ExaminePaid'"
+                                                (click)="openNoticeOfPayment(NoticeOfPayment, sOrder)">แก้ไขการแจ้งชำระ</button>
+                                            <div class="dropdown-divirder"
+                                                *ngIf="sOrder.StatusCode=='PendingPayment' || sOrder.StatusCode=='ExaminePaid'">
                                             </div>
-                                            <button ngbDropdownItem *ngIf="sOder.StatusCode=='ExaminePaid'"
-                                                (click)="cancelExaminePaid(sOder)">ยกเลิกการแจ้งชำระ</button>
+                                            <button ngbDropdownItem *ngIf="sOrder.StatusCode=='ExaminePaid'"
+                                                (click)="cancelExaminePaid(sOrder)">ยกเลิกการแจ้งชำระ</button>
                                             <button ngbDropdownItem
-                                                *ngIf="sOder.StatusCode=='PendingPayment' || sOder.StatusCode=='ExaminePaid'"
-                                                (click)="deleteOder(sOder.OderID)">ลบ</button>
+                                                *ngIf="sOrder.StatusCode=='PendingPayment' || sOrder.StatusCode=='ExaminePaid'"
+                                                (click)="deleteOrder(sOrder.OrderID)">ลบ</button>
                                         </div>
                                     </div>
                                 </td>
                                 <td class=" budget">
-                                    {{ sOder.CreateDate | date:'dd/MM/yyyy hh:mm:ss' }}
+                                    {{ sOrder.CreateDate | date:'dd/MM/yyyy hh:mm:ss' }}
                                 </td>
                                 <td class=" budget" style="text-align:end">
-                                    {{ sOder.TotalAmount | number : "1.0-0"}}
+                                    {{ sOrder.TotalAmount | number : "1.0-0"}}
                                 </td>
                                 <td class=" budget" style="text-align:end">
-                                    {{ sOder.TotalPrice | number : "1.2-2"}} บาท
+                                    {{ sOrder.TotalPrice | number : "1.2-2"}} บาท
                                 </td>
-                                <td class=" budget" style="text-align:center">{{ sOder.ConfigDisplay }}</td>
+                                <td class=" budget" style="text-align:center">{{ sOrder.ConfigDisplay }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -81,9 +81,9 @@
 
 
 <!-- Modal -->
-<ng-template #Oder let-modal>
+<ng-template #Order let-modal>
     <div class="modal-header">
-        <h4 class="modal-title">ข้อมูล Oder : {{oder.OderNo}}</h4>
+        <h4 class="modal-title">ข้อมูล Order : {{order.OrderNo}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -113,34 +113,34 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <ng-container *ngFor="let sysOderDetailIn of sysOderDetailList; let i = index">
-                                    <tr *ngIf="sysOderDetailIn.Active">
+                                <ng-container *ngFor="let sysOrderDetailIn of sysOrderDetailList; let i = index">
+                                    <tr *ngIf="sysOrderDetailIn.Active">
                                         <th scope="row">
                                             {{i+1}}
                                         </th>
                                         <td>
-                                            {{sysOderDetailIn.Name}}
+                                            {{sysOrderDetailIn.Name}}
                                         </td>
                                         <td>
-                                            {{sysOderDetailIn.ConfigDisplay}}
+                                            {{sysOrderDetailIn.ConfigDisplay}}
                                         </td>
                                         <td style="text-align: end;">
-                                            {{sysOderDetailIn.SellingPrice | number : "1.2-2"}}
+                                            {{sysOrderDetailIn.SellingPrice | number : "1.2-2"}}
                                         </td>
                                         <td>
                                             <input type="number" class="form-control"
-                                                [(ngModel)]="sysOderDetailList[i].Amount"
+                                                [(ngModel)]="sysOrderDetailList[i].Amount"
                                                 (ngModelChange)="changePrice(i)" id="Amount[{{i}}]" name="Amount[{{i}}]"
                                                 min="1" style="text-align: end;"
-                                                [disabled]="oder.StatusCode!='PendingPayment'">
+                                                [disabled]="order.StatusCode!='PendingPayment'">
                                         </td>
                                         <td style="text-align: end;">
-                                            {{sysOderDetailIn.TotalPrice | number : "1.2-2"}}
+                                            {{sysOrderDetailIn.TotalPrice | number : "1.2-2"}}
                                         </td>
                                         <td>
                                             <button class="btn btn-outline-danger btn-sm"
-                                                (click)="deleteOderDetailList(sysOderDetailIn)"
-                                                [disabled]="oder.StatusCode!='PendingPayment'">ลบ</button>
+                                                (click)="deleteOrderDetailList(sysOrderDetailIn)"
+                                                [disabled]="order.StatusCode!='PendingPayment'">ลบ</button>
                                         </td>
                                     </tr>
                                 </ng-container>
@@ -164,19 +164,19 @@
                                     <div class="form-group">
                                         <label class="form-control-label" for="AddressText">บ้านเลขที่, หมู่,
                                             ซอย</label>
-                                        <textarea id="AddressText" name="AddressText" [(ngModel)]="oder.AddressText"
+                                        <textarea id="AddressText" name="AddressText" [(ngModel)]="order.AddressText"
                                             class="form-control form-control-alternative" placeholder="999 หมู่ 88"
-                                            [disabled]="oder.StatusCode!='PendingPayment'"></textarea>
+                                            [disabled]="order.StatusCode!='PendingPayment'"></textarea>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4 col-md-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="ProvinceID">จังหวัด</label>
-                                        <mat-select [(ngModel)]="oder.ProvinceID" name="ProvinceID"
+                                        <mat-select [(ngModel)]="order.ProvinceID" name="ProvinceID"
                                             (ngModelChange)="getDistrict()"
                                             class="form-control form-control-alternative"
-                                            [disabled]="oder.StatusCode!='PendingPayment'">
+                                            [disabled]="order.StatusCode!='PendingPayment'">
                                             <mat-option [value]="0">เลือกจังหวัด</mat-option>
                                             <mat-option *ngFor="let sProvince of provinceList"
                                                 [value]="sProvince.ProvinceID">
@@ -189,11 +189,11 @@
                                 <div class="col-lg-4 col-md-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="DistrictID">อำเภอ</label>
-                                        <mat-select [(ngModel)]="oder.DistrictID" name="DistrictID"
+                                        <mat-select [(ngModel)]="order.DistrictID" name="DistrictID"
                                             (ngModelChange)="getSubDistrict()"
-                                            [disabled]="oder.ProvinceID==0?true:false"
+                                            [disabled]="order.ProvinceID==0?true:false"
                                             class="form-control form-control-alternative"
-                                            [disabled]="oder.StatusCode!='PendingPayment'">
+                                            [disabled]="order.StatusCode!='PendingPayment'">
                                             <mat-option [value]="0">เลือกอำเภอ</mat-option>
                                             <mat-option *ngFor="let sDistrict of districtList"
                                                 [value]="sDistrict.DistrictID">
@@ -206,10 +206,10 @@
                                 <div class="col-lg-4 col-md-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="SubDistrictID">ตำบล</label>
-                                        <mat-select [(ngModel)]="oder.SubDistrictID" name="SubDistrictID"
-                                            [disabled]="oder.DistrictID==0?true:false"
+                                        <mat-select [(ngModel)]="order.SubDistrictID" name="SubDistrictID"
+                                            [disabled]="order.DistrictID==0?true:false"
                                             class="form-control form-control-alternative"
-                                            [disabled]="oder.StatusCode!='PendingPayment'">
+                                            [disabled]="order.StatusCode!='PendingPayment'">
                                             <mat-option [value]="0">เลือกตำบล</mat-option>
                                             <mat-option *ngFor="let sSubDistrict of subDistrictList"
                                                 [value]="sSubDistrict.SubDistrictID">
@@ -230,7 +230,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-success" (click)="save()"
-            [disabled]="oder.StatusCode!='PendingPayment'">ยืนยัน</button>
+            [disabled]="order.StatusCode!='PendingPayment'">ยืนยัน</button>
         <button type="button" class="btn btn-dark" (click)="modal.close('Close click')">ปิด</button>
     </div>
 </ng-template>
@@ -238,7 +238,7 @@
 <!-- Modal -->
 <ng-template #NoticeOfPayment let-modal>
     <div class="modal-header">
-        <h4 class="modal-title">แจ้งชำระ Oder : {{oder.OderNo}}</h4>
+        <h4 class="modal-title">แจ้งชำระ Order : {{order.OrderNo}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -268,32 +268,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <ng-container *ngFor="let sysOderDetailIn of sysOderDetailList; let i = index">
-                                    <tr *ngIf="sysOderDetailIn.Active">
+                                <ng-container *ngFor="let sysOrderDetailIn of sysOrderDetailList; let i = index">
+                                    <tr *ngIf="sysOrderDetailIn.Active">
                                         <th scope="row">
                                             {{i+1}}
                                         </th>
                                         <td>
-                                            {{sysOderDetailIn.Name}}
+                                            {{sysOrderDetailIn.Name}}
                                         </td>
                                         <td>
-                                            {{sysOderDetailIn.ConfigDisplay}}
+                                            {{sysOrderDetailIn.ConfigDisplay}}
                                         </td>
                                         <td style="text-align: end;">
-                                            {{sysOderDetailIn.SellingPrice | number : "1.2-2"}}
+                                            {{sysOrderDetailIn.SellingPrice | number : "1.2-2"}}
                                         </td>
                                         <td>
                                             <input type="number" class="form-control"
-                                                [(ngModel)]="sysOderDetailList[i].Amount"
+                                                [(ngModel)]="sysOrderDetailList[i].Amount"
                                                 (ngModelChange)="changePrice(i)" id="Amount[{{i}}]" name="Amount[{{i}}]"
                                                 min="1" style="text-align: end;" [disabled]="true">
                                         </td>
                                         <td style="text-align: end;">
-                                            {{sysOderDetailIn.TotalPrice | number : "1.2-2"}}
+                                            {{sysOrderDetailIn.TotalPrice | number : "1.2-2"}}
                                         </td>
                                         <td>
                                             <button class="btn btn-outline-danger btn-sm"
-                                                (click)="deleteOderDetailList(sysOderDetailIn)"
+                                                (click)="deleteOrderDetailList(sysOrderDetailIn)"
                                                 [disabled]="true">ลบ</button>
                                         </td>
                                     </tr>
@@ -318,7 +318,7 @@
                                     <div class="form-group">
                                         <label class="form-control-label" for="AddressText">บ้านเลขที่, หมู่,
                                             ซอย</label>
-                                        <textarea id="AddressText" name="AddressText" [(ngModel)]="oder.AddressText"
+                                        <textarea id="AddressText" name="AddressText" [(ngModel)]="order.AddressText"
                                             class="form-control form-control-alternative" placeholder="999 หมู่ 88"
                                             [disabled]="true"></textarea>
                                     </div>
@@ -327,7 +327,7 @@
                                 <div class="col-lg-4 col-md-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="ProvinceID">จังหวัด</label>
-                                        <mat-select [(ngModel)]="oder.ProvinceID" name="ProvinceID"
+                                        <mat-select [(ngModel)]="order.ProvinceID" name="ProvinceID"
                                             (ngModelChange)="getDistrict()"
                                             class="form-control form-control-alternative" [disabled]="true">
                                             <mat-option [value]="0">เลือกจังหวัด</mat-option>
@@ -342,7 +342,7 @@
                                 <div class="col-lg-4 col-md-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="DistrictID">อำเภอ</label>
-                                        <mat-select [(ngModel)]="oder.DistrictID" name="DistrictID"
+                                        <mat-select [(ngModel)]="order.DistrictID" name="DistrictID"
                                             (ngModelChange)="getSubDistrict()" [disabled]="true"
                                             class="form-control form-control-alternative">
                                             <mat-option [value]="0">เลือกอำเภอ</mat-option>
@@ -357,7 +357,7 @@
                                 <div class="col-lg-4 col-md-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="SubDistrictID">ตำบล</label>
-                                        <mat-select [(ngModel)]="oder.SubDistrictID" name="SubDistrictID"
+                                        <mat-select [(ngModel)]="order.SubDistrictID" name="SubDistrictID"
                                             [disabled]="true" class="form-control form-control-alternative">
                                             <mat-option [value]="0">เลือกตำบล</mat-option>
                                             <mat-option *ngFor="let sSubDistrict of subDistrictList"

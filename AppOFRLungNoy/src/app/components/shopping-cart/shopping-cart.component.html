@@ -85,7 +85,7 @@
                                     <div class="form-group">
                                         <label class="form-control-label" for="AddressText">บ้านเลขที่, หมู่,
                                             ซอย</label>
-                                        <textarea id="AddressText" name="AddressText" [(ngModel)]="oder.AddressText"
+                                        <textarea id="AddressText" name="AddressText" [(ngModel)]="order.AddressText"
                                             class="form-control form-control-alternative"
                                             placeholder="999 หมู่ 88"></textarea>
                                     </div>
@@ -94,7 +94,7 @@
                                 <div class="col-lg-4 col-md-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="ProvinceID">จังหวัด</label>
-                                        <mat-select [(ngModel)]="oder.ProvinceID" name="ProvinceID" (ngModelChange)="getDistrict()"
+                                        <mat-select [(ngModel)]="order.ProvinceID" name="ProvinceID" (ngModelChange)="getDistrict()"
                                             class="form-control form-control-alternative">
                                             <mat-option [value]="0">เลือกจังหวัด</mat-option>
                                             <mat-option *ngFor="let sProvince of provinceList"
@@ -108,7 +108,7 @@
                                 <div class="col-lg-4 col-md-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="DistrictID">อำเภอ</label>
-                                        <mat-select [(ngModel)]="oder.DistrictID" name="DistrictID"  (ngModelChange)="getSubDistrict()" [disabled]="oder.ProvinceID==0?true:false"
+                                        <mat-select [(ngModel)]="order.DistrictID" name="DistrictID"  (ngModelChange)="getSubDistrict()" [disabled]="order.ProvinceID==0?true:false"
                                             class="form-control form-control-alternative">
                                             <mat-option [value]="0">เลือกอำเภอ</mat-option>
                                             <mat-option *ngFor="let sDistrict of districtList"
@@ -122,7 +122,7 @@
                                 <div class="col-lg-4 col-md-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="SubDistrictID">ตำบล</label>
-                                        <mat-select [(ngModel)]="oder.SubDistrictID" name="SubDistrictID" [disabled]="oder.DistrictID==0?true:false"
+                                        <mat-select [(ngModel)]="order.SubDistrictID" name="SubDistrictID" [disabled]="order.DistrictID==0?true:false"
                                             class="form-control form-control-alternative">
                                             <mat-option [value]="0">เลือกตำบล</mat-option>
                                             <mat-option *ngFor="let sSubDistrict of subDistrictList"

@@ -6,6 +6,7 @@ import { NgbModalConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstra
 })
 export class PopupService {
   public ref: NgbModalRef | undefined;
+  public ref2: NgbModalRef | undefined;
 
   constructor(config: NgbModalConfig, private modalService: NgbModal ) {
     config.backdrop = 'static';
@@ -13,14 +14,22 @@ export class PopupService {
   }
 
   open(content:TemplateRef<any>){
-    this.ref = this.modalService.open(content);
+    this.setSef(this.modalService.open(content));
   }
 
   open_lg(content:TemplateRef<any>){
-    this.ref = this.modalService.open(content, { size: 'lg' });
+    this.setSef(this.modalService.open(content, { size: 'lg' }));
   }
 
   open_xl(content:TemplateRef<any>){
-    this.ref = this.modalService.open(content, { size: 'xl' });
+    this.setSef(this.modalService.open(content, { size: 'xl' }));
+  }
+
+  setSef(aRef:NgbModalRef){
+    if(this.ref == undefined){
+      this.ref = aRef;
+    }else{
+      this.ref2 = aRef;
+    }
   }
 }

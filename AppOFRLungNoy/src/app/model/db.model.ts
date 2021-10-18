@@ -77,9 +77,9 @@ export interface SubDistrict {
   ZipCode: number;
 }
 
-export interface Oder {
-  OderID: number;
-  OderNo: string;
+export interface Order {
+  OrderID: number;
+  OrderNo: string;
   UserID: number;
   AddressText: string;
   ProvinceID: number;
@@ -94,9 +94,9 @@ export interface Oder {
   Active: boolean;
 }
 
-export interface OderDetail {
-  OderDetailID: number;
-  OderID: number;
+export interface OrderDetail {
+  OrderDetailID: number;
+  OrderID: number;
   VarietiesID: number;
   GradeCode: string;
   SellingPrice: number;
@@ -113,6 +113,18 @@ export interface Feed {
   Title: string;
   Img: string;
   Text: string;
+  CreateBy: number;
+  UpdateBy: number;
+  CreateDate: Date;
+  UpdateDate: Date;
+  Active: boolean;
+}
+
+export interface OrderPayment {
+  OrderPaymentID: number;
+  OrderID: number;
+  PaymentDate: string;
+  PaymentImg: string;
   CreateBy: number;
   UpdateBy: number;
   CreateDate: Date;
