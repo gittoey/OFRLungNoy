@@ -59,21 +59,21 @@ CREATE TABLE `oderdetail`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `genoderno`() RETURNS varchar(14) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci
+CREATE DEFINER=`root`@`localhost` FUNCTION `genorderno`() RETURNS varchar(14) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci
     READS SQL DATA
 BEGIN
-      DECLARE vOderNo VARCHAR(14);
+      DECLARE vOrderNo VARCHAR(14);
 			DECLARE vMonth VARCHAR(2);
 			DECLARE iNo INTEGER;
 			
 			SELECT
-				oder.OderNo
+				order.OrderNo
 			INTO
-				vOderNo
+				vOrderNo
 			FROM
-				oder
+				order
 			ORDER BY
-				oder.OderNo DESC
+				order.OderNo DESC
 			LIMIT 1;
 			
 			IF MONTH(NOW()) < 10 THEN
@@ -82,11 +82,11 @@ BEGIN
 				SET vMonth = CONCAT(MONTH(NOW()));
 			END IF;
 			
-			IF vOderNo IS NULL THEN
+			IF vOrderNo IS NULL THEN
 				RETURN CONCAT('O-',YEAR(NOW()),'M',vMonth,'00001');
 			END IF;
 			
-			SET iNo = CONVERT(SUBSTRING(vOderNo, -5), SIGNED INTEGER) + 1;
+			SET iNo = CONVERT(SUBSTRING(vOrderNo, -5), SIGNED INTEGER) + 1;
 						
       RETURN CONCAT('O-',YEAR(NOW()),'M',vMonth, SUBSTRING(CONCAT('0000',iNo),-5));
     END;

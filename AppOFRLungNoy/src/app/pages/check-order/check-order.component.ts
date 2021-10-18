@@ -464,8 +464,6 @@ export class CheckOrderComponent implements OnInit {
     });
   }
   savePayment(statusCode:string) {
-    this.order.UserID = this.auth.UserID;
-    this.order.CreateBy = this.auth.UserID;
     this.order.UpdateBy = this.auth.UserID;
     this.order.UpdateDate = new Date();
 

@@ -5,8 +5,8 @@ import { NgbModalConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstra
   providedIn: 'root'
 })
 export class PopupService {
-  public ref: NgbModalRef | undefined;
-  public ref2: NgbModalRef | undefined;
+  public ref: NgbModalRef | undefined = undefined;
+  public ref2: NgbModalRef | undefined = undefined;
 
   constructor(config: NgbModalConfig, private modalService: NgbModal ) {
     config.backdrop = 'static';
