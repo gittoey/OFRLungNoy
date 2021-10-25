@@ -6,6 +6,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {
   District,
@@ -21,6 +22,7 @@ import { BackendService } from 'src/app/service/backend.service';
 import { DataService } from 'src/app/service/data.service';
 import { PopupService } from 'src/app/service/popup.service';
 import { SysService } from 'src/app/service/sys.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-orders',
@@ -28,6 +30,7 @@ import { SysService } from 'src/app/service/sys.service';
   styleUrls: ['./orders.component.scss'],
 })
 export class OrdersComponent implements OnInit {
+  public receiptURL: SafeResourceUrl | undefined;
   public payDate: any;
 
   private auth: Auth = {
@@ -148,7 +151,8 @@ export class OrdersComponent implements OnInit {
     public dataService: DataService,
     public bs: BackendService,
     private spinner: NgxSpinnerService,
-    public sys: SysService
+    public sys: SysService,
+    private sanitizer: DomSanitizer
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -177,6 +181,12 @@ export class OrdersComponent implements OnInit {
 
   search() {
     this.getOrder(this.searchOrderNo);
+  }
+
+  async openReceipt(content: TemplateRef<any>, sOrder: SysOrder) {
+    this.order = <Order>sOrder;
+    this.receiptURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.apiHost+"pdfreceipt.php?OrderID="+this.order.OrderID);
+    this.popup.open_xl(content);
   }
 
   async openOrderDetail(content: TemplateRef<any>, sOrder: SysOrder) {

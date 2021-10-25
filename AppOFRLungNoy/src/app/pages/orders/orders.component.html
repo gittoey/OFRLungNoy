@@ -40,9 +40,12 @@
                                 <td class=" budget">{{ i + 1 }}</td>
                                 <td class=" budget">
                                     <div ngbDropdown container="body">
-                                        <button class="btn btn-outline-primary btn-sm" ngbDropdownToggle>{{ sOrder.OrderNo
+                                        <button class="btn btn-outline-primary btn-sm" ngbDropdownToggle>{{
+                                            sOrder.OrderNo
                                             }}</button>
                                         <div ngbDropdownMenu>
+                                            <button ngbDropdownItem *ngIf="sOrder.StatusCode=='Paid'"
+                                                (click)="openReceipt(Receipt, sOrder)">พิมพ์ใบเสร็จ</button>
                                             <button ngbDropdownItem
                                                 (click)="openOrderDetail(Order, sOrder)">แสดง/แก้ไข</button>
                                             <button ngbDropdownItem *ngIf="sOrder.StatusCode=='PendingPayment'"
@@ -373,7 +376,8 @@
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
-                                                     ngbDatepicker #d="ngbDatepicker" [(ngModel)]="payDate" (click)="d.toggle()">
+                                                    ngbDatepicker #d="ngbDatepicker" [(ngModel)]="payDate"
+                                                    (click)="d.toggle()">
                                             </div>
                                         </div>
                                     </div>
@@ -393,7 +397,26 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-success" (click)="savePayment()" >ยืนยัน</button>
+        <button type="button" class="btn btn-success" (click)="savePayment()">ยืนยัน</button>
+        <button type="button" class="btn btn-dark" (click)="modal.close('Close click')">ปิด</button>
+    </div>
+</ng-template>
+
+<!-- Modal -->
+<ng-template #Receipt let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">ใบเสร็จรับเงิน Order : {{order.OrderNo}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="col">
+            <iframe [src]="receiptURL" frameborder="0"
+                marginheight="0" marginwidth="0" width="100%" style="height: 70vh;"></iframe>
+        </div>
+    </div>
+    <div class="modal-footer">
         <button type="button" class="btn btn-dark" (click)="modal.close('Close click')">ปิด</button>
     </div>
 </ng-template>

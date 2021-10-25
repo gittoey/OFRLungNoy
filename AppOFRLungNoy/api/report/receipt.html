@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ใบเสร็จรับเงิน</title>
+    <style>
+        body {
+            font-family: "sarabun";
+            font-size: 17pt;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 style="text-align: center">ใบเสร็จรับเงิน (เลขที่ Order : {{OrderNo}})</h1>
+    <table width="100%" border="1" cellspacing="0" cellpadding="">
+        <tr>
+            <th width="50%">ที่อยู่บริษัท</th>
+            <th width="50%">ที่อยู่ผู้สั่งจอง</th>
+        </tr>
+        <tr>
+            <td>
+                ระบบ สั่งจองทุเรียนลุงหน่อย<br />
+                66/1 หมู่ 3<br />
+                ตำบลดอนยาง<br />
+                อำเภอปะทิว<br />
+                จังหวัดชุมพร<br />
+                86210
+            </td>
+            <td>
+                {{OrderByName}}<br />
+                {{AddressText}}<br />
+                ตำบล{{SubDistrictNameInThai}}<br />
+                อำเภอ{{DistrictNameInThai}}<br />
+                จังหวัด{{ProvinceNameInThai}}<br />
+                {{ZipCode}}
+            </td>
+        </tr>
+    </table>
+    <br />
+    <table width="100%" border="1" cellspacing="0" cellpadding="">
+        <tr>
+            <th width="50%">วันที่ชำระ</th>
+            <th width="50%">วันที่พิมพ์</th>
+        </tr>
+        <tr>
+            <td align="center">{{PaymentDate}}</td>
+            <td align="center">{{DateNow}}</td>
+        </tr>
+    </table>
+    <h3>รายการสั่งจอง</h3>
+    <table width="100%" border="1" cellspacing="0" cellpadding="">
+        <tr>
+            <th width="40">ลำดับ</th>
+            <th width="50%">รายการ</th>
+            <th width="">จำนวน</th>
+            <th width="">ราคา</th>
+            <th width="">ราคารวม</th>
+        </tr>
+        {{row}}
+        <tr>
+            <td colspan="4" align="right">รวม</td>
+            <td align="right">{{TotalPrice}}</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
