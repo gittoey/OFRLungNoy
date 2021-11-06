@@ -14,15 +14,15 @@ export class PopupService {
   }
 
   open(content:TemplateRef<any>){
-    this.setSef(this.modalService.open(content));
+    return this.setSef(this.modalService.open(content));
   }
 
   open_lg(content:TemplateRef<any>){
-    this.setSef(this.modalService.open(content, { size: 'lg' }));
+    return this.setSef(this.modalService.open(content, { size: 'lg' }));
   }
 
   open_xl(content:TemplateRef<any>){
-    this.setSef(this.modalService.open(content, { size: 'xl' }));
+    return this.setSef(this.modalService.open(content, { size: 'xl' }));
   }
 
   setSef(aRef:NgbModalRef){
@@ -31,5 +31,6 @@ export class PopupService {
     }else{
       this.ref2 = aRef;
     }
+    return aRef;
   }
 }

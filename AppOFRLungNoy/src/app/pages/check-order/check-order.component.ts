@@ -204,17 +204,19 @@ export class CheckOrderComponent implements OnInit {
     this.getOrder(this.searchOrderByName, this.searchOrderNo);
   }
 
+  
+  private popupRef : any;
   async openOrderDetail(content: TemplateRef<any>, sOrder: SysOrder) {
     this.order = <Order>sOrder;
     this.getProvince();
     this.getDistrict();
     this.getSubDistrict();
     await this.getOrderDetailList();
-    this.popup.open_xl(content);
+    this.popupRef = this.popup.open_xl(content);
   }
 
   openImg(content: TemplateRef<any>) {
-    this.popup.open_xl(content);
+    this.popup.open_lg(content);
   }
 
   async getOrderDetailList() {
@@ -464,28 +466,37 @@ export class CheckOrderComponent implements OnInit {
     });
   }
   savePayment(statusCode:string) {
-    this.order.UpdateBy = this.auth.UserID;
-    this.order.UpdateDate = new Date();
+    let textMSG = '';
+    if(statusCode == "RejectPaid"){
+      textMSG = 'ยืนยันการปฏิเสธการชำระเงิน';
+    }else{
+      textMSG = 'ยืนยันการตรวจสอบแจ้งชำระ';
+    }
 
-    this.order = {
-      OrderID: this.order.OrderID,
-      OrderNo: this.order.OrderNo,
-      UserID: this.order.UserID,
-      AddressText: this.order.AddressText,
-      ProvinceID: this.order.ProvinceID,
-      DistrictID: this.order.DistrictID,
-      SubDistrictID: this.order.SubDistrictID,
-      Remark: this.order.Remark,
-      StatusCode: statusCode,
-      CreateBy: this.order.CreateBy,
-      UpdateBy: this.order.UpdateBy,
-      CreateDate: this.order.CreateDate,
-      UpdateDate: this.order.UpdateDate,
-      Active: this.order.Active,
-    };
-
-    this.alert.conf('ยืนยันการตรวจสอบแจ้งชำระ').then(async (d) => {
+    this.alert.conf(textMSG).then(async (d) => {
       if (d.isConfirmed) {
+
+        this.order.UpdateBy = this.auth.UserID;
+        this.order.UpdateDate = new Date();
+    
+        this.order = {
+          OrderID: this.order.OrderID,
+          OrderNo: this.order.OrderNo,
+          UserID: this.order.UserID,
+          AddressText: this.order.AddressText,
+          ProvinceID: this.order.ProvinceID,
+          DistrictID: this.order.DistrictID,
+          SubDistrictID: this.order.SubDistrictID,
+          Remark: this.order.Remark,
+          StatusCode: statusCode,
+          CreateBy: this.order.CreateBy,
+          UpdateBy: this.order.UpdateBy,
+          CreateDate: this.order.CreateDate,
+          UpdateDate: this.order.UpdateDate,
+          Active: this.order.Active,
+        };
+
+
         var Insert = {
           Table: 'Order',
           Data: this.order,
@@ -496,7 +507,7 @@ export class CheckOrderComponent implements OnInit {
             var msg = 'ตรวจสอบการแจ้งชำระแล้ว';
             this.alert.succ(msg);
             this.ngOnInit();
-            this.popup.ref?.close();
+            this.popupRef?.close();
           }
         });
       }

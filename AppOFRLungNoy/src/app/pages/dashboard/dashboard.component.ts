@@ -93,8 +93,9 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  private popupRef: any;
   async openVarietiesDetail(content: TemplateRef<any>, varieties: Varieties) {
-    this.popup.open(content);
+    this.popupRef = this.popup.open(content);
     this.varieties = varieties;
     this.bs
       .post('get_prive.php', {
@@ -200,7 +201,7 @@ export class DashboardComponent implements OnInit {
       JSON.stringify(this.shoppingCartList)
     );
 
-    this.popup.ref?.close();
+    this.popupRef?.close();
 
     this.alert.succ('เพิ่มทุเรียนในตะกร้าแล้ว');
   }

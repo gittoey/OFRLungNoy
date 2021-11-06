@@ -1,422 +1,643 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
-    <div class="container-fluid">
-        <div class="header-body">
-        </div>
-    </div>
+  <div class="container-fluid">
+    <div class="header-body"></div>
+  </div>
 </div>
-<div class=" container-fluid mt--6">
-    <div class=" row">
-        <div class=" col">
-            <div class=" card">
-                <div class=" card-header border-0">
-                    <div class=" row">
-                        <div class=" col-6">
-                            <h3 class=" mb-0">รายการสั่งจอง</h3>
-                        </div>
-                        <div class=" col-6 text-right">
-                            <div class="row">
-                                <div class=" col-md-9"><input class=" form-control form-control-sm"
-                                        placeholder="ค้นหา เลขที่" type="text" [(ngModel)]="searchOrderNo"></div>
-                                <div class=" col-md-3"><button class=" btn btn-primary btn-sm btn-block" type="button"
-                                        (click)="search()"> ค้นหา </button></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class=" table-responsive">
-                    <table class=" table align-items-center table-flush">
-                        <thead class=" thead-light">
-                            <tr>
-                                <th class=" sort" scope="col">ลำดับ</th>
-                                <th class=" sort" scope="col">เลขที่</th>
-                                <th class=" sort" scope="col">วันที่สั่งจอง</th>
-                                <th class=" sort" scope="col" style="text-align:end">จำนวนที่สั่ง</th>
-                                <th class=" sort" scope="col" style="text-align:end">ราคารวม</th>
-                                <th class=" sort" scope="col" style="text-align:center">สถานะ</th>
-                            </tr>
-                        </thead>
-                        <tbody class=" list">
-                            <tr *ngFor="let sOrder of sysOrderList; let i = index">
-                                <td class=" budget">{{ i + 1 }}</td>
-                                <td class=" budget">
-                                    <div ngbDropdown container="body">
-                                        <button class="btn btn-outline-primary btn-sm" ngbDropdownToggle>{{
-                                            sOrder.OrderNo
-                                            }}</button>
-                                        <div ngbDropdownMenu>
-                                            <button ngbDropdownItem *ngIf="sOrder.StatusCode=='Paid'"
-                                                (click)="openReceipt(Receipt, sOrder)">พิมพ์ใบเสร็จ</button>
-                                            <button ngbDropdownItem
-                                                (click)="openOrderDetail(Order, sOrder)">แสดง/แก้ไข</button>
-                                            <button ngbDropdownItem *ngIf="sOrder.StatusCode=='PendingPayment'"
-                                                (click)="openNoticeOfPayment(NoticeOfPayment, sOrder)">แจ้งชำระ</button>
-                                            <button ngbDropdownItem *ngIf="sOrder.StatusCode=='ExaminePaid'"
-                                                (click)="openNoticeOfPayment(NoticeOfPayment, sOrder)">แก้ไขการแจ้งชำระ</button>
-                                            <div class="dropdown-divirder"
-                                                *ngIf="sOrder.StatusCode=='PendingPayment' || sOrder.StatusCode=='ExaminePaid'">
-                                            </div>
-                                            <button ngbDropdownItem *ngIf="sOrder.StatusCode=='ExaminePaid'"
-                                                (click)="cancelExaminePaid(sOrder)">ยกเลิกการแจ้งชำระ</button>
-                                            <button ngbDropdownItem
-                                                *ngIf="sOrder.StatusCode=='PendingPayment' || sOrder.StatusCode=='ExaminePaid'"
-                                                (click)="deleteOrder(sOrder.OrderID)">ลบ</button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class=" budget">
-                                    {{ sOrder.CreateDate | date:'dd/MM/yyyy hh:mm:ss' }}
-                                </td>
-                                <td class=" budget" style="text-align:end">
-                                    {{ sOrder.TotalAmount | number : "1.0-0"}}
-                                </td>
-                                <td class=" budget" style="text-align:end">
-                                    {{ sOrder.TotalPrice | number : "1.2-2"}} บาท
-                                </td>
-                                <td class=" budget" style="text-align:center">{{ sOrder.ConfigDisplay }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header border-0">
+          <div class="row">
+            <div class="col-6">
+              <h3 class="mb-0">รายการสั่งจอง</h3>
             </div>
+            <div class="col-6 text-right">
+              <div class="row">
+                <div class="col-md-9">
+                  <input
+                    class="form-control form-control-sm"
+                    placeholder="ค้นหา เลขที่"
+                    type="text"
+                    [(ngModel)]="searchOrderNo"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <button
+                    class="btn btn-primary btn-sm btn-block"
+                    type="button"
+                    (click)="search()"
+                  >
+                    ค้นหา
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th class="sort" scope="col">ลำดับ</th>
+                <th class="sort" scope="col">เลขที่</th>
+                <th class="sort" scope="col">วันที่สั่งจอง</th>
+                <th class="sort" scope="col" style="text-align: end">
+                  จำนวนที่สั่ง
+                </th>
+                <th class="sort" scope="col" style="text-align: end">
+                  ราคารวม
+                </th>
+                <th class="sort" scope="col" style="text-align: center">
+                  สถานะ
+                </th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              <tr *ngFor="let sOrder of sysOrderList; let i = index">
+                <td class="budget">{{ i + 1 }}</td>
+                <td class="budget">
+                  <div ngbDropdown container="body">
+                    <button
+                      class="btn btn-outline-primary btn-sm"
+                      ngbDropdownToggle
+                    >
+                      {{ sOrder.OrderNo }}
+                    </button>
+                    <div ngbDropdownMenu>
+                      <button
+                        ngbDropdownItem
+                        *ngIf="sOrder.StatusCode == 'Paid'"
+                        (click)="openReceipt(Receipt, sOrder)"
+                      >
+                        พิมพ์ใบเสร็จ
+                      </button>
+                      <button
+                        ngbDropdownItem
+                        (click)="openOrderDetail(Order, sOrder)"
+                      >
+                        แสดง/แก้ไข
+                      </button>
+                      <button
+                        ngbDropdownItem
+                        *ngIf="
+                          sOrder.StatusCode == 'PendingPayment' ||
+                          sOrder.StatusCode == 'RejectPaid'
+                        "
+                        (click)="openNoticeOfPayment(NoticeOfPayment, sOrder)"
+                      >
+                        แจ้งชำระ
+                      </button>
+                      <button
+                        ngbDropdownItem
+                        *ngIf="sOrder.StatusCode == 'ExaminePaid'"
+                        (click)="openNoticeOfPayment(NoticeOfPayment, sOrder)"
+                      >
+                        แก้ไขการแจ้งชำระ
+                      </button>
+                      <div
+                        class="dropdown-divirder"
+                        *ngIf="
+                          sOrder.StatusCode == 'PendingPayment' ||
+                          sOrder.StatusCode == 'ExaminePaid' ||
+                          sOrder.StatusCode == 'RejectPaid'
+                        "
+                      ></div>
+                      <button
+                        ngbDropdownItem
+                        *ngIf="sOrder.StatusCode == 'ExaminePaid'"
+                        (click)="cancelExaminePaid(sOrder)"
+                      >
+                        ยกเลิกการแจ้งชำระ
+                      </button>
+                      <button
+                        ngbDropdownItem
+                        *ngIf="
+                          sOrder.StatusCode == 'PendingPayment' ||
+                          sOrder.StatusCode == 'ExaminePaid' ||
+                          sOrder.StatusCode == 'RejectPaid'
+                        "
+                        (click)="deleteOrder(sOrder.OrderID)"
+                      >
+                        ลบ
+                      </button>
+                    </div>
+                  </div>
+                </td>
+                <td class="budget">
+                  {{ sOrder.CreateDate | date: "dd/MM/yyyy hh:mm:ss" }}
+                </td>
+                <td class="budget" style="text-align: end">
+                  {{ sOrder.TotalAmount | number: "1.0-0" }}
+                </td>
+                <td class="budget" style="text-align: end">
+                  {{ sOrder.TotalPrice | number: "1.2-2" }} บาท
+                </td>
+                <td class="budget" style="text-align: center">
+                  {{ sOrder.ConfigDisplay }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
-
 
 <!-- Modal -->
 <ng-template #Order let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title">ข้อมูล Order : {{order.OrderNo}}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="col">
-            <div class="card shadow">
-                <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">รายการ</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <form>
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th scope="col">ลำดับ</th>
-                                    <th scope="col">พันธุ์ทุเรียน</th>
-                                    <th scope="col">เกรด</th>
-                                    <th scope="col" style="text-align: end">ราคา</th>
-                                    <th scope="col" style="text-align: end" width="200">จำนวน (Kg)</th>
-                                    <th scope="col" style="text-align: end">ราคารวม</th>
-                                    <th scope="col">คำสั่ง</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <ng-container *ngFor="let sysOrderDetailIn of sysOrderDetailList; let i = index">
-                                    <tr *ngIf="sysOrderDetailIn.Active">
-                                        <th scope="row">
-                                            {{i+1}}
-                                        </th>
-                                        <td>
-                                            {{sysOrderDetailIn.Name}}
-                                        </td>
-                                        <td>
-                                            {{sysOrderDetailIn.ConfigDisplay}}
-                                        </td>
-                                        <td style="text-align: end;">
-                                            {{sysOrderDetailIn.SellingPrice | number : "1.2-2"}}
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control"
-                                                [(ngModel)]="sysOrderDetailList[i].Amount"
-                                                (ngModelChange)="changePrice(i)" id="Amount[{{i}}]" name="Amount[{{i}}]"
-                                                min="1" style="text-align: end;"
-                                                [disabled]="order.StatusCode!='PendingPayment'">
-                                        </td>
-                                        <td style="text-align: end;">
-                                            {{sysOrderDetailIn.TotalPrice | number : "1.2-2"}}
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-outline-danger btn-sm"
-                                                (click)="deleteOrderDetailList(sysOrderDetailIn)"
-                                                [disabled]="order.StatusCode!='PendingPayment'">ลบ</button>
-                                        </td>
-                                    </tr>
-                                </ng-container>
-                                <tr>
-                                    <th colspan="5" style="text-align: end;">
-                                        ราคารวมสุทธิ
-                                    </th>
-                                    <td style="text-align: end;">
-                                        {{sumTotalPrice | number : "1.2-2"}}
-                                    </td>
-                                    <td>
-                                        บาท
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div class="col-lg-12">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="AddressText">บ้านเลขที่, หมู่,
-                                            ซอย</label>
-                                        <textarea id="AddressText" name="AddressText" [(ngModel)]="order.AddressText"
-                                            class="form-control form-control-alternative" placeholder="999 หมู่ 88"
-                                            [disabled]="order.StatusCode!='PendingPayment'"></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="ProvinceID">จังหวัด</label>
-                                        <mat-select [(ngModel)]="order.ProvinceID" name="ProvinceID"
-                                            (ngModelChange)="getDistrict()"
-                                            class="form-control form-control-alternative"
-                                            [disabled]="order.StatusCode!='PendingPayment'">
-                                            <mat-option [value]="0">เลือกจังหวัด</mat-option>
-                                            <mat-option *ngFor="let sProvince of provinceList"
-                                                [value]="sProvince.ProvinceID">
-                                                {{sProvince.NameInThai}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="DistrictID">อำเภอ</label>
-                                        <mat-select [(ngModel)]="order.DistrictID" name="DistrictID"
-                                            (ngModelChange)="getSubDistrict()"
-                                            [disabled]="order.ProvinceID==0?true:false"
-                                            class="form-control form-control-alternative"
-                                            [disabled]="order.StatusCode!='PendingPayment'">
-                                            <mat-option [value]="0">เลือกอำเภอ</mat-option>
-                                            <mat-option *ngFor="let sDistrict of districtList"
-                                                [value]="sDistrict.DistrictID">
-                                                {{sDistrict.NameInThai}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="SubDistrictID">ตำบล</label>
-                                        <mat-select [(ngModel)]="order.SubDistrictID" name="SubDistrictID"
-                                            [disabled]="order.DistrictID==0?true:false"
-                                            class="form-control form-control-alternative"
-                                            [disabled]="order.StatusCode!='PendingPayment'">
-                                            <mat-option [value]="0">เลือกตำบล</mat-option>
-                                            <mat-option *ngFor="let sSubDistrict of subDistrictList"
-                                                [value]="sSubDistrict.SubDistrictID">
-                                                {{sSubDistrict.NameInThai}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                    </form>
-                </div>
+  <div class="modal-header">
+    <h4 class="modal-title">ข้อมูล Order : {{ order.OrderNo }}</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">รายการ</h3>
             </div>
+          </div>
         </div>
+        <div class="table-responsive">
+          <form>
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">ลำดับ</th>
+                  <th scope="col">พันธุ์ทุเรียน</th>
+                  <th scope="col">เกรด</th>
+                  <th scope="col" style="text-align: end">ราคา</th>
+                  <th scope="col" style="text-align: end" width="200">
+                    จำนวน (Kg)
+                  </th>
+                  <th scope="col" style="text-align: end">ราคารวม</th>
+                  <th scope="col">คำสั่ง</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container
+                  *ngFor="
+                    let sysOrderDetailIn of sysOrderDetailList;
+                    let i = index
+                  "
+                >
+                  <tr *ngIf="sysOrderDetailIn.Active">
+                    <th scope="row">
+                      {{ i + 1 }}
+                    </th>
+                    <td>
+                      {{ sysOrderDetailIn.Name }}
+                    </td>
+                    <td>
+                      {{ sysOrderDetailIn.ConfigDisplay }}
+                    </td>
+                    <td style="text-align: end">
+                      {{ sysOrderDetailIn.SellingPrice | number: "1.2-2" }}
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        class="form-control"
+                        [(ngModel)]="sysOrderDetailList[i].Amount"
+                        (ngModelChange)="changePrice(i)"
+                        id="Amount[{{ i }}]"
+                        name="Amount[{{ i }}]"
+                        min="1"
+                        style="text-align: end"
+                        [disabled]="order.StatusCode != 'PendingPayment'"
+                      />
+                    </td>
+                    <td style="text-align: end">
+                      {{ sysOrderDetailIn.TotalPrice | number: "1.2-2" }}
+                    </td>
+                    <td>
+                      <button
+                        class="btn btn-outline-danger btn-sm"
+                        (click)="deleteOrderDetailList(sysOrderDetailIn)"
+                        [disabled]="order.StatusCode != 'PendingPayment'"
+                      >
+                        ลบ
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+                <tr>
+                  <th colspan="5" style="text-align: end">ราคารวมสุทธิ</th>
+                  <td style="text-align: end">
+                    {{ sumTotalPrice | number: "1.2-2" }}
+                  </td>
+                  <td>บาท</td>
+                </tr>
+                <tr>
+                  <th colspan="5" style="text-align: end">ค่ามัดจำ 10%</th>
+                  <td style="text-align: end">
+                    {{ sumTotalPrice * 0.1 | number: "1.2-2" }}
+                  </td>
+                  <td>บาท</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="col-lg-12">
+              <div class="row">
+                <div class="col-lg-12 col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="AddressText"
+                      >บ้านเลขที่, หมู่, ซอย</label
+                    >
+                    <textarea
+                      id="AddressText"
+                      name="AddressText"
+                      [(ngModel)]="order.AddressText"
+                      class="form-control form-control-alternative"
+                      placeholder="999 หมู่ 88"
+                      [disabled]="order.StatusCode != 'PendingPayment'"
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="ProvinceID"
+                      >จังหวัด</label
+                    >
+                    <mat-select
+                      [(ngModel)]="order.ProvinceID"
+                      name="ProvinceID"
+                      (ngModelChange)="getDistrict()"
+                      class="form-control form-control-alternative"
+                      [disabled]="order.StatusCode != 'PendingPayment'"
+                    >
+                      <mat-option [value]="0">เลือกจังหวัด</mat-option>
+                      <mat-option
+                        *ngFor="let sProvince of provinceList"
+                        [value]="sProvince.ProvinceID"
+                      >
+                        {{ sProvince.NameInThai }}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="DistrictID"
+                      >อำเภอ</label
+                    >
+                    <mat-select
+                      [(ngModel)]="order.DistrictID"
+                      name="DistrictID"
+                      (ngModelChange)="getSubDistrict()"
+                      [disabled]="order.ProvinceID == 0 ? true : false"
+                      class="form-control form-control-alternative"
+                      [disabled]="order.StatusCode != 'PendingPayment'"
+                    >
+                      <mat-option [value]="0">เลือกอำเภอ</mat-option>
+                      <mat-option
+                        *ngFor="let sDistrict of districtList"
+                        [value]="sDistrict.DistrictID"
+                      >
+                        {{ sDistrict.NameInThai }}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="SubDistrictID"
+                      >ตำบล</label
+                    >
+                    <mat-select
+                      [(ngModel)]="order.SubDistrictID"
+                      name="SubDistrictID"
+                      [disabled]="order.DistrictID == 0 ? true : false"
+                      class="form-control form-control-alternative"
+                      [disabled]="order.StatusCode != 'PendingPayment'"
+                    >
+                      <mat-option [value]="0">เลือกตำบล</mat-option>
+                      <mat-option
+                        *ngFor="let sSubDistrict of subDistrictList"
+                        [value]="sSubDistrict.SubDistrictID"
+                      >
+                        {{ sSubDistrict.NameInThai }}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-success" (click)="save()"
-            [disabled]="order.StatusCode!='PendingPayment'">ยืนยัน</button>
-        <button type="button" class="btn btn-dark" (click)="modal.close('Close click')">ปิด</button>
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-success"
+      (click)="save()"
+      [disabled]="order.StatusCode != 'PendingPayment'"
+    >
+      ยืนยัน
+    </button>
+    <button
+      type="button"
+      class="btn btn-dark"
+      (click)="modal.close('Close click')"
+    >
+      ปิด
+    </button>
+  </div>
 </ng-template>
 
 <!-- Modal -->
 <ng-template #NoticeOfPayment let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title">แจ้งชำระ Order : {{order.OrderNo}}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="col">
-            <div class="card shadow">
-                <div class="card-header border-0">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3 class="mb-0">รายการ</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <form>
-                        <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th scope="col">ลำดับ</th>
-                                    <th scope="col">พันธุ์ทุเรียน</th>
-                                    <th scope="col">เกรด</th>
-                                    <th scope="col" style="text-align: end">ราคา</th>
-                                    <th scope="col" style="text-align: end" width="200">จำนวน (Kg)</th>
-                                    <th scope="col" style="text-align: end">ราคารวม</th>
-                                    <th scope="col">คำสั่ง</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <ng-container *ngFor="let sysOrderDetailIn of sysOrderDetailList; let i = index">
-                                    <tr *ngIf="sysOrderDetailIn.Active">
-                                        <th scope="row">
-                                            {{i+1}}
-                                        </th>
-                                        <td>
-                                            {{sysOrderDetailIn.Name}}
-                                        </td>
-                                        <td>
-                                            {{sysOrderDetailIn.ConfigDisplay}}
-                                        </td>
-                                        <td style="text-align: end;">
-                                            {{sysOrderDetailIn.SellingPrice | number : "1.2-2"}}
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control"
-                                                [(ngModel)]="sysOrderDetailList[i].Amount"
-                                                (ngModelChange)="changePrice(i)" id="Amount[{{i}}]" name="Amount[{{i}}]"
-                                                min="1" style="text-align: end;" [disabled]="true">
-                                        </td>
-                                        <td style="text-align: end;">
-                                            {{sysOrderDetailIn.TotalPrice | number : "1.2-2"}}
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-outline-danger btn-sm"
-                                                (click)="deleteOrderDetailList(sysOrderDetailIn)"
-                                                [disabled]="true">ลบ</button>
-                                        </td>
-                                    </tr>
-                                </ng-container>
-                                <tr>
-                                    <th colspan="5" style="text-align: end;">
-                                        ราคารวมสุทธิ
-                                    </th>
-                                    <td style="text-align: end;">
-                                        {{sumTotalPrice | number : "1.2-2"}}
-                                    </td>
-                                    <td>
-                                        บาท
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div class="col-lg-12">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="AddressText">บ้านเลขที่, หมู่,
-                                            ซอย</label>
-                                        <textarea id="AddressText" name="AddressText" [(ngModel)]="order.AddressText"
-                                            class="form-control form-control-alternative" placeholder="999 หมู่ 88"
-                                            [disabled]="true"></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="ProvinceID">จังหวัด</label>
-                                        <mat-select [(ngModel)]="order.ProvinceID" name="ProvinceID"
-                                            (ngModelChange)="getDistrict()"
-                                            class="form-control form-control-alternative" [disabled]="true">
-                                            <mat-option [value]="0">เลือกจังหวัด</mat-option>
-                                            <mat-option *ngFor="let sProvince of provinceList"
-                                                [value]="sProvince.ProvinceID">
-                                                {{sProvince.NameInThai}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="DistrictID">อำเภอ</label>
-                                        <mat-select [(ngModel)]="order.DistrictID" name="DistrictID"
-                                            (ngModelChange)="getSubDistrict()" [disabled]="true"
-                                            class="form-control form-control-alternative">
-                                            <mat-option [value]="0">เลือกอำเภอ</mat-option>
-                                            <mat-option *ngFor="let sDistrict of districtList"
-                                                [value]="sDistrict.DistrictID">
-                                                {{sDistrict.NameInThai}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="SubDistrictID">ตำบล</label>
-                                        <mat-select [(ngModel)]="order.SubDistrictID" name="SubDistrictID"
-                                            [disabled]="true" class="form-control form-control-alternative">
-                                            <mat-option [value]="0">เลือกตำบล</mat-option>
-                                            <mat-option *ngFor="let sSubDistrict of subDistrictList"
-                                                [value]="sSubDistrict.SubDistrictID">
-                                                {{sSubDistrict.NameInThai}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="SubDistrictID">วันที่ชำระ</label>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
-                                                    ngbDatepicker #d="ngbDatepicker" [(ngModel)]="payDate"
-                                                    (click)="d.toggle()">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8 col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="Img">ภาพหลักฐานการชำระ</label>
-                                        <input type="file" id="Img" name="Img" #takeInput (change)="setFromFile($event)"
-                                            accept="image/*" class="form-control form-control-alternative">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+  <div class="modal-header">
+    <h4 class="modal-title">แจ้งชำระ Order : {{ order.OrderNo }}</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">รายการ</h3>
             </div>
+          </div>
         </div>
+        <div class="table-responsive">
+          <form>
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">ลำดับ</th>
+                  <th scope="col">พันธุ์ทุเรียน</th>
+                  <th scope="col">เกรด</th>
+                  <th scope="col" style="text-align: end">ราคา</th>
+                  <th scope="col" style="text-align: end" width="200">
+                    จำนวน (Kg)
+                  </th>
+                  <th scope="col" style="text-align: end">ราคารวม</th>
+                  <th scope="col">คำสั่ง</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container
+                  *ngFor="
+                    let sysOrderDetailIn of sysOrderDetailList;
+                    let i = index
+                  "
+                >
+                  <tr *ngIf="sysOrderDetailIn.Active">
+                    <th scope="row">
+                      {{ i + 1 }}
+                    </th>
+                    <td>
+                      {{ sysOrderDetailIn.Name }}
+                    </td>
+                    <td>
+                      {{ sysOrderDetailIn.ConfigDisplay }}
+                    </td>
+                    <td style="text-align: end">
+                      {{ sysOrderDetailIn.SellingPrice | number: "1.2-2" }}
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        class="form-control"
+                        [(ngModel)]="sysOrderDetailList[i].Amount"
+                        (ngModelChange)="changePrice(i)"
+                        id="Amount[{{ i }}]"
+                        name="Amount[{{ i }}]"
+                        min="1"
+                        style="text-align: end"
+                        [disabled]="true"
+                      />
+                    </td>
+                    <td style="text-align: end">
+                      {{ sysOrderDetailIn.TotalPrice | number: "1.2-2" }}
+                    </td>
+                    <td>
+                      <button
+                        class="btn btn-outline-danger btn-sm"
+                        (click)="deleteOrderDetailList(sysOrderDetailIn)"
+                        [disabled]="true"
+                      >
+                        ลบ
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+                <tr>
+                  <th colspan="5" style="text-align: end">ราคารวมสุทธิ</th>
+                  <td style="text-align: end">
+                    {{ sumTotalPrice | number: "1.2-2" }}
+                  </td>
+                  <td>บาท</td>
+                </tr>
+                <tr>
+                  <th colspan="5" style="text-align: end">ค่ามัดจำ 10%</th>
+                  <td style="text-align: end">
+                    {{ sumTotalPrice * 0.1 | number: "1.2-2" }}
+                  </td>
+                  <td>บาท</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="col-lg-12">
+              <div class="row">
+                <div class="col-lg-12 col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="AddressText"
+                      >บ้านเลขที่, หมู่, ซอย</label
+                    >
+                    <textarea
+                      id="AddressText"
+                      name="AddressText"
+                      [(ngModel)]="order.AddressText"
+                      class="form-control form-control-alternative"
+                      placeholder="999 หมู่ 88"
+                      [disabled]="true"
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="ProvinceID"
+                      >จังหวัด</label
+                    >
+                    <mat-select
+                      [(ngModel)]="order.ProvinceID"
+                      name="ProvinceID"
+                      (ngModelChange)="getDistrict()"
+                      class="form-control form-control-alternative"
+                      [disabled]="true"
+                    >
+                      <mat-option [value]="0">เลือกจังหวัด</mat-option>
+                      <mat-option
+                        *ngFor="let sProvince of provinceList"
+                        [value]="sProvince.ProvinceID"
+                      >
+                        {{ sProvince.NameInThai }}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="DistrictID"
+                      >อำเภอ</label
+                    >
+                    <mat-select
+                      [(ngModel)]="order.DistrictID"
+                      name="DistrictID"
+                      (ngModelChange)="getSubDistrict()"
+                      [disabled]="true"
+                      class="form-control form-control-alternative"
+                    >
+                      <mat-option [value]="0">เลือกอำเภอ</mat-option>
+                      <mat-option
+                        *ngFor="let sDistrict of districtList"
+                        [value]="sDistrict.DistrictID"
+                      >
+                        {{ sDistrict.NameInThai }}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="SubDistrictID"
+                      >ตำบล</label
+                    >
+                    <mat-select
+                      [(ngModel)]="order.SubDistrictID"
+                      name="SubDistrictID"
+                      [disabled]="true"
+                      class="form-control form-control-alternative"
+                    >
+                      <mat-option [value]="0">เลือกตำบล</mat-option>
+                      <mat-option
+                        *ngFor="let sSubDistrict of subDistrictList"
+                        [value]="sSubDistrict.SubDistrictID"
+                      >
+                        {{ sSubDistrict.NameInThai }}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="SubDistrictID"
+                      >วันที่ชำระ</label
+                    >
+                    <div class="form-group">
+                      <div class="input-group">
+                        <input
+                          class="form-control"
+                          placeholder="yyyy-mm-dd"
+                          name="dp"
+                          ngbDatepicker
+                          #d="ngbDatepicker"
+                          [(ngModel)]="payDate"
+                          (click)="d.toggle()"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-8 col-md-12">
+                  <div class="form-group">
+                    <label class="form-control-label" for="Img"
+                      >ภาพหลักฐานการชำระ</label
+                    >
+                    <input
+                      type="file"
+                      id="Img"
+                      name="Img"
+                      #takeInput
+                      (change)="setFromFile($event)"
+                      accept="image/*"
+                      class="form-control form-control-alternative"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-success" (click)="savePayment()">ยืนยัน</button>
-        <button type="button" class="btn btn-dark" (click)="modal.close('Close click')">ปิด</button>
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="savePayment()">
+      ยืนยัน
+    </button>
+    <button
+      type="button"
+      class="btn btn-dark"
+      (click)="modal.close('Close click')"
+    >
+      ปิด
+    </button>
+  </div>
 </ng-template>
 
 <!-- Modal -->
 <ng-template #Receipt let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title">ใบเสร็จรับเงิน Order : {{order.OrderNo}}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
+  <div class="modal-header">
+    <h4 class="modal-title">ใบเสร็จรับเงิน Order : {{ order.OrderNo }}</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col">
+      <iframe
+        [src]="receiptURL"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        width="100%"
+        style="height: 70vh"
+      ></iframe>
     </div>
-    <div class="modal-body">
-        <div class="col">
-            <iframe [src]="receiptURL" frameborder="0"
-                marginheight="0" marginwidth="0" width="100%" style="height: 70vh;"></iframe>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-dark" (click)="modal.close('Close click')">ปิด</button>
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-dark"
+      (click)="modal.close('Close click')"
+    >
+      ปิด
+    </button>
+  </div>
 </ng-template>

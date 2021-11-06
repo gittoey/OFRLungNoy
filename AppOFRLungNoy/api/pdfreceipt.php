@@ -123,6 +123,7 @@ $dateDateNow = new DateTime();
 $html = str_replace("{{DateNow}}", date_format($dateDateNow, 'd/m/Y'), $html);
 
 
+
 $row = '';
 $totalPrice = 0;
 foreach($dataOrderDetail as $index => $val) {
@@ -140,6 +141,10 @@ foreach($dataOrderDetail as $index => $val) {
 $html = str_replace("{{row}}", $row, $html);
 
 $html = str_replace("{{TotalPrice}}", number_format($totalPrice, 2), $html);
+$html = str_replace("{{Price10P}}", number_format(($totalPrice*0.1), 2), $html);
+$html = str_replace("{{RemainPrice}}", number_format(($totalPrice - ($totalPrice*0.1)), 2), $html);
+
+
 
 if ($mysqli->connect_errno) {
     $sql = "Failed to connect to MySQL: " . $mysqli->connect_error;

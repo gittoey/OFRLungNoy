@@ -118,11 +118,12 @@ export class ShoppingCartComponent implements OnInit {
     );
   }
 
+  private popupRef: any;
   openShoppingCart(content: TemplateRef<any>) {
     this.getShoppingCartList();
     this.province.ProvinceID = 0;
     this.getProvince();
-    this.popup.open_xl(content);
+    this.popupRef = this.popup.open_xl(content);
   }
 
   getShoppingCartList() {
@@ -180,7 +181,7 @@ export class ShoppingCartComponent implements OnInit {
       return;
     }
 
-    this.popup.ref?.close();
+    this.popupRef?.close();
     this.auth = JSON.parse(localStorage.getItem('currentUser') || '{}');
 
     if(this.auth.UserID === undefined){
@@ -259,7 +260,7 @@ export class ShoppingCartComponent implements OnInit {
           });
         });
 
-        var msg = 'ยืนยันการสั่งจองแล้ว\nกรุณาชำระและแจ้งชำระในขั้นตอนถัดไป';
+        var msg = 'ยืนยันการสั่งจองแล้ว\nกรุณาชำระและแจ้งชำระค่ามัดจำ 10% ในขั้นตอนถัดไป';
         this.alert.succ(msg);
 
         this.order = {

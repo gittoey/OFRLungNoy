@@ -183,28 +183,31 @@ export class OrdersComponent implements OnInit {
     this.getOrder(this.searchOrderNo);
   }
 
+  private popupRefReceipt : any;
   async openReceipt(content: TemplateRef<any>, sOrder: SysOrder) {
     this.order = <Order>sOrder;
     this.receiptURL = this.sanitizer.bypassSecurityTrustResourceUrl(environment.apiHost+"pdfreceipt.php?OrderID="+this.order.OrderID);
-    this.popup.open_xl(content);
+    this.popupRefReceipt = this.popup.open_xl(content);
   }
 
+  private popupOrderDetail : any;
   async openOrderDetail(content: TemplateRef<any>, sOrder: SysOrder) {
     this.order = <Order>sOrder;
     this.getProvince();
     this.getDistrict();
     this.getSubDistrict();
     await this.getOrderDetailList();
-    this.popup.open_xl(content);
+    this.popupOrderDetail = this.popup.open_xl(content);
   }
 
+  private popupRefPayment:any;
   async openNoticeOfPayment(content: TemplateRef<any>, sOrder: SysOrder) {
     this.order = <Order>sOrder;
     this.getProvince();
     this.getDistrict();
     this.getSubDistrict();
     await this.getOrderDetailList();
-    this.popup.open_xl(content);
+    this.popupRefPayment = this.popup.open_xl(content);
   }
 
   async getOrderDetailList() {
@@ -498,7 +501,7 @@ export class OrdersComponent implements OnInit {
               };
 
               this.bs.cu(Insert).then((d: any) => {
-                console.log(d);
+                //console.log(d);
 
                 if (d.Return.Status == 'Yes') {
                 } else {
@@ -536,7 +539,7 @@ export class OrdersComponent implements OnInit {
         this.spinner.hide();
 
         this.ngOnInit();
-        this.popup.ref?.close();
+        this.popupOrderDetail?.close();
       }
     });
   }
@@ -596,7 +599,7 @@ export class OrdersComponent implements OnInit {
 
         if ((ops = 0)) {
           this.alert.err('บันทึกการแจ้งชำระไม่สำเร็จ');
-          this.popup.ref?.close();
+          this.popupRefPayment?.close();
           return;
         }
 
@@ -609,7 +612,7 @@ export class OrdersComponent implements OnInit {
           if (d.Return.Status == 'Yes') {
             this.alert.succ('บันทึกการแจ้งชำระสำเร็จ');
             this.ngOnInit();
-            this.popup.ref?.close();
+            this.popupRefPayment?.close();
           }
         });
       }
