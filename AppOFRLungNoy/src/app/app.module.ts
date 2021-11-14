@@ -25,6 +25,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { PostFeedsComponent } from './pages/post-feeds/post-feeds.component';
 import { Nl2BrPipeModule } from 'nl2br-pipe';
 import { CheckOrderComponent } from './pages/check-order/check-order.component';
+import { CompareDurianComponent } from './pages/compare-durian/compare-durian.component';
 
 @NgModule({
   imports: [
@@ -53,6 +54,7 @@ import { CheckOrderComponent } from './pages/check-order/check-order.component';
     HomeComponent,
     PostFeedsComponent,
     CheckOrderComponent,
+    CompareDurianComponent,
   ],
   providers: [
   ],

@@ -1,0 +1,244 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body"></div>
+    </div>
+</div>
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header border-0">
+                    <div class="row">
+                        <div class="col-6">
+                            <h3 class="mb-0">เลือกการเปรียบเทียบทุเรียน</h3>
+                        </div>
+                        <div class="col-6 text-right">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <div class=" col">
+                        <div class=" card bg-default shadow">
+                            <div class=" card-header bg-transparent border-0">
+                                <div class="row">
+                                    <div class="col-2">
+
+                                    </div>
+                                    <div class="col-10">
+                                        <div class="row">
+                                            <div class="col-6 text-right">
+                                                <mat-select class="text-right" [(ngModel)]="varietiesID1"
+                                                    (ngModelChange)="varieties1Change()" name="VarietiesID1"
+                                                    class="form-control form-control-alternative">
+                                                    <mat-option class="text-right" [value]="0" selected="selected">เลือก
+                                                        พันธุ์ทุเรียน (1)
+                                                    </mat-option>
+                                                    <mat-option class="text-right"
+                                                        *ngFor="let varieties of varietiesList"
+                                                        [value]="varieties.VarietiesID">
+                                                        {{varieties.Name}} (1)
+                                                    </mat-option>
+                                                </mat-select>
+                                            </div>
+                                            <div class="col-6">
+                                                <mat-select [(ngModel)]="varietiesID2"
+                                                    (ngModelChange)="varieties2Change()" name="VarietiesID2"
+                                                    class="form-control form-control-alternative">
+                                                    <mat-option [value]="0" selected="selected">เลือก พันธุ์ทุเรียน (2)
+                                                    </mat-option>
+                                                    <mat-option *ngFor="let varieties of varietiesList"
+                                                        [value]="varieties.VarietiesID">
+                                                        {{varieties.Name}} (2)
+                                                    </mat-option>
+                                                </mat-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" table-responsive">
+                                <table class=" table align-items-center table-dark table-flush">
+                                    <thead class=" thead-dark">
+                                        <tr>
+                                            <th class=" sort" data-sort="name" scope="col" style="width: 16.67%;">#</th>
+                                            <th class=" text-right sort" data-sort="name" scope="col"
+                                                style="width: 41.67%;">#1</th>
+                                            <th class=" sort" data-sort="budget" scope="col" style="width: 41.67%;">
+                                                #2</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class=" list">
+                                        <tr>
+                                            <td>
+                                                <label style="color: #FF5733;"><b>รูป</b></label>
+                                            </td>
+                                            <td class=" text-right">
+                                                <img *ngIf="varieties1.Img" src="{{api}}{{varieties1.Img}}" height="150"
+                                                    class="rounded float-start" alt="...">
+                                            </td>
+                                            <td>
+                                                <img *ngIf="varieties2.Img" src="{{api}}{{varieties2.Img}}" height="150"
+                                                    class="rounded float-start" alt="...">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label style="color: #FF5733;"><b>ชื่อพันธุ์ทุเรียน</b></label>
+                                            </td>
+                                            <td class=" text-right" style="white-space:pre-wrap;">
+                                                {{varieties1.Name}}
+                                            </td>
+                                            <td style="white-space:pre-wrap;">
+                                                {{varieties2.Name}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label style="color: #FF5733;"><b>เนื้อ</b></label>
+                                            </td>
+                                            <td class=" text-right" style="white-space:pre-wrap;">
+                                                {{varieties1.Meat}}
+                                            </td>
+                                            <td style="white-space:pre-wrap;">
+                                                {{varieties2.Meat}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label style="color: #FF5733;"><b>กลิ่น</b></label>
+                                            </td>
+                                            <td class=" text-right" style="white-space:pre-wrap;">
+                                                {{varieties1.Smell}}
+                                            </td>
+                                            <td style="white-space:pre-wrap;">
+                                                {{varieties2.Smell}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label style="color: #FF5733;"><b>รสชาติ</b></label>
+                                            </td>
+                                            <td class=" text-right" style="white-space:pre-wrap;">
+                                                {{varieties1.Flavor}}
+                                            </td>
+                                            <td style="white-space:pre-wrap;">
+                                                {{varieties2.Flavor}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label style="color: #FF5733;"><b>ระยะอร่อย</b></label>
+                                            </td>
+                                            <td class=" text-right" style="white-space:pre-wrap;">
+                                                {{varieties1.DeliciousTerm}}
+                                            </td>
+                                            <td style="white-space:pre-wrap;">
+                                                {{varieties2.DeliciousTerm}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label style="color: #FF5733;"><b>คำอธิบาย</b></label>
+                                            </td>
+                                            <td class=" text-right" style="white-space:pre-wrap;">
+                                                {{varieties1.Decs}}
+                                            </td>
+                                            <td style="white-space:pre-wrap;">
+                                                {{varieties2.Decs}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <label style="color: #FF5733;"><b>ราคา</b></label>
+                                            </td>
+                                            <td class=" text-right" style="white-space:pre-wrap;">
+                                                {{gradePrice1}}
+                                            </td>
+                                            <td style="white-space:pre-wrap;">
+                                                {{gradePrice2}}
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <label style="color: #FF5733;"><b>สั่งจอง</b></label>
+                                            </td>
+                                            <td class=" text-right" style="white-space:pre-wrap;">
+                                                <button *ngIf="varieties1.VarietiesID" class=" btn btn-google-plus btn-icon" type="button"
+                                                    (click)="openVarietiesDetail(VarietiesDetail,varieties1)">
+                                                    <span class=" btn-inner--icon"><i
+                                                            class="ni ni-basket"></i></span><span
+                                                        class=" btn-inner--text">
+                                                        ตะกร้าสินค้า + </span>
+                                                </button>
+                                            </td>
+                                            <td style="white-space:pre-wrap;">
+                                                <button *ngIf="varieties2.VarietiesID" class=" btn btn-google-plus btn-icon" type="button"
+                                                    (click)="openVarietiesDetail(VarietiesDetail,varieties2)">
+                                                    <span class=" btn-inner--icon"><i
+                                                            class="ni ni-basket"></i></span><span
+                                                        class=" btn-inner--text">
+                                                        ตะกร้าสินค้า + </span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<ng-template #VarietiesDetail let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">{{varieties.Name}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">เกรด</label>
+            <mat-select [(ngModel)]="gradeCode" (ngModelChange)="gradeOnChange()" name="ConfigValue"
+                class="form-control form-control-alternative">
+                <mat-option *ngFor="let GradeOfVarieties of GradeOfVarietiesList; let i = index;"
+                    [value]="GradeOfVarieties.ConfigValue">
+                    {{GradeOfVarieties.ConfigDisplay}}
+                </mat-option>
+            </mat-select>
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">ราคา</label>
+            <input type="number" class="form-control" [(ngModel)]="price" id="price" name="price" disabled
+                style="text-align: end;">
+        </div>
+        <div class="mb-3">
+            <label for="amount" class="form-label">จำนวน</label>
+            <input type="number" class="form-control" [(ngModel)]="amount" id="amount" name="amount"
+                (ngModelChange)="calculatePrice()" style="text-align: end;">
+        </div>
+        <div class="mb-3">
+            <label for="totalPrice" class="form-label">ราคารวม</label>
+            <input type="number" class="form-control" [(ngModel)]="totalPrice" id="totalPrice" name="totalPrice"
+                disabled style="text-align: end;">
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="save()">เพิ่มไปยังตะกร้าสินค้า</button>
+        <button type="button" class="btn btn-dark" (click)="modal.close('Close click')">ปิด</button>
+    </div>
+</ng-template>

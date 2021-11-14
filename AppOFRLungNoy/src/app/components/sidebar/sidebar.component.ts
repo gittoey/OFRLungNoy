@@ -17,7 +17,9 @@ export const ROUTES: RouteInfo[] = [
     //{ path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '', permission:'US' },
     { path: '/durian-master-data', title: 'จัดการข้อมูลทุเรียน',  icon:'ni-archive-2 text-info', class: '', permission:'AM' },
     { path: '/post-feeds', title: 'แจ้งข่าวสาร',  icon:'ni-laptop text-primary', class: '', permission:'AM' },
-    { path: '/check-order', title: 'ตรวจสอบรายการสั่งจอง',  icon:'ni ni-bullet-list-67 text-default', class: '', permission:'AM' }
+    { path: '/check-order', title: 'ตรวจสอบรายการสั่งจอง',  icon:'ni ni-bullet-list-67 text-default', class: '', permission:'AM' },
+    { path: '/compare-durian', title: 'เปรียบเทียบทุเรียน',  icon: 'ni-ungroup text-primary', class: '', permission:'' }
+    
 ];
 
 @Component({
