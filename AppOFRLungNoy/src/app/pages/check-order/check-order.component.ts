@@ -89,6 +89,7 @@ export class CheckOrderComponent implements OnInit {
     GradeCode: '',
     SellingPrice: 0,
     Amount: 0,
+    Unit:1,
     CreateBy: 0,
     UpdateBy: 0,
     CreateDate: new Date(),
@@ -139,6 +140,7 @@ export class CheckOrderComponent implements OnInit {
     GradeName: '',
     SellingPrice: 0,
     Amount: 0,
+    Unit: 1,
     TotalPrice: 0,
   };
 
@@ -402,6 +404,7 @@ export class CheckOrderComponent implements OnInit {
                 GradeCode: sSysOrderDetail.GradeCode,
                 SellingPrice: sSysOrderDetail.SellingPrice,
                 Amount: sSysOrderDetail.Amount,
+                Unit: sSysOrderDetail.Unit,
                 CreateBy: this.auth.UserID,
                 UpdateBy: this.auth.UserID,
                 CreateDate: new Date(),

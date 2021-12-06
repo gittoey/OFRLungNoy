@@ -224,6 +224,7 @@ export class CompareDurianComponent implements OnInit {
     GradeName: '',
     SellingPrice: 0,
     Amount: 0,
+    Unit: 1,
     TotalPrice: 0,
   };
   save() {

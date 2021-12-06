@@ -143,9 +143,8 @@
                   <th scope="col">พันธุ์ทุเรียน</th>
                   <th scope="col">เกรด</th>
                   <th scope="col" style="text-align: end">ราคา</th>
-                  <th scope="col" style="text-align: end" width="200">
-                    จำนวน (Kg)
-                  </th>
+                  <th scope="col" style="text-align: end" width="200">จำนวน</th>
+                  <th scope="col">หน่วย</th>
                   <th scope="col" style="text-align: end">ราคารวม</th>
                 </tr>
               </thead>
@@ -167,7 +166,7 @@
                       {{ sysOrderDetailIn.ConfigDisplay }}
                     </td>
                     <td style="text-align: end">
-                      {{ sysOrderDetailIn.SellingPrice | number: "1.2-2" }}
+                      {{ (sysOrderDetailIn.Unit == 1 ?sysOrderDetailIn.SellingPrice:sysOrderDetailIn.SellingPrice*1000) | number: "1.2-2" }}
                     </td>
                     <td>
                       <input
@@ -181,6 +180,12 @@
                         style="text-align: end"
                         [disabled]="true"
                       />
+                    </td>
+                    <td>
+                      <mat-select class="form-control" name="unit" [(ngModel)]="sysOrderDetailIn.Unit" disabled>
+                        <mat-option value="1">กิโลกรัม</mat-option>
+                        <mat-option value="2">ตัน</mat-option>
+                      </mat-select>
                     </td>
                     <td style="text-align: end">
                       {{ sysOrderDetailIn.TotalPrice | number: "1.2-2" }}

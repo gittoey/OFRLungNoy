@@ -49,11 +49,18 @@
     </div>
     <div class="mb-3">
       <label for="price" class="form-label">ราคา</label>
-      <input type="number" class="form-control" [(ngModel)]="price" id="price" name="price" disabled style="text-align: end;">
+      <input type="number" class="form-control" [value]="unit == 1 ? price : price * 1000" id="price" name="price" disabled style="text-align: end;">
     </div>
     <div class="mb-3">
       <label for="amount" class="form-label">จำนวน</label>
       <input type="number" class="form-control" [(ngModel)]="amount" id="amount" name="amount" (ngModelChange)="calculatePrice()" style="text-align: end;">
+    </div>
+    <div class="mb-3">
+      <label for="amount" class="form-label">หน่วย</label>
+      <mat-select class="form-control" name="unit" [(ngModel)]="unit" (ngModelChange)="calculatePrice()">
+        <mat-option [value]="1">กิโลกรัม</mat-option>
+        <mat-option [value]="2">ตัน</mat-option>
+      </mat-select>
     </div>
     <div class="mb-3">
       <label for="totalPrice" class="form-label">ราคารวม</label>

@@ -7,6 +7,7 @@ export interface ShoppingCart {
   GradeName: string;
   SellingPrice: number;
   Amount: number;
+  Unit: number;
   TotalPrice: number;
 }
 

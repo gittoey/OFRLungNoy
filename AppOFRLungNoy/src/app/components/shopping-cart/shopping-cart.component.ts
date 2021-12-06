@@ -44,6 +44,7 @@ export class ShoppingCartComponent implements OnInit {
     GradeCode: '',
     SellingPrice: 0,
     Amount: 0,
+    Unit:1,
     CreateBy: 0,
     UpdateBy: 0,
     CreateDate: new Date(),
@@ -89,6 +90,7 @@ export class ShoppingCartComponent implements OnInit {
     GradeName: '',
     SellingPrice: 0,
     Amount: 0,
+    Unit: 1,
     TotalPrice: 0,
   };
 
@@ -146,7 +148,7 @@ export class ShoppingCartComponent implements OnInit {
 
     this.shoppingCartList[index].TotalPrice =
       this.shoppingCartList[index].Amount *
-      this.shoppingCartList[index].SellingPrice;
+      (this.shoppingCartList[index].Unit == 1 ? this.shoppingCartList[index].SellingPrice : this.shoppingCartList[index].SellingPrice * 1000);
     localStorage.setItem(
       'shoppingCartList',
       JSON.stringify(this.shoppingCartList)
@@ -239,6 +241,7 @@ export class ShoppingCartComponent implements OnInit {
             GradeCode: sShoppingCart.GradeCode,
             SellingPrice: sShoppingCart.SellingPrice,
             Amount: sShoppingCart.Amount,
+            Unit: sShoppingCart.Unit,
             CreateBy: this.auth.UserID,
             UpdateBy: this.auth.UserID,
             CreateDate: new Date(),

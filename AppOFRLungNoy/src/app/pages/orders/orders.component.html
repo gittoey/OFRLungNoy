@@ -15,19 +15,11 @@
             <div class="col-6 text-right">
               <div class="row">
                 <div class="col-md-9">
-                  <input
-                    class="form-control form-control-sm"
-                    placeholder="ค้นหา เลขที่"
-                    type="text"
-                    [(ngModel)]="searchOrderNo"
-                  />
+                  <input class="form-control form-control-sm" placeholder="ค้นหา เลขที่" type="text"
+                    [(ngModel)]="searchOrderNo" />
                 </div>
                 <div class="col-md-3">
-                  <button
-                    class="btn btn-primary btn-sm btn-block"
-                    type="button"
-                    (click)="search()"
-                  >
+                  <button class="btn btn-primary btn-sm btn-block" type="button" (click)="search()">
                     ค้นหา
                   </button>
                 </div>
@@ -58,67 +50,41 @@
                 <td class="budget">{{ i + 1 }}</td>
                 <td class="budget">
                   <div ngbDropdown container="body">
-                    <button
-                      class="btn btn-outline-primary btn-sm"
-                      ngbDropdownToggle
-                    >
+                    <button class="btn btn-outline-primary btn-sm" ngbDropdownToggle>
                       {{ sOrder.OrderNo }}
                     </button>
                     <div ngbDropdownMenu>
-                      <button
-                        ngbDropdownItem
-                        *ngIf="sOrder.StatusCode == 'Paid'"
-                        (click)="openReceipt(Receipt, sOrder)"
-                      >
+                      <button ngbDropdownItem *ngIf="sOrder.StatusCode == 'Paid'"
+                        (click)="openReceipt(Receipt, sOrder)">
                         พิมพ์ใบเสร็จ
                       </button>
-                      <button
-                        ngbDropdownItem
-                        (click)="openOrderDetail(Order, sOrder)"
-                      >
+                      <button ngbDropdownItem (click)="openOrderDetail(Order, sOrder)">
                         แสดง/แก้ไข
                       </button>
-                      <button
-                        ngbDropdownItem
-                        *ngIf="
+                      <button ngbDropdownItem *ngIf="
                           sOrder.StatusCode == 'PendingPayment' ||
                           sOrder.StatusCode == 'RejectPaid'
-                        "
-                        (click)="openNoticeOfPayment(NoticeOfPayment, sOrder)"
-                      >
+                        " (click)="openNoticeOfPayment(NoticeOfPayment, sOrder)">
                         แจ้งชำระ
                       </button>
-                      <button
-                        ngbDropdownItem
-                        *ngIf="sOrder.StatusCode == 'ExaminePaid'"
-                        (click)="openNoticeOfPayment(NoticeOfPayment, sOrder)"
-                      >
+                      <button ngbDropdownItem *ngIf="sOrder.StatusCode == 'ExaminePaid'"
+                        (click)="openNoticeOfPayment(NoticeOfPayment, sOrder)">
                         แก้ไขการแจ้งชำระ
                       </button>
-                      <div
-                        class="dropdown-divirder"
-                        *ngIf="
+                      <div class="dropdown-divirder" *ngIf="
                           sOrder.StatusCode == 'PendingPayment' ||
                           sOrder.StatusCode == 'ExaminePaid' ||
                           sOrder.StatusCode == 'RejectPaid'
-                        "
-                      ></div>
-                      <button
-                        ngbDropdownItem
-                        *ngIf="sOrder.StatusCode == 'ExaminePaid'"
-                        (click)="cancelExaminePaid(sOrder)"
-                      >
+                        "></div>
+                      <button ngbDropdownItem *ngIf="sOrder.StatusCode == 'ExaminePaid'"
+                        (click)="cancelExaminePaid(sOrder)">
                         ยกเลิกการแจ้งชำระ
                       </button>
-                      <button
-                        ngbDropdownItem
-                        *ngIf="
+                      <button ngbDropdownItem *ngIf="
                           sOrder.StatusCode == 'PendingPayment' ||
                           sOrder.StatusCode == 'ExaminePaid' ||
                           sOrder.StatusCode == 'RejectPaid'
-                        "
-                        (click)="deleteOrder(sOrder.OrderID)"
-                      >
+                        " (click)="deleteOrder(sOrder.OrderID)">
                         ลบ
                       </button>
                     </div>
@@ -149,12 +115,7 @@
 <ng-template #Order let-modal>
   <div class="modal-header">
     <h4 class="modal-title">ข้อมูล Order : {{ order.OrderNo }}</h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    >
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -177,20 +138,17 @@
                   <th scope="col">พันธุ์ทุเรียน</th>
                   <th scope="col">เกรด</th>
                   <th scope="col" style="text-align: end">ราคา</th>
-                  <th scope="col" style="text-align: end" width="200">
-                    จำนวน (Kg)
-                  </th>
+                  <th scope="col" style="text-align: end" width="200"></th>
+                  <th scope="col">หน่วย</th>
                   <th scope="col" style="text-align: end">ราคารวม</th>
                   <th scope="col">คำสั่ง</th>
                 </tr>
               </thead>
               <tbody>
-                <ng-container
-                  *ngFor="
+                <ng-container *ngFor="
                     let sysOrderDetailIn of sysOrderDetailList;
                     let i = index
-                  "
-                >
+                  ">
                   <tr *ngIf="sysOrderDetailIn.Active">
                     <th scope="row">
                       {{ i + 1 }}
@@ -202,30 +160,27 @@
                       {{ sysOrderDetailIn.ConfigDisplay }}
                     </td>
                     <td style="text-align: end">
-                      {{ sysOrderDetailIn.SellingPrice | number: "1.2-2" }}
+                      {{ (sysOrderDetailList[i].Unit == 1? sysOrderDetailIn.SellingPrice : sysOrderDetailIn.SellingPrice * 1000) | number: "1.2-2" }}
                     </td>
                     <td>
-                      <input
-                        type="number"
-                        class="form-control"
-                        [(ngModel)]="sysOrderDetailList[i].Amount"
-                        (ngModelChange)="changePrice(i)"
-                        id="Amount[{{ i }}]"
-                        name="Amount[{{ i }}]"
-                        min="1"
-                        style="text-align: end"
-                        [disabled]="order.StatusCode != 'PendingPayment'"
-                      />
+                      <input type="number" class="form-control" [(ngModel)]="sysOrderDetailList[i].Amount"
+                        (ngModelChange)="changePrice(i)" id="Amount[{{ i }}]" name="Amount[{{ i }}]" min="1"
+                        style="text-align: end" [disabled]="order.StatusCode != 'PendingPayment'" />
+                    </td>
+                    <td>
+                      <mat-select class="form-control" [(ngModel)]="sysOrderDetailList[i].Unit"
+                        (ngModelChange)="changePrice(i)" id="Unit[{{ i }}]" name="Unit[{{ i }}]"
+                        [disabled]="order.StatusCode != 'PendingPayment'">
+                        <mat-option value="1">กิโลกรัม</mat-option>
+                        <mat-option value="2">ตัน</mat-option>
+                      </mat-select>
                     </td>
                     <td style="text-align: end">
                       {{ sysOrderDetailIn.TotalPrice | number: "1.2-2" }}
                     </td>
                     <td>
-                      <button
-                        class="btn btn-outline-danger btn-sm"
-                        (click)="deleteOrderDetailList(sysOrderDetailIn)"
-                        [disabled]="order.StatusCode != 'PendingPayment'"
-                      >
+                      <button class="btn btn-outline-danger btn-sm" (click)="deleteOrderDetailList(sysOrderDetailIn)"
+                        [disabled]="order.StatusCode != 'PendingPayment'">
                         ลบ
                       </button>
                     </td>
@@ -252,37 +207,20 @@
               <div class="row">
                 <div class="col-lg-12 col-md-12">
                   <div class="form-group">
-                    <label class="form-control-label" for="AddressText"
-                      >บ้านเลขที่, หมู่, ซอย</label
-                    >
-                    <textarea
-                      id="AddressText"
-                      name="AddressText"
-                      [(ngModel)]="order.AddressText"
-                      class="form-control form-control-alternative"
-                      placeholder="999 หมู่ 88"
-                      [disabled]="order.StatusCode != 'PendingPayment'"
-                    ></textarea>
+                    <label class="form-control-label" for="AddressText">บ้านเลขที่, หมู่, ซอย</label>
+                    <textarea id="AddressText" name="AddressText" [(ngModel)]="order.AddressText"
+                      class="form-control form-control-alternative" placeholder="999 หมู่ 88"
+                      [disabled]="order.StatusCode != 'PendingPayment'"></textarea>
                   </div>
                 </div>
 
                 <div class="col-lg-4 col-md-12">
                   <div class="form-group">
-                    <label class="form-control-label" for="ProvinceID"
-                      >จังหวัด</label
-                    >
-                    <mat-select
-                      [(ngModel)]="order.ProvinceID"
-                      name="ProvinceID"
-                      (ngModelChange)="getDistrict()"
-                      class="form-control form-control-alternative"
-                      [disabled]="order.StatusCode != 'PendingPayment'"
-                    >
+                    <label class="form-control-label" for="ProvinceID">จังหวัด</label>
+                    <mat-select [(ngModel)]="order.ProvinceID" name="ProvinceID" (ngModelChange)="getDistrict()"
+                      class="form-control form-control-alternative" [disabled]="order.StatusCode != 'PendingPayment'">
                       <mat-option [value]="0">เลือกจังหวัด</mat-option>
-                      <mat-option
-                        *ngFor="let sProvince of provinceList"
-                        [value]="sProvince.ProvinceID"
-                      >
+                      <mat-option *ngFor="let sProvince of provinceList" [value]="sProvince.ProvinceID">
                         {{ sProvince.NameInThai }}
                       </mat-option>
                     </mat-select>
@@ -291,22 +229,12 @@
 
                 <div class="col-lg-4 col-md-12">
                   <div class="form-group">
-                    <label class="form-control-label" for="DistrictID"
-                      >อำเภอ</label
-                    >
-                    <mat-select
-                      [(ngModel)]="order.DistrictID"
-                      name="DistrictID"
-                      (ngModelChange)="getSubDistrict()"
-                      [disabled]="order.ProvinceID == 0 ? true : false"
-                      class="form-control form-control-alternative"
-                      [disabled]="order.StatusCode != 'PendingPayment'"
-                    >
+                    <label class="form-control-label" for="DistrictID">อำเภอ</label>
+                    <mat-select [(ngModel)]="order.DistrictID" name="DistrictID" (ngModelChange)="getSubDistrict()"
+                      [disabled]="order.ProvinceID == 0 ? true : false" class="form-control form-control-alternative"
+                      [disabled]="order.StatusCode != 'PendingPayment'">
                       <mat-option [value]="0">เลือกอำเภอ</mat-option>
-                      <mat-option
-                        *ngFor="let sDistrict of districtList"
-                        [value]="sDistrict.DistrictID"
-                      >
+                      <mat-option *ngFor="let sDistrict of districtList" [value]="sDistrict.DistrictID">
                         {{ sDistrict.NameInThai }}
                       </mat-option>
                     </mat-select>
@@ -315,21 +243,12 @@
 
                 <div class="col-lg-4 col-md-12">
                   <div class="form-group">
-                    <label class="form-control-label" for="SubDistrictID"
-                      >ตำบล</label
-                    >
-                    <mat-select
-                      [(ngModel)]="order.SubDistrictID"
-                      name="SubDistrictID"
-                      [disabled]="order.DistrictID == 0 ? true : false"
-                      class="form-control form-control-alternative"
-                      [disabled]="order.StatusCode != 'PendingPayment'"
-                    >
+                    <label class="form-control-label" for="SubDistrictID">ตำบล</label>
+                    <mat-select [(ngModel)]="order.SubDistrictID" name="SubDistrictID"
+                      [disabled]="order.DistrictID == 0 ? true : false" class="form-control form-control-alternative"
+                      [disabled]="order.StatusCode != 'PendingPayment'">
                       <mat-option [value]="0">เลือกตำบล</mat-option>
-                      <mat-option
-                        *ngFor="let sSubDistrict of subDistrictList"
-                        [value]="sSubDistrict.SubDistrictID"
-                      >
+                      <mat-option *ngFor="let sSubDistrict of subDistrictList" [value]="sSubDistrict.SubDistrictID">
                         {{ sSubDistrict.NameInThai }}
                       </mat-option>
                     </mat-select>
@@ -343,19 +262,10 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-success"
-      (click)="save()"
-      [disabled]="order.StatusCode != 'PendingPayment'"
-    >
+    <button type="button" class="btn btn-success" (click)="save()" [disabled]="order.StatusCode != 'PendingPayment'">
       ยืนยัน
     </button>
-    <button
-      type="button"
-      class="btn btn-dark"
-      (click)="modal.close('Close click')"
-    >
+    <button type="button" class="btn btn-dark" (click)="modal.close('Close click')">
       ปิด
     </button>
   </div>
@@ -365,12 +275,7 @@
 <ng-template #NoticeOfPayment let-modal>
   <div class="modal-header">
     <h4 class="modal-title">แจ้งชำระ Order : {{ order.OrderNo }}</h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    >
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -401,12 +306,10 @@
                 </tr>
               </thead>
               <tbody>
-                <ng-container
-                  *ngFor="
+                <ng-container *ngFor="
                     let sysOrderDetailIn of sysOrderDetailList;
                     let i = index
-                  "
-                >
+                  ">
                   <tr *ngIf="sysOrderDetailIn.Active">
                     <th scope="row">
                       {{ i + 1 }}
@@ -418,30 +321,27 @@
                       {{ sysOrderDetailIn.ConfigDisplay }}
                     </td>
                     <td style="text-align: end">
-                      {{ sysOrderDetailIn.SellingPrice | number: "1.2-2" }}
+                      {{ (sysOrderDetailList[i].Unit == 1?
+                      sysOrderDetailIn.SellingPrice:sysOrderDetailIn.SellingPrice*1000) | number: "1.2-2" }}
                     </td>
                     <td>
-                      <input
-                        type="number"
-                        class="form-control"
-                        [(ngModel)]="sysOrderDetailList[i].Amount"
-                        (ngModelChange)="changePrice(i)"
-                        id="Amount[{{ i }}]"
-                        name="Amount[{{ i }}]"
-                        min="1"
-                        style="text-align: end"
-                        [disabled]="true"
-                      />
+                      <input type="number" class="form-control" [(ngModel)]="sysOrderDetailList[i].Amount"
+                        (ngModelChange)="changePrice(i)" id="Amount[{{ i }}]" name="Amount[{{ i }}]" min="1"
+                        style="text-align: end" [disabled]="true" />
+                    </td>
+                    <td>
+                      <mat-select class="form-control" [(ngModel)]="sysOrderDetailList[i].Unit"
+                        (ngModelChange)="changePrice(i)" id="Unit[{{ i }}]" name="Unit[{{ i }}]" [disabled]="true">
+                        <mat-option value="1">กิโลกรัม</mat-option>
+                        <mat-option value="2">ตัน</mat-option>
+                      </mat-select>
                     </td>
                     <td style="text-align: end">
                       {{ sysOrderDetailIn.TotalPrice | number: "1.2-2" }}
                     </td>
                     <td>
-                      <button
-                        class="btn btn-outline-danger btn-sm"
-                        (click)="deleteOrderDetailList(sysOrderDetailIn)"
-                        [disabled]="true"
-                      >
+                      <button class="btn btn-outline-danger btn-sm" (click)="deleteOrderDetailList(sysOrderDetailIn)"
+                        [disabled]="true">
                         ลบ
                       </button>
                     </td>
@@ -468,37 +368,20 @@
               <div class="row">
                 <div class="col-lg-12 col-md-12">
                   <div class="form-group">
-                    <label class="form-control-label" for="AddressText"
-                      >บ้านเลขที่, หมู่, ซอย</label
-                    >
-                    <textarea
-                      id="AddressText"
-                      name="AddressText"
-                      [(ngModel)]="order.AddressText"
-                      class="form-control form-control-alternative"
-                      placeholder="999 หมู่ 88"
-                      [disabled]="true"
-                    ></textarea>
+                    <label class="form-control-label" for="AddressText">บ้านเลขที่, หมู่, ซอย</label>
+                    <textarea id="AddressText" name="AddressText" [(ngModel)]="order.AddressText"
+                      class="form-control form-control-alternative" placeholder="999 หมู่ 88"
+                      [disabled]="true"></textarea>
                   </div>
                 </div>
 
                 <div class="col-lg-4 col-md-12">
                   <div class="form-group">
-                    <label class="form-control-label" for="ProvinceID"
-                      >จังหวัด</label
-                    >
-                    <mat-select
-                      [(ngModel)]="order.ProvinceID"
-                      name="ProvinceID"
-                      (ngModelChange)="getDistrict()"
-                      class="form-control form-control-alternative"
-                      [disabled]="true"
-                    >
+                    <label class="form-control-label" for="ProvinceID">จังหวัด</label>
+                    <mat-select [(ngModel)]="order.ProvinceID" name="ProvinceID" (ngModelChange)="getDistrict()"
+                      class="form-control form-control-alternative" [disabled]="true">
                       <mat-option [value]="0">เลือกจังหวัด</mat-option>
-                      <mat-option
-                        *ngFor="let sProvince of provinceList"
-                        [value]="sProvince.ProvinceID"
-                      >
+                      <mat-option *ngFor="let sProvince of provinceList" [value]="sProvince.ProvinceID">
                         {{ sProvince.NameInThai }}
                       </mat-option>
                     </mat-select>
@@ -507,21 +390,11 @@
 
                 <div class="col-lg-4 col-md-12">
                   <div class="form-group">
-                    <label class="form-control-label" for="DistrictID"
-                      >อำเภอ</label
-                    >
-                    <mat-select
-                      [(ngModel)]="order.DistrictID"
-                      name="DistrictID"
-                      (ngModelChange)="getSubDistrict()"
-                      [disabled]="true"
-                      class="form-control form-control-alternative"
-                    >
+                    <label class="form-control-label" for="DistrictID">อำเภอ</label>
+                    <mat-select [(ngModel)]="order.DistrictID" name="DistrictID" (ngModelChange)="getSubDistrict()"
+                      [disabled]="true" class="form-control form-control-alternative">
                       <mat-option [value]="0">เลือกอำเภอ</mat-option>
-                      <mat-option
-                        *ngFor="let sDistrict of districtList"
-                        [value]="sDistrict.DistrictID"
-                      >
+                      <mat-option *ngFor="let sDistrict of districtList" [value]="sDistrict.DistrictID">
                         {{ sDistrict.NameInThai }}
                       </mat-option>
                     </mat-select>
@@ -530,20 +403,11 @@
 
                 <div class="col-lg-4 col-md-12">
                   <div class="form-group">
-                    <label class="form-control-label" for="SubDistrictID"
-                      >ตำบล</label
-                    >
-                    <mat-select
-                      [(ngModel)]="order.SubDistrictID"
-                      name="SubDistrictID"
-                      [disabled]="true"
-                      class="form-control form-control-alternative"
-                    >
+                    <label class="form-control-label" for="SubDistrictID">ตำบล</label>
+                    <mat-select [(ngModel)]="order.SubDistrictID" name="SubDistrictID" [disabled]="true"
+                      class="form-control form-control-alternative">
                       <mat-option [value]="0">เลือกตำบล</mat-option>
-                      <mat-option
-                        *ngFor="let sSubDistrict of subDistrictList"
-                        [value]="sSubDistrict.SubDistrictID"
-                      >
+                      <mat-option *ngFor="let sSubDistrict of subDistrictList" [value]="sSubDistrict.SubDistrictID">
                         {{ sSubDistrict.NameInThai }}
                       </mat-option>
                     </mat-select>
@@ -551,38 +415,20 @@
                 </div>
                 <div class="col-lg-4 col-md-12">
                   <div class="form-group">
-                    <label class="form-control-label" for="SubDistrictID"
-                      >วันที่ชำระ</label
-                    >
+                    <label class="form-control-label" for="SubDistrictID">วันที่ชำระ</label>
                     <div class="form-group">
                       <div class="input-group">
-                        <input
-                          class="form-control"
-                          placeholder="yyyy-mm-dd"
-                          name="dp"
-                          ngbDatepicker
-                          #d="ngbDatepicker"
-                          [(ngModel)]="payDate"
-                          (click)="d.toggle()"
-                        />
+                        <input class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #d="ngbDatepicker"
+                          [(ngModel)]="payDate" (click)="d.toggle()" />
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="col-lg-8 col-md-12">
                   <div class="form-group">
-                    <label class="form-control-label" for="Img"
-                      >ภาพหลักฐานการชำระ</label
-                    >
-                    <input
-                      type="file"
-                      id="Img"
-                      name="Img"
-                      #takeInput
-                      (change)="setFromFile($event)"
-                      accept="image/*"
-                      class="form-control form-control-alternative"
-                    />
+                    <label class="form-control-label" for="Img">ภาพหลักฐานการชำระ</label>
+                    <input type="file" id="Img" name="Img" #takeInput (change)="setFromFile($event)" accept="image/*"
+                      class="form-control form-control-alternative" />
                   </div>
                 </div>
               </div>
@@ -596,11 +442,7 @@
     <button type="button" class="btn btn-success" (click)="savePayment()">
       ยืนยัน
     </button>
-    <button
-      type="button"
-      class="btn btn-dark"
-      (click)="modal.close('Close click')"
-    >
+    <button type="button" class="btn btn-dark" (click)="modal.close('Close click')">
       ปิด
     </button>
   </div>
@@ -610,33 +452,18 @@
 <ng-template #Receipt let-modal>
   <div class="modal-header">
     <h4 class="modal-title">ใบเสร็จรับเงิน Order : {{ order.OrderNo }}</h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    >
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <div class="col">
-      <iframe
-        [src]="receiptURL"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0"
-        width="100%"
-        style="height: 70vh"
-      ></iframe>
+      <iframe [src]="receiptURL" frameborder="0" marginheight="0" marginwidth="0" width="100%"
+        style="height: 70vh"></iframe>
     </div>
   </div>
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-dark"
-      (click)="modal.close('Close click')"
-    >
+    <button type="button" class="btn btn-dark" (click)="modal.close('Close click')">
       ปิด
     </button>
   </div>

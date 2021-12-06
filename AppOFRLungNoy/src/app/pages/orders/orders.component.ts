@@ -83,7 +83,8 @@ export class OrdersComponent implements OnInit {
     VarietiesID: 0,
     GradeCode: '',
     SellingPrice: 0,
-    Amount: 0,
+    Amount: 0,    
+    Unit: 1,
     CreateBy: 0,
     UpdateBy: 0,
     CreateDate: new Date(),
@@ -214,7 +215,7 @@ export class OrdersComponent implements OnInit {
     this.spinner.show();
     await this.bs
       .post('get_orderdetail.php', { OrderID: this.order.OrderID })
-      .then((d: any) => {
+      .then((d: any) => {        
         this.spinner.hide();
         if (d.Return.SysOrderDetail != 0) {
           this.sysOrderDetailList = d.Return.SysOrderDetail;
@@ -222,7 +223,7 @@ export class OrdersComponent implements OnInit {
           this.sysOrderDetailList = [];
         }
         this.sysOrderDetailList.forEach((a) => {
-          a.TotalPrice = a.Amount * a.SellingPrice;
+          a.TotalPrice = a.Amount * (a.Unit == 1 ? a.SellingPrice : a.SellingPrice * 1000);
         });
         this.sumPrice();
         this.spinner.hide();
@@ -236,7 +237,7 @@ export class OrdersComponent implements OnInit {
     }
     this.sysOrderDetailList[index].TotalPrice =
       this.sysOrderDetailList[index].Amount *
-      this.sysOrderDetailList[index].SellingPrice;
+      (this.sysOrderDetailList[index].Unit == 1 ? this.sysOrderDetailList[index].SellingPrice : this.sysOrderDetailList[index].SellingPrice * 1000);
     this.sumPrice();
   }
 
@@ -488,6 +489,7 @@ export class OrdersComponent implements OnInit {
                 GradeCode: sSysOrderDetail.GradeCode,
                 SellingPrice: sSysOrderDetail.SellingPrice,
                 Amount: sSysOrderDetail.Amount,
+                Unit: sSysOrderDetail.Unit,
                 CreateBy: this.auth.UserID,
                 UpdateBy: this.auth.UserID,
                 CreateDate: new Date(),

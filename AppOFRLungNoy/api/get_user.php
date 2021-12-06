@@ -13,36 +13,11 @@ if ($mysqli->connect_errno) {
     exit();
 }
 
-$sql = "
-SELECT
-	`Order`.*,
-	systemconfig.ConfigDisplay,
-	od.TotalAmount,
-	od.TotalPrice 
-FROM
-	`Order`
-	INNER JOIN systemconfig ON systemconfig.ConfigCode = 'Order' 
-	AND systemconfig.ConfigValue = `Order`.StatusCode
-	INNER JOIN (
-	SELECT
-		orderdetail.OrderID,
-		COUNT( orderdetail.OrderDetailID ) TotalAmount,
-		SUM( ( CASE orderdetail.Unit WHEN 1 THEN orderdetail.SellingPrice ELSE orderdetail.SellingPrice * 1000 END ) * orderdetail.Amount ) TotalPrice 
-	FROM
-		orderdetail 
-	WHERE
-		orderdetail.Active = TRUE 
-	GROUP BY
-		orderdetail.OrderID 
-	) od ON `Order`.OrderID = od.OrderID 
-WHERE `Order`.`Active` = TRUE AND `Order`.`UserID` = {$_POST["UserID"]}
-";
+$sql = "SELECT * FROM `ofr`.`user` WHERE 1 = 1";
 
-if ($_POST["OrderNo"] != "") {
-    $sql .= " AND `Order`.`OrderNo` LIKE '%{$mysqli->real_escape_string($_POST["OrderNo"])}%'";
+if ($_POST["UserID"] != "") {
+    $sql .= " AND `UserID` = {$mysqli->real_escape_string($_POST["UserID"])}";
 }
-
-$sql .= " ORDER BY `Order`.`UpdateDate` DESC";
 
 $_POST["Return"]["SQL"] = $sql;
 $result = $mysqli->query($sql);
@@ -69,6 +44,6 @@ $mysqli->close();
 
 $_POST["Return"]["Status"] = "Yes";
 $_POST["Return"]["Type"] = "Geted";
-$_POST["Return"]["SysOrder"] = $dataReturn;
+$_POST["Return"]["User"] = $dataReturn[0];
 
 echo json_encode($_POST);

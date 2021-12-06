@@ -4,6 +4,10 @@ export interface User {
   Username: string;
   Password: string;
   Name: string;
+  AddressText: string;
+  ProvinceID: number;
+  DistrictID: number;
+  SubDistrictID: number;
   Active: boolean;
   NewDate: Date;
   UpdateDate: Date;
@@ -100,7 +104,8 @@ export interface OrderDetail {
   VarietiesID: number;
   GradeCode: string;
   SellingPrice: number;
-  Amount: number;
+  Amount: number;  
+  Unit: number;
   CreateBy: number;
   UpdateBy: number;
   CreateDate: Date;

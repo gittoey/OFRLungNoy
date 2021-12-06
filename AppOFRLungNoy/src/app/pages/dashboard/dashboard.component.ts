@@ -45,6 +45,7 @@ export class DashboardComponent implements OnInit {
   public gradeName: string = '';
   public price: number = 0;
   public amount: number = 0;
+  public unit: number = 1;
   public totalPrice: number = 0;
 
   public shoppingCartList: Array<ShoppingCart> = [];
@@ -55,6 +56,7 @@ export class DashboardComponent implements OnInit {
     GradeName: '',
     SellingPrice: 0,
     Amount: 0,
+    Unit: 1,
     TotalPrice: 0,
   };
 
@@ -159,7 +161,7 @@ export class DashboardComponent implements OnInit {
   }
 
   calculatePrice() {
-    this.totalPrice = this.price * this.amount;
+    this.totalPrice = (this.unit == 1 ? this.price : this.price * 1000) * this.amount;
   }
 
   save() {
@@ -182,6 +184,7 @@ export class DashboardComponent implements OnInit {
       this.shoppingCart.GradeName = this.gradeName || '';
       this.shoppingCart.SellingPrice = this.price;
       this.shoppingCart.Amount = this.amount;
+      this.shoppingCart.Unit = this.unit
       this.shoppingCart.TotalPrice = this.totalPrice;
       this.shoppingCartList.push(this.shoppingCart);
     } else {
@@ -190,7 +193,8 @@ export class DashboardComponent implements OnInit {
       this.shoppingCartList[index].GradeCode = this.gradeCode || '';
       this.shoppingCartList[index].GradeName = this.gradeName || '';
       this.shoppingCartList[index].SellingPrice = this.price;
-      this.shoppingCartList[index].Amount = this.amount;
+      this.shoppingCartList[index].Amount = this.amount;      
+      this.shoppingCartList[index].Unit = this.unit
       this.shoppingCartList[index].TotalPrice = this.totalPrice;
     }
 
