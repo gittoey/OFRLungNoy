@@ -48,6 +48,7 @@ export interface Price {
   GradeCode?: string;
   CostPrice?: number;
   SellingPrice?: number;
+  Stock: number;
   CreateBy?: number;
   UpdateBy: number;
   CreateDate?: Date;
@@ -104,7 +105,7 @@ export interface OrderDetail {
   VarietiesID: number;
   GradeCode: string;
   SellingPrice: number;
-  Amount: number;  
+  Amount: number;
   Unit: number;
   CreateBy: number;
   UpdateBy: number;

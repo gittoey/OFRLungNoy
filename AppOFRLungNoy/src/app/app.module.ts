@@ -26,6 +26,7 @@ import { PostFeedsComponent } from './pages/post-feeds/post-feeds.component';
 import { Nl2BrPipeModule } from 'nl2br-pipe';
 import { CheckOrderComponent } from './pages/check-order/check-order.component';
 import { CompareDurianComponent } from './pages/compare-durian/compare-durian.component';
+import { StockComponent } from './pages/durian-master-data/stock/stock.component';
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import { CompareDurianComponent } from './pages/compare-durian/compare-durian.co
     PostFeedsComponent,
     CheckOrderComponent,
     CompareDurianComponent,
+    StockComponent,
   ],
   providers: [
   ],

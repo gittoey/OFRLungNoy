@@ -5,11 +5,11 @@ import { AlertService } from 'src/app/service/alert.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-price',
-  templateUrl: './price.component.html',
-  styleUrls: ['./price.component.scss'],
+  selector: 'app-stock',
+  templateUrl: './stock.component.html',
+  styleUrls: ['./stock.component.scss']
 })
-export class PriceComponent implements OnInit {
+export class StockComponent implements OnInit {
   public varietiesList: Array<Varieties> = [];
   public systemConfigList: Array<SystemConfig> = [];
   public priceList: Array<Price> = [];
@@ -25,7 +25,7 @@ export class PriceComponent implements OnInit {
     CreateDate: new Date(),
     UpdateDate: new Date(),
     Active: true,
-    Stock: 0,
+    Stock: 0
   };
 
   public isEdit: boolean = false;
@@ -53,7 +53,7 @@ export class PriceComponent implements OnInit {
 
   async varietiesChange(): Promise<void> {
     this.spinner.show();
-    await this.getPrice(this.price.VarietiesID, '');
+    await this.getPrice(this.price.VarietiesID, this.price.GradeCode ?? '');
   }
 
   async getSystemConfig(ConfigCode: string) {

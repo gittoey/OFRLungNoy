@@ -1,0 +1,106 @@
+<form>
+    <h6 class="heading-small text-muted mb-4" *ngIf="!isEdit">ตั้งราคา</h6>
+    <h6 class="heading-small text-muted mb-4" *ngIf="isEdit">แก้ไขราคา</h6>
+    <div class="alert alert-warning" *ngIf="isEdit" role="alert">
+        <span class=" alert-icon"><i class="ni ni-settings"></i></span>
+        <strong>แก้ไข</strong> -> กดบันทึก เพื่อ บันทึกการแก้ไข
+    </div>
+    <div>
+        <div class="row">
+            <div class="col-lg-10 col-md-12">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" for="VarietiesID">พันธุ์ทุเรียน</label>
+                            <mat-select [(ngModel)]="price.VarietiesID" (ngModelChange)="varietiesChange()"
+                                name="VarietiesID" class="form-control form-control-alternative">
+                                <mat-option [value]="0" selected="selected">เลือก พันธุ์ทุเรียน</mat-option>
+                                <mat-option *ngFor="let varieties of varietiesList" [value]="varieties.VarietiesID">
+                                    {{varieties.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" for="ConfigValue">เกรดทุเรียน</label>
+                            <mat-select [(ngModel)]="price.GradeCode" (ngModelChange)="varietiesChange()"
+                                name="ConfigValue" class="form-control form-control-alternative">
+                                <mat-option value="">เลือก เกรดทุเรียน</mat-option>
+                                <mat-option *ngFor="let systemConfig of systemConfigList"
+                                    [value]="systemConfig.ConfigValue">
+                                    {{systemConfig.ConfigDisplay}}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                    </div>                    
+                    <div class="col-lg-4 col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" for="Stock">สต๊อก</label>                      
+                            <input type="number" id="Stock" [(ngModel)]="price.Stock" name="Stock" min="1"
+                            class="form-control form-control-alternative" placeholder="สต๊อก" *ngIf="isEdit">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-12" *ngIf="isEdit">
+                <div class="form-group">
+                    <label class="form-control-label" for="Meat">คำสั่ง</label>
+                    <button
+                        class="form-control form-control-alternative btn {{(isEdit ? 'btn-warning' : 'btn-primary')}}"
+                        (click)="save()" id="saveButton">บันทึก</button>
+                </div>
+                <div class="form-group">
+                    <button class="form-control form-control-alternative btn btn-danger" (click)="cancel()"
+                        id="saveCancel">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="card bg-default shadow">
+    <div class="card-header bg-transparent border-0">
+        <h3 class="text-white mb-0">ราคาต่อเกรดทุเรียน (กิโลกรัม)</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table align-items-center table-dark table-flush" width="100%">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" width="70">ละดับ</th>
+                    <th scope="col">พันธุ์ทุเรียน</th>
+                    <th scope="col">เกรด</th>
+                    <th scope="col" style="text-align:end">ราคาต้นทุน (บาท)</th>
+                    <th scope="col" style="text-align:end">ราคาขาย (บาท)</th>
+                    <th scope="col" style="text-align:end">สต๊อก</th>
+                    <th scope="col" width="70">คำสั่ง</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let price of priceList; let i = index">
+                    <th>
+                        {{i+1}}
+                    </th>
+                    <td width="40%">
+                        {{getVarietiesName(price.VarietiesID)}}
+                    </td>
+                    <td width="20%">
+                        {{getGradeDisplay(price.GradeCode)}}
+                    </td>
+                    <td style="text-align:end">
+                        {{price.CostPrice | number : "1.2-2"}}
+                    </td>
+                    <td style="text-align:end">
+                        {{price.SellingPrice | number : "1.2-2"}}
+                    </td>
+                    <td style="text-align:end">
+                        {{price.Stock}}
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" type="button" (click)="edit(price)">อัพเดทสต๊อก</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
