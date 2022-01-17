@@ -127,14 +127,14 @@ $html = str_replace("{{DateNow}}", date_format($dateDateNow, 'd/m/Y'), $html);
 $row = '';
 $totalPrice = 0;
 foreach($dataOrderDetail as $index => $val) {
-	$totalPrice = $totalPrice + $val["Amount"] * $val["SellingPrice"];
+	$totalPrice = $totalPrice + ($val["Amount"] * $val["SellingPrice"]) * ($val["Unit"]==1?1:1000);
 	$row .= '
     <tr>
         <td>'.($index+1).'</td>
         <td>'.$val["Name"].'</td>
         <td align="right">'.number_format($val["Amount"]).'</td>
         <td align="right">'.number_format($val["SellingPrice"], 2).'</td>
-        <td align="right">'.number_format($val["Amount"] * $val["SellingPrice"], 2).'</td>
+        <td align="right">'.number_format(($val["Amount"] * $val["SellingPrice"]) * ($val["Unit"]==1?1:1000), 2).'</td>
     </tr>
     ';
 }

@@ -12,6 +12,7 @@ import {
   Order,
   OrderDetail,
   OrderPayment,
+  Price,
   Province,
   SubDistrict,
 } from 'src/app/model/db.model';
@@ -35,7 +36,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./check-order.component.scss']
 })
 export class CheckOrderComponent implements OnInit {
-  public payDate : string = '';
+  public payDate: string = '';
 
 
   private auth: Auth = {
@@ -89,7 +90,7 @@ export class CheckOrderComponent implements OnInit {
     GradeCode: '',
     SellingPrice: 0,
     Amount: 0,
-    Unit:1,
+    Unit: 1,
     CreateBy: 0,
     UpdateBy: 0,
     CreateDate: new Date(),
@@ -174,7 +175,7 @@ export class CheckOrderComponent implements OnInit {
     public bs: BackendService,
     private spinner: NgxSpinnerService,
     public sys: SysService
-  ) {}
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.auth = await this.sys.ckLogin();
@@ -187,7 +188,7 @@ export class CheckOrderComponent implements OnInit {
       .post('get_check_order.php', { UserID: this.auth.UserID, OrderNo: orderNo, OrderByName: orderByName })
       .then((d: any) => {
         console.log(d);
-        
+
         this.spinner.hide();
         if (d.Return.SysCheckOrder != 0) {
           this.sysCheckOrderList = d.Return.SysCheckOrder;
@@ -206,8 +207,8 @@ export class CheckOrderComponent implements OnInit {
     this.getOrder(this.searchOrderByName, this.searchOrderNo);
   }
 
-  
-  private popupRef : any;
+
+  private popupRef: any;
   async openOrderDetail(content: TemplateRef<any>, sOrder: SysOrder) {
     this.order = <Order>sOrder;
     this.getProvince();
@@ -233,13 +234,13 @@ export class CheckOrderComponent implements OnInit {
           this.sysOrderDetailList = [];
         }
         this.sysOrderDetailList.forEach((a) => {
-          a.TotalPrice = a.Amount * a.SellingPrice;
+          a.TotalPrice = (a.Amount * a.SellingPrice) * (a.Unit == 1 ? 1 : 1000);
         });
         this.sumPrice();
         this.spinner.hide();
       });
 
-      await this.bs
+    await this.bs
       .post('get_check_order_d.php', { OrderID: this.order.OrderID })
       .then((d: any) => {
         console.log(d);
@@ -268,8 +269,7 @@ export class CheckOrderComponent implements OnInit {
       this.sysOrderDetailList[index].Amount = 1;
     }
     this.sysOrderDetailList[index].TotalPrice =
-      this.sysOrderDetailList[index].Amount *
-      this.sysOrderDetailList[index].SellingPrice;
+      (this.sysOrderDetailList[index].Amount * this.sysOrderDetailList[index].SellingPrice) * (this.sysOrderDetailList[index].Unit == 1 ? 1 : 1000);
     this.sumPrice();
   }
 
@@ -277,7 +277,9 @@ export class CheckOrderComponent implements OnInit {
     this.sumTotalPrice = 0;
     this.sysOrderDetailList.forEach((a) => {
       if (a.Active) {
-        this.sumTotalPrice += a.TotalPrice;
+        console.log(a);
+
+        this.sumTotalPrice += a.TotalPrice * (a.Unit == 1 ? 1 : 1000);
       }
     });
   }
@@ -468,11 +470,11 @@ export class CheckOrderComponent implements OnInit {
       }
     });
   }
-  savePayment(statusCode:string) {
+  savePayment(statusCode: string) {
     let textMSG = '';
-    if(statusCode == "RejectPaid"){
+    if (statusCode == "RejectPaid") {
       textMSG = 'ยืนยันการปฏิเสธการชำระเงิน';
-    }else{
+    } else {
       textMSG = 'ยืนยันการตรวจสอบแจ้งชำระ';
     }
 
@@ -481,7 +483,7 @@ export class CheckOrderComponent implements OnInit {
 
         this.order.UpdateBy = this.auth.UserID;
         this.order.UpdateDate = new Date();
-    
+
         this.order = {
           OrderID: this.order.OrderID,
           OrderNo: this.order.OrderNo,
@@ -507,6 +509,11 @@ export class CheckOrderComponent implements OnInit {
 
         await this.bs.cu(Insert).then((d: any) => {
           if (d.Return.Status == 'Yes') {
+
+            if (statusCode == 'Paid') {
+              this.updateStock(this.sysCheckOrderList[0].OrderID);
+            }
+
             var msg = 'ตรวจสอบการแจ้งชำระแล้ว';
             this.alert.succ(msg);
             this.ngOnInit();
@@ -515,5 +522,40 @@ export class CheckOrderComponent implements OnInit {
         });
       }
     });
+  }
+
+  updateStock(orderID: number) {
+    this.bs
+      .post('get_orderdetail.php', { OrderID: orderID })
+      .then((d: any) => {
+        this.spinner.hide();
+        if (d.Return.SysOrderDetail != 0) {
+          d.Return.SysOrderDetail.forEach((a: SysOrderDetail) => {
+            this.bs
+              .post('get_prive.php', {
+                VarietiesID: a.VarietiesID,
+                GradeCode: a.GradeCode,
+              })
+              .then((d: any) => {
+                this.spinner.hide();
+                if (d.Return.Price != 0) {
+                  d.Return.Price;
+                  d.Return.Price.forEach((p: Price) => {
+                    p.Stock = p.Stock - (a.Unit == 1 ? a.Amount : (a.Amount * 1000));
+
+                    var Insert = {
+                      Table: 'Price',
+                      Data: p,
+                    };
+
+                    this.bs.cu(Insert).then((d: any) => {
+                      if (d.Return.Status == 'Yes') { }
+                    });
+                  });
+                }
+              });
+          });
+        }
+      });
   }
 }

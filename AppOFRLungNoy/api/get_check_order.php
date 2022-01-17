@@ -29,7 +29,7 @@ FROM
 	SELECT
 		orderdetail.OrderID,
 		COUNT( orderdetail.OrderDetailID ) TotalAmount,
-		SUM( orderdetail.SellingPrice * orderdetail.Amount ) TotalPrice 
+		SUM( ( CASE orderdetail.Unit WHEN 1 THEN orderdetail.SellingPrice ELSE orderdetail.SellingPrice * 1000 END ) * orderdetail.Amount ) TotalPrice 
 	FROM
 		orderdetail 
 	WHERE
