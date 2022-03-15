@@ -18,15 +18,23 @@ export class UserMenuComponent implements OnInit {
   };
 
   constructor(
-    private dataService: DataService,
     public alert: AlertService,
+    public dataService: DataService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.getAuth ();
+    this.dataService.currentUserName.subscribe(
+      (UserName) => (this.auth.Name = UserName)
+    );
+  }
+
+  getAuth (){
     this.auth = JSON.parse(
       localStorage.getItem('currentUser') || "{}"
     );
+    this.dataService.changeUserName(this.auth.Name);
   }
 
   logout(): void {

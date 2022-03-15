@@ -5,6 +5,7 @@ import { BackendService } from 'src/app/service/backend.service';
 import { District, Province, SubDistrict, User } from 'src/app/model/db.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AlertService } from 'src/app/service/alert.service';
+import { DataService } from 'src/app/service/data.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -39,6 +40,7 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private sysService: SysService,
     public alert: AlertService,
+    public dataService: DataService,
     private spinner: NgxSpinnerService,
     private bs: BackendService
   ) { }
@@ -149,6 +151,14 @@ export class UserProfileComponent implements OnInit {
       if (d.Return.Status == 'Yes') {
         var msg = 'บันทึกข้อมูลผู้ใช้ แล้ว';
         this.alert.succ(msg);
+
+        this.auth = JSON.parse(
+          localStorage.getItem('currentUser') || "{}"
+        );
+
+        this.auth.Name = this.user.Name;
+        localStorage.setItem('currentUser', JSON.stringify(this.auth||""));
+        this.dataService.changeUserName(this.auth.Name);
         this.ngOnInit();
       }
     });
